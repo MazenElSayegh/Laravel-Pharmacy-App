@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(!Role::findById(1)){
+        Role::create(['name' => 'writer']);
+    }
+
+    $user= User::find(2);
+    $user->assignRole('writer');
+    return view('test');
 });
+
+
+// Route::resource('/posts',[]);
+// Route::get('/comments',[]);
+// Route::resource('/posts',function);
