@@ -43,6 +43,8 @@ Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacie
 Route::delete('/pharmacies/{pharmacy}', [PharmacyController::class, 'delete'])->name('pharmacies.delete');
 Route::resource('/doctors',DoctorController::class);
 
+Route::resource('orders', OrderController::class);
+
 Route::resource('medicines', MedicineController::class);
 Route::resource('areas', AreaController::class);
 
