@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Pharmacy;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\StorePharmacyRequest;
 use App\Http\Requests\Rule;
 use App\Jobs\PruneOldPostsJob;
 use Illuminate\Support\Str;
@@ -35,7 +35,7 @@ class PostController extends Controller
         return view('pharmacy.edit',['pharmacy'=>$pharmacy]);
     }
 
-    public function update(Request $request,$id){
+    public function update(StorePharmacyRequest $request,$id){
         $path = !empty($request->file('image'))?$request->file('image')->store('photos',["disk"=>"public"]):"";
         $name=request()->name;
         $email=request()->email;
@@ -57,7 +57,7 @@ class PostController extends Controller
         return to_route(route:'pharmacies.index');
         }
 
-   public function store(Request $request){
+   public function store(StorePharmacyRequest $request){
             $path = !empty($request->file('image'))?$request->file('image')->store('pharmaciesPhotos',["disk"=>"public"]):"";
             $name=request()->name;
             $email=request()->email;
