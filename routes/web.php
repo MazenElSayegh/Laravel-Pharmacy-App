@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\TestController;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +29,15 @@ Route::get('/', function () {
     $user->assignRole('writer');
     return view('test');
 });
+
+Route::get('/', [PharmacyController::class, 'index'])->name('pharmacies.index');
+Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
+Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
+Route::get('/pharmacies/{pharmacy}', [PharmacyController::class, 'show'])->name('pharmacies.show');
+Route::get('/pharmacies/{pharmacy}/edit', [PharmacyController::class, 'edit'])->name('pharmacies.edit');
+Route::put('/pharmacies/{pharmacy}', [PharmacyController::class, 'update'])->name('pharmacies.update');
+Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
+Route::delete('/pharmacies/{pharmacy}', [PharmacyController::class, 'delete'])->name('pharmacies.delete');
 
 
 // Route::resource('/posts',[]);
