@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
@@ -24,6 +25,8 @@ Route::get('/', function () {
     $user->assignRole('writer');
     return view('test');
 });
+
+Route::resource('/doctors',DoctorController::class);
 
 
 // Route::resource('/posts',[]);
