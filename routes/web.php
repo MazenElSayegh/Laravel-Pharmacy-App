@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
@@ -40,6 +42,9 @@ Route::put('/pharmacies/{pharmacy}', [PharmacyController::class, 'update'])->nam
 Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
 Route::delete('/pharmacies/{pharmacy}', [PharmacyController::class, 'delete'])->name('pharmacies.delete');
 Route::resource('/doctors',DoctorController::class);
+
+Route::resource('medicines', MedicineController::class);
+Route::resource('areas', AreaController::class);
 
 
 // Route::resource('/posts',[]);
