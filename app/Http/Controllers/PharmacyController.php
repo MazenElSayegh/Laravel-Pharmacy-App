@@ -10,16 +10,16 @@ use App\Jobs\PruneOldPostsJob;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-class PostController extends Controller
+class PharmacyController extends Controller
 {
     public function index()
     {
-        $allPharmacies=Pharmacy->simplePaginate(10);
+        $allPharmacies=Pharmacy::simplePaginate(10);
         return view('pharmacy.index', ['pharmacies' => $allPharmacies]);
     }
     public function show($pharmacyId)
     {
-        $pharmacy = pharmacy::find($postId);
+        $pharmacy = pharmacy::find($pharmacyId);
         $users =  User::all();
         return view("pharmacy.show",['pharmacy' => $pharmacy]);
     }
