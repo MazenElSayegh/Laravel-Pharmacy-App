@@ -12,4 +12,13 @@ class Address extends Model
     public function area(){
         return $this->belongsTo(Area::class);
     }
+   
+   
+    public function orders(){
+
+        return $this->hasMany(Order::class);
+    }
+
+
+    
 }

@@ -35,4 +35,9 @@ class Doctor extends Model
     {
         return $this->belongsTo(Pharmacy::class);
     }
+
+    public function orders(){
+
+        return $this->hasMany(Order::class);
+    }
 }

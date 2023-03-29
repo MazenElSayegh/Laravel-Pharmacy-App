@@ -20,4 +20,22 @@ class Order extends Model
         'creator_type',
        
     ];
+
+    public function pharmacy(){
+
+        return $this->belongsTo(Pharmacy::class);
+    }
+    public function client(){
+
+        return $this->belongsTo(Client::class);
+    }
+    public function doctor(){
+
+        return $this->belongsTo(Doctor::class);
+    }
+    public function address(){
+
+        return $this->belongsTo(Address::class);
+    }
+    
 }
