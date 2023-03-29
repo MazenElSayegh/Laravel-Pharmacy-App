@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('client_addresses', function (Blueprint $table) {
             $table->id();
-            $table->Integer('area_id');
+            $table->bigInteger('area_id')->unsigned();
             $table->string('street_name');
             $table->string('build_no');
             $table->string('floor_no');
             $table->string('flat_no');
             $table->boolean('is_main');
+            $table->bigInteger('client_id')->unsigned();
+
+            $table->foreign('area_id')->references('id')->on('areas');
+            $table->foreign('client_id')->references('national_id')->on('clients');
+
             
         });
     }

@@ -12,4 +12,9 @@ class Area extends Model
     protected $fillable = [
         'name', 'address'
     ];
+
+    public function addresses()
+        {
+            return $this->hasMany(Address::class);
+        }
 }

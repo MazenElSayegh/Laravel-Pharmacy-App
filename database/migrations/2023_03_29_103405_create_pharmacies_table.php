@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pharmacies', function (Blueprint $table) {
+            
+            $table->unsignedBigInteger('national_id')->primary();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->unsignedBigInteger('national_id')->unique();
             $table->string('image_path')->nullable();
             $table->unsignedInteger('priority');
             $table->timestamps();

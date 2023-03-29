@@ -30,4 +30,9 @@ class Doctor extends Model
     // {
     //     return $this->morphOne('App\User', 'typeable');
     // }
+
+    public function pharmacy()
+    {
+        return $this->belongsTo(Pharmacy::class);
+    }
 }

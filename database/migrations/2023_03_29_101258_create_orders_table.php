@@ -19,6 +19,15 @@ return new class extends Migration
             $table->string('prescription_image')->nullable();
             $table->string('creator_type');
             $table->timestamps();
+            // $table->bigInteger('pharmacy_id')->unsigned();
+            $table->bigInteger('doctor_id')->unsigned();
+            $table->bigInteger('client_id')->unsigned();
+            // $table->bigInteger('address_id')->unsigned();
+
+            $table->foreign('client_id')->references('national_id')->on('clients');
+            // $table->foreign('pharmacy_id')->references('national_id')->on('pharmacies');
+            $table->foreign('doctor_id')->references('national_id')->on('doctors');
+            // $table->foreign('address_id')->references('id')->on('client_addresses');
         });
     }
 

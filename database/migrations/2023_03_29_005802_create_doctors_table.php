@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('doctors', function (Blueprint $table) {
-            $table->id();
+            
+            $table->unsignedBigInteger('national_id')->primary();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->unsignedBigInteger('national_id')->unique();
             $table->boolean('is_banned');
             $table->string('image_path')->nullable();
             $table->timestamps();
