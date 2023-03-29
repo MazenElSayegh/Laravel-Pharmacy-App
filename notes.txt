@@ -1,0 +1,3 @@
+1- making composite key for two tables (medicine_orders) and(pharmacies_medicines) 
+2- making models for the (medicine_orders) and(pharmacies_medicines) -- if needed
+3- testing the Database
