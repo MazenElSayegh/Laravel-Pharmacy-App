@@ -33,7 +33,7 @@ Route::get('/', function () {
     return view('test');
 });
 
-Route::get('/', [PharmacyController::class, 'index'])->name('pharmacies.index');
+Route::get('/', function(){dd("hiiii");});
 Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
 Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
 Route::get('/pharmacies/{pharmacy}', [PharmacyController::class, 'show'])->name('pharmacies.show');

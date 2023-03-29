@@ -13,11 +13,12 @@ return new class extends Migration
     public function up(): void
     {
     Schema::create('medicines_orders', function (Blueprint $table) {
+        $table->id();
         $table->bigInteger('medicine_id')->unsigned();
         $table->bigInteger('order_id')->unsigned();
+        $table->unique([ 'order_id','medicine_id']);
         $table->foreign('order_id')->references('id')->on('orders');
         $table->foreign('medicine_id')->references('id')->on('medicines');
-        // $table->primary([ 'order_id','medicine_id']);
 
         $table->unsignedInteger('quantity');
 

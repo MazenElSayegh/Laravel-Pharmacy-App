@@ -14,7 +14,7 @@ class PharmacyController extends Controller
 {
     public function index()
     {
-        $allPharmacies=Pharmacy::simplePaginate(10);
+        $allPharmacies=Pharmacy::all();
         return view('pharmacy.index', ['pharmacies' => $allPharmacies]);
     }
     public function show($pharmacyId)
