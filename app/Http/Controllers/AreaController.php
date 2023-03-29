@@ -19,7 +19,8 @@ class AreaController extends Controller
 
     public function store(Request $request) {
         Area::create([
-			'name' => $request->name
+			'name' => $request->name,
+            'address' => $request->address
 		]);
 
 		return redirect()->route('areas.index');
@@ -45,7 +46,8 @@ class AreaController extends Controller
         $area = Area::find($request->id);
 
         $area->update([
-			'name' => $request->name
+			'name' => $request->name,
+            'address' => $request->address
 		]);
 
 		return redirect()->route('areas.index');
