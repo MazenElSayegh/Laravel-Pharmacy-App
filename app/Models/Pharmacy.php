@@ -10,4 +10,9 @@ class Pharmacy extends Model
     use HasFactory;
     protected $fillable=[
         'name','email','password','image','nationalId','areaId','priority'];
+
+    // public function type()
+    // {
+    //     return $this->morphOne('User', 'typeable');
+    // }
 }

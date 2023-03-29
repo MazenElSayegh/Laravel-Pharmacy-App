@@ -25,4 +25,9 @@ class Doctor extends Model
         'password',
         'remember_token',
     ];
+
+    // public function type()
+    // {
+    //     return $this->morphOne('App\User', 'typeable');
+    // }
 }

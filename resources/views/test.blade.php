@@ -17,7 +17,7 @@
         User is admin
         {{$user->name}};
     @else 
-        a7a  
+      not admin
         {{$user->name}}; 
     @endif
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
