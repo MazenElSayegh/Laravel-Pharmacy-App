@@ -3,7 +3,7 @@
 
 <div class="card">
   <div class="card-body">
-    {{-- @dd($client); --}}
+    
     <p class="card-text">NAME: {{$client->name}}</p>
     <p class="card-text">EMAIL: {{$client->email}}</p>
     <p class="card-text">NATIONAL ID: {{$client->national_id}}</p>

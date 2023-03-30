@@ -126,12 +126,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Orders</p>
-                </a>
-              </li>
+              
               <li class="nav-item">
                 <a href="{{route('pharmacies.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -156,12 +151,12 @@
                   <p>Clients</p>
                 </a>
               </li> --}}
-              {{-- <li class="nav-item">
+              <li class="nav-item">
                 <a href="{{route('addresses.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>User Addresses</p>
                 </a>
-              </li> --}}
+              </li>
               {{-- <li class="nav-item">
                 <a href="{{route('orders.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
