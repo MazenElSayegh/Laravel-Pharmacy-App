@@ -23,7 +23,7 @@ return new class extends Migration
             $table->bigInteger('doctor_id')->unsigned();
             $table->bigInteger('client_id')->unsigned();
 
-            $table->foreign('client_id')->references('national_id')->on('clients');
+            $table->foreign('client_id')->references('id')->on('clients');
    
             $table->foreign('doctor_id')->references('national_id')->on('doctors');
         });

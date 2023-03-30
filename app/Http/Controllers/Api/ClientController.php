@@ -15,6 +15,15 @@ class ClientController extends Controller
 {
     public $successStatus = 200;
 
+
+    public function index()
+    {
+        return ClientResource::collection(
+            Client::all()
+        );
+    }
+
+
     public function login(Request $request) {
         $request->validate([
             'email' => 'required|email',
