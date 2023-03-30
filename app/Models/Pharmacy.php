@@ -20,4 +20,11 @@ class Pharmacy extends Model
         {
             return $this->hasMany(Doctor::class);
         }
+
+        
+    public function type()
+    {
+        return $this->morphOne(User::class,'typeable');
+    }
+    
 }

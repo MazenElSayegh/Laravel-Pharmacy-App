@@ -23,32 +23,45 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    if(!Role::findById(1)){
-        Role::create(['name' => 'writer']);
+Route::get('/roles', function () {
+    try{
+        Role::create(['name' => 'admin']);
+        echo 'wooww admin created role';
+    }catch(Exception $ex){
+
+        echo 'ooooo rule is taken!';
     }
 
-    $user= User::find(2);
-    $user->assignRole('writer');
-    return view('test');
+    try{
+        Role::create(['name' => 'pharmacy']);
+        echo 'wooww pharmacy created role';
+    }catch(Exception $ex){
+
+        echo 'ooooo pharmacy rule is taken!';
+    }
+
+
+    try{
+        Role::create(['name' => 'doctor']);
+        echo 'wooww doctor created role';
+    }catch(Exception $ex){
+
+        echo  'ooooo doctor rule is taken!';
+    }
 });
 
-Route::get('/', function(){dd("hiiii");});
-Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
-Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
-Route::get('/pharmacies/{pharmacy}', [PharmacyController::class, 'show'])->name('pharmacies.show');
-Route::get('/pharmacies/{pharmacy}/edit', [PharmacyController::class, 'edit'])->name('pharmacies.edit');
-Route::put('/pharmacies/{pharmacy}', [PharmacyController::class, 'update'])->name('pharmacies.update');
-Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
-Route::delete('/pharmacies/{pharmacy}', [PharmacyController::class, 'delete'])->name('pharmacies.delete');
-Route::resource('/doctors',DoctorController::class);
+// ------------------------------ pharmacies routes ---------------------
+Route::resource('pharmacies',PharmacyController::class);
 
+// ------------------------------ doctors routes -----------------------------
+Route::resource('doctors',DoctorController::class);
+
+// ------------------------------ orders routes -----------------------------
 Route::resource('orders', OrderController::class);
 
+// ------------------------------ medicines routes --------------------------
 Route::resource('medicines', MedicineController::class);
+
+// ------------------------------ areas routes -----------------------------
 Route::resource('areas', AreaController::class);
 
-
-// Route::resource('/posts',[]);
-// Route::get('/comments',[]);
-// Route::resource('/posts',function);

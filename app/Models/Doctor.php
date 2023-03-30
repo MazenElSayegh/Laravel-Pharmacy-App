@@ -26,10 +26,10 @@ class Doctor extends Model
         'remember_token',
     ];
 
-    // public function type()
-    // {
-    //     return $this->morphOne('App\User', 'typeable');
-    // }
+    public function type()
+    {
+        return $this->morphOne(User::class, 'typeable');
+    }
 
     public function pharmacy()
     {
@@ -40,4 +40,5 @@ class Doctor extends Model
 
         return $this->hasMany(Order::class);
     }
+   
 }
