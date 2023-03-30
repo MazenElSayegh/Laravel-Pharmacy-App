@@ -85,7 +85,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Pharmacy System</span>
     </a>
 
     <!-- Sidebar -->
@@ -126,24 +126,55 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              
               <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Orders</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a href="{{route('pharmacies.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pharmacies</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
+                <a href="{{route('doctors.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Doctors</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{route('clients.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Clients</p>
+                </a>
+              </li>
+              {{-- <li class="nav-item">
+                <a href="{{route('areas.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Clients</p>
+                </a>
+              </li> --}}
+              <li class="nav-item">
+                <a href="{{route('addresses.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>User Addresses</p>
+                </a>
+              </li>
+              {{-- <li class="nav-item">
+                <a href="{{route('orders.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Orders</p>
+                </a>
+              </li> --}}
+              {{-- <li class="nav-item">
+                <a href="{{route('medicines.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Medicines</p>
+                </a>
+              </li> --}}
+              {{-- <li class="nav-item">
+                <a href="{{route('revenue.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Revenue</p>
+                </a>
+              </li> --}}
             </ul>
           </li>
           

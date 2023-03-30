@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             
-            $table->unsignedBigInteger('national_id')->primary();
+            $table->id();
+            $table->unsignedBigInteger('national_id')->unique();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');

@@ -11,7 +11,7 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $allDoctors = Doctor::paginate(5);
+        $allDoctors = Doctor::all();
         // dd($allDoctors);
 
         return view('doctors.index', ['doctors' => $allDoctors]);
@@ -30,8 +30,8 @@ class DoctorController extends Controller
     public function create()
     {
         // dd("hello");
-        // $users= User::all();
-        // return view('Doctors.create',['users'=>$users]);
+        $doctors= Doctor::all();
+        return view('doctors.create',['doctors'=>$doctors]);
     }
 
     public function store(StoreDoctorRequest $request)

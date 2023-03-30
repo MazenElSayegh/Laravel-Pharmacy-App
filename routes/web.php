@@ -12,6 +12,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TestController;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,3 +68,9 @@ Route::resource('medicines', MedicineController::class);
 // ------------------------------ areas routes -----------------------------
 Route::resource('areas', AreaController::class);
 
+// ------------------------------ client controller ------------------------ 
+Route::resource('clients',ClientController::class);
+
+// ------------------------------ address controller ------------------------ 
+
+Route::resource('addresses',AddressController::class);

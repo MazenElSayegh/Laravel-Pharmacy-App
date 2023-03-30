@@ -15,24 +15,24 @@ class PharmacyController extends Controller
     public function index()
     {
         $allPharmacies=Pharmacy::all();
-        return view('pharmacy.index', ['pharmacies' => $allPharmacies]);
+        return view('pharmacies.index', ['pharmacies' => $allPharmacies]);
     }
     public function show($pharmacyId)
     {
         $pharmacy = pharmacy::find($pharmacyId);
         $users =  User::all();
-        return view("pharmacy.show",['pharmacy' => $pharmacy]);
+        return view("pharmacies.show",['pharmacy' => $pharmacy]);
     }
 
      public function create(){
        // $users=User::all();
-        return view('pharmacy.create');
+        return view('pharmacies.create');
     }
     public function edit($id){
 
         $users=User::all();
         $pharmacy=Pharmacy::find($id);
-        return view('pharmacy.edit',['pharmacy'=>$pharmacy]);
+        return view('pharmacies.edit',['pharmacy'=>$pharmacy]);
     }
 
     public function update(StorePharmacyRequest $request,$id){

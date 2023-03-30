@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('medicine_id')->unsigned();
             $table->bigInteger('pharmacy_id')->unsigned();
             $table->unique([ 'pharmacy_id','medicine_id']);
-            $table->foreign('pharmacy_id')->references('national_id')->on('pharmacies');
+            $table->foreign('pharmacy_id')->references('id')->on('pharmacies');
             $table->foreign('medicine_id')->references('id')->on('medicines');
             $table->unsignedInteger('quantity');
 

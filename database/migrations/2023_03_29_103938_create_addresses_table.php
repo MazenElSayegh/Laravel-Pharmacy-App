@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('client_addresses', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
+            
             $table->id();
             $table->bigInteger('area_id')->unsigned();
             $table->string('street_name');
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->bigInteger('client_id')->unsigned();
 
             $table->foreign('area_id')->references('id')->on('areas');
-            $table->foreign('client_id')->references('national_id')->on('clients');
+            $table->foreign('client_id')->references('id')->on('clients');
 
             
         });
