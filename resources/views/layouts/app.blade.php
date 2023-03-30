@@ -133,13 +133,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a href="{{route('pharmacies.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pharmacies</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
+                <a href="{{route('doctors.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Doctors</p>
                 </a>

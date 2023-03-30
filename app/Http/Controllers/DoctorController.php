@@ -11,7 +11,7 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $allDoctors = Doctor::paginate(5);
+        $allDoctors = Doctor::all();
         // dd($allDoctors);
 
         return view('doctors.index', ['doctors' => $allDoctors]);
