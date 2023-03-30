@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('client_addresses', function (Blueprint $table) {
+            
             $table->id();
             $table->bigInteger('area_id')->unsigned();
             $table->string('street_name');
