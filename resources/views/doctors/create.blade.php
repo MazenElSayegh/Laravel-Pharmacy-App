@@ -1,9 +1,9 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 
 @section('title') Create @endsection
 
-@section('content')
+@section('content') --}}
 
 @if ($errors->any())
 <br>
@@ -34,8 +34,8 @@
     <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label">Post Creator</label>
       <select name="post_creator" class="form-control">
-          @foreach($users as $user)
-              <option value="{{$user->id}}">{{$user->name}}</option>
+          @foreach($doctors as $doctor)
+              <option value="{{$doctor->id}}">{{$doctor->name}}</option>
           @endforeach
       </select>
     </div>
@@ -43,4 +43,4 @@
   </form>
  
 
-@endsection
+{{-- @endsection --}}

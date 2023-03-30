@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="text-center">
-        <button type="button" class="mt-4 btn btn-success"><a href="#" style="color:white;text-decoration:none;">Create Doctor</a></button>
+        <button type="button" class="mt-4 btn btn-success"><a href="{{route('doctors.create')}}" style="color:white;text-decoration:none;">Create Doctor</a></button>
     </div>
     <table id="mytable" class="table mt-4">
         <thead>
@@ -47,7 +47,7 @@
                 @endif --}}
                 <td>{{$doctor->created_at}}</td>
                 <td>
-                    <a class="btn btn-info">View</a>
+                    <a class="btn btn-info" href="{{route('doctors.show',$doctor->id)}}">View</a>
                     <a class="btn btn-primary" >Edit</a>
                     <form style="display: inline" method="POST">
                     @method('DELETE')
