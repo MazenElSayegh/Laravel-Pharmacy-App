@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') Index @endsection
+@section('title') Doctors Index @endsection
 
 @section('content')
     <div class="text-center">
