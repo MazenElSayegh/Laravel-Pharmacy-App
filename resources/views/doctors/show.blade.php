@@ -1,7 +1,8 @@
-{{-- @extends('layouts.app')
-@section('content') --}}
+@extends('layouts.app')
 
-{{-- @section('title') Doctors Show @endsection --}}
+@section('title') Index @endsection
+
+@section('content')
 
 <div class="card">
   <div class="card-body">
@@ -13,4 +14,4 @@
                                     @endif
     </p>
 
-{{-- @endsection --}}
+@endsection
