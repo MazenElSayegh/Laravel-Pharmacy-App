@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,7 @@ class OrderController extends Controller
         // if user get all orders belongs to this user only
 
       
-        return view('order.index');
+        return view('orders.index');
 
     }
 
@@ -32,32 +33,35 @@ class OrderController extends Controller
 
     public function create()
     {
-       
+        $allClients = Client::all();
+
+       return view('orders.create',['clients'=>$allClients]);
     }
 
     public function store(Request $request)
     {
+        dd(request()->medicine_name);
         // $allData=$request->all();
 
         // dd($title,$description,$DoctorCreator);
-        $order=Order::create([
-            'user_id'=> request()->user_id,
-            'pharmacy_id'=>request()->pharmacy_id,
-            'doctor_id'=>request()->doctor_id,
-            'status'=>request()->status,
-            'is_insured'=>request()->is_insured,
-            'delivering_address'=>request()->delivering_address,
+        // $order=Order::create([
+        //     'user_id'=> request()->user_id,
+        //     'pharmacy_id'=>request()->pharmacy_id,
+        //     'doctor_id'=>request()->doctor_id,
+        //     'status'=>request()->status,
+        //     'is_insured'=>request()->is_insured,
+        //     'delivering_address'=>request()->delivering_address,
             
-        ]);
+        // ]);
        
-        if ($request->hasFile('prescription_image')) {
-            $image = $request->file('prescription_image');
-            $filename = $image->getClientOriginalName();
+        // if ($request->hasFile('prescription_image')) {
+        //     $image = $request->file('prescription_image');
+        //     $filename = $image->getClientOriginalName();
             
-            $path= $request->file('prescription_image')->storeAs('ordersImages',$filename,'public');
-            $order->prescription_image =$path;
-            $order->save();
-        }
+        //     $path= $request->file('prescription_image')->storeAs('ordersImages',$filename,'public');
+        //     $order->prescription_image =$path;
+        //     $order->save();
+        // }
 
         return to_route('orders.index');
     }
