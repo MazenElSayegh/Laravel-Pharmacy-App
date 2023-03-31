@@ -144,12 +144,12 @@
                   <p>Clients</p>
                 </a>
               </li>
-              {{-- <li class="nav-item">
+              <li class="nav-item">
                 <a href="{{route('areas.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Clients</p>
+                  <p>Areas</p>
                 </a>
-              </li> --}}
+              </li>
               <li class="nav-item">
                 <a href="{{route('addresses.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -162,12 +162,12 @@
                   <p>Orders</p>
                 </a>
               </li> --}}
-              {{-- <li class="nav-item">
+              <li class="nav-item">
                 <a href="{{route('medicines.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Medicines</p>
                 </a>
-              </li> --}}
+              </li>
               {{-- <li class="nav-item">
                 <a href="{{route('revenue.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
