@@ -34,7 +34,7 @@ class ClientController extends Controller
 
     
 
-    public function store(Request $request){
+    public function store(StoreClientRequest $request){
 
        
             $title = request()->title;
@@ -66,8 +66,7 @@ class ClientController extends Controller
     }
 
     public function edit($client){
-        $client = Client::all();
-        // $post = Post::find($post);
+        $client = Client::find($client);
         
         return view('clients.edit', ['client' => $client]);
     }
