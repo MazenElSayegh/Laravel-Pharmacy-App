@@ -16,7 +16,7 @@
 </div>
 @endif
 
-<form action="{{route('doctors.update',$doctor)}}" method="POST" enctype="multipart/form-data">
+<form action="{{route('clients.update',['client' => $client['id']])}}" method="POST" enctype="multipart/form-data">
   @csrf
   @method ("PUT")
     <div class="mb-3">

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="text-center">
-        <button type="button" class="mt-4 btn btn-success"><a href="#" style="color:white;text-decoration:none;">Create clinet</a></button>
+        <button type="button" class="mt-4 btn btn-success"><a href="{{route('clients.create')}}" style="color:white;text-decoration:none;">Create client</a></button>
     </div>
     <table id="mytable" class="table mt-4">
         <thead>
@@ -36,8 +36,8 @@
                 
                 <td>
                     <a  href="{{route('clients.show', $client['id'])}}" class="btn btn-info">View</a>
-                    <a class="btn btn-primary" >Edit</a>
-                    <form style="display: inline" method="POST">
+                    <a class="btn btn-primary" href="{{route("clients.edit",$client["id"]),"/edit"}}">Edit</a>
+                    <form action="{{route('clients.destroy',$client->id)}}"  style="display: inline" method="POST">
                     @method('DELETE')
                     @csrf
                     <button onclick="return confirm('Are you sure you want to delete this post?');" class="btn btn-danger">Delete</button>
