@@ -10,29 +10,32 @@ use App\Jobs\PruneOldPostsJob;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use App\DataTables\PharmaciesDataTable;
+use DataTables;
 class PharmacyController extends Controller
 {
-    public function index()
+    public function index(PharmaciesDataTable $dataTable)
     {
-        $allPharmacies=Pharmacy::all();
-        return view('pharmacies.index', ['pharmacies' => $allPharmacies]);
+       // $allPharmacies=Pharmacy::all();
+        return $dataTable->render('pharmacies.index');
+        //return view('pharmacy.index', ['pharmacies' => $allPharmacies]);
     }
     public function show($pharmacyId)
     {
         $pharmacy = pharmacy::find($pharmacyId);
         $users =  User::all();
-        return view("pharmacies.show",['pharmacy' => $pharmacy]);
+        return view("pharmacy.show",['pharmacy' => $pharmacy]);
     }
 
      public function create(){
        // $users=User::all();
-        return view('pharmacies.create');
+        return view('pharmacy.create');
     }
     public function edit($id){
 
         $users=User::all();
         $pharmacy=Pharmacy::find($id);
-        return view('pharmacies.edit',['pharmacy'=>$pharmacy]);
+        return view('pharmacy.edit',['pharmacy'=>$pharmacy]);
     }
 
     public function update(StorePharmacyRequest $request,$id){

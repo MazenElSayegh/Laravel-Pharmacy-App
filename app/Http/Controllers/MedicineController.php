@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreMedicineRequest;
 use App\Models\Medicine;
 
 use Illuminate\Http\Request;
@@ -9,14 +11,14 @@ class MedicineController extends Controller
 {
     public function index() {
         $medicines = Medicine::all();
-        return view('medicines.index');
+        return view('medicines.index', ["medicines" => $medicines]);
     }
 
     public function create() {
         return view('medicines.create');
     }
 
-    public function store(Request $request) {
+    public function store(StoreMedicineRequest $request) {
         Medicine::create([
 			'name' => $request->name,
             'price' => $request->price,
@@ -41,8 +43,8 @@ class MedicineController extends Controller
 		]);
     }
 
-    public function update(Request $request) {
-        $medicine = Medicine::find($request->id);
+    public function update(StoreMedicineRequest $request, $id) {
+        $medicine = Medicine::find($id);
         $medicine->update([
 			'name' => $request->name,
             'price' => $request->price,

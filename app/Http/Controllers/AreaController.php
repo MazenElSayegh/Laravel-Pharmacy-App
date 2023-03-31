@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAreaRequest;
 use Illuminate\Http\Request;
 use App\Models\Area;
 
@@ -17,7 +18,7 @@ class AreaController extends Controller
     }
 
 
-    public function store(Request $request) {
+    public function store(StoreAreaRequest $request) {
         Area::create([
 			'name' => $request->name,
             'address' => $request->address
@@ -42,8 +43,8 @@ class AreaController extends Controller
 		]);
     }
 
-    public function update(Request $request) {
-        $area = Area::find($request->id);
+    public function update(StoreAreaRequest $request, $id) {
+        $area = Area::find($id);
 
         $area->update([
 			'name' => $request->name,

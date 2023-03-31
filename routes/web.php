@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
@@ -57,7 +58,7 @@ Route::resource('pharmacies',PharmacyController::class);
 
 // ------------------------------ doctors routes -----------------------------
 Route::resource('doctors',DoctorController::class);
-
+Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
 // ------------------------------ orders routes -----------------------------
 Route::resource('orders', OrderController::class);
 
@@ -73,3 +74,7 @@ Route::resource('clients',ClientController::class);
 // ------------------------------ address controller ------------------------ 
 
 Route::resource('addresses',AddressController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

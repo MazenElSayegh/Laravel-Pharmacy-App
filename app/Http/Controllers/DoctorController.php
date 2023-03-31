@@ -6,51 +6,41 @@ use Illuminate\Http\Request;
 use App\Models\Doctor;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreDoctorRequest;
+use App\Models\Pharmacy;
 
 class DoctorController extends Controller
 {
     public function index()
     {
         $allDoctors = Doctor::all();
-        // dd($allDoctors);
-
         return view('doctors.index', ['doctors' => $allDoctors]);
     }
 
     public function show($id)
     {
         $Doctor= Doctor::find($id);
-        // $users= Pharmacy::all();
-        // dd($user->name);
-
-        // return view('Doctors.show', ['Doctor' => $Doctor,'users'=>$users]);
         return view('doctors.show', ['doctor' => $Doctor]);
     }
 
     public function create()
     {
-        // dd("hello");
-        // $users= User::all();
-        // return view('Doctors.create',['users'=>$users]);
+        $pharmacies= Pharmacy::all();
+        return view('doctors.create',['pharmacies'=>$pharmacies]);
     }
 
-    public function store(StoreDoctorRequest $request)
+    public function store(Request $request)
     {
-        // $allData=$request->all();
-
-        // dd($title,$description,$DoctorCreator);
         $doctor=Doctor::create([
-            'name'=> request()->title,
+            'name'=> request()->name,
             'email'=> request()->email,
             'password'=> request()->password,
             'national_id'=> request()->national_id,
             'pharmacy_id'=> request()->pharmacy_id,
+            'is_banned'=>0,
         ]);
-        // $slug = SlugService::createSlug(Doctor::class, 'slug', request()->title);
         if ($request->hasFile('avatar_image')) {
             $image = $request->file('avatar_image');
             $filename = $image->getClientOriginalName();
-            // $path = Storage::putFileAs('public/DoctorsImages', $image, $filename);
             $path= $request->file('avatar_image')->storeAs('doctorsImages',$filename,'public');
             $doctor->image_path =$path;
             $doctor->save();
@@ -62,16 +52,14 @@ class DoctorController extends Controller
     public function edit($id)
     
     {
-        // $users= User::all();
+        $pharmacies= Pharmacy::all();
         $doctor= Doctor::find($id);
-        // return view('Doctors.edit',['users'=>$users], ['Doctor'=>$Doctor]);
-        return view('doctors.edit', ['doctor'=>$doctor]);
+        return view('doctors.edit', ['doctor'=>$doctor, 'pharmacies'=>$pharmacies]);
     }
 
-    public function update(StoreDoctorRequest $request,$id)
+    public function update(Request $request,$id)
     {
         // dd($request);
-        // dd($request['id'],$id,request()->id);
         $doctor = Doctor::findOrFail($id);
 
         if ($request->hasFile('avatar_image')) {
@@ -80,20 +68,14 @@ class DoctorController extends Controller
             }
             $image = $request->file('avatar_image');
             $filename = $image->getClientOriginalName();
-            // $path = Storage::putFileAs('doctorsImages', $image, $filename);
-            // $doctor->image_path = $path;
             $path= $request->file('avatar_image')->storeAs('doctorsImages',$filename,'public');
             $doctor->image_path =$path;
             $doctor->save();
         }
 
-        // $id=request()->id;
-        // dd(request(),$id);
-
-        // $allData=$request->all();
         Doctor::where('id',$id)
             ->update([
-                'name'=> request()->title,
+                'name'=> request()->name,
                 'email'=> request()->email,
                 'password'=> request()->password,
                 'national_id'=> request()->national_id,
@@ -108,9 +90,22 @@ class DoctorController extends Controller
     $doctor = Doctor::findOrFail($id);
     Doctor::destroy($id);
     if ($doctor->image_path && Storage::exists("public/". $doctor->image_path)) {
-        // Storage::delete($doctor->image_path);
         Storage::delete( "public/". $doctor->image_path);
     }
     return redirect()->route('doctors.index');
+    }
+
+    public function ban($id)
+    {
+        $doctor = Doctor::findOrFail($id);
+        // dd($doctor->is_banned);
+        if($doctor->is_banned===0){
+            $doctor->update(['is_banned'=>1]);
+            // dd($doctor->is_banned);
+        }
+        else{
+            $doctor->update(['is_banned'=>0]);
+        }
+        return redirect()->route('doctors.index');
     }
 }

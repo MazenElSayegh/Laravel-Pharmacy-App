@@ -18,8 +18,8 @@ class OrderController extends Controller
 
         // if user get all orders belongs to this user only
 
-        $allOrders= Order::all();
-        return view('orders.index', ['orders' => $allOrders]);
+      
+        return view('order.index');
 
     }
 
