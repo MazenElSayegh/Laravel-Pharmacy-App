@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
