@@ -34,12 +34,12 @@ class ClientController extends Controller
 
     
 
-    public function store(StoreClientRequest $request){
+    public function store(Request $request){
 
        
             $title = request()->title;
             $description = request()->description;
-            $postCreator = request()->post_creator;
+            $clientCreator = request()->client_creator;
     
             
             $client = Client::create([
@@ -62,6 +62,25 @@ class ClientController extends Controller
     
             return redirect()->route('clients.index');
             
+    }
+
+    public function edit($client){
+        $client = Client::all();
+        // $post = Post::find($post);
+        
+        return view('clients.edit', ['client' => $client]);
+    }
+
+    public function destroy($client){
+        
+        $client = Client::findOrFail($client);
+        // if ($post->image_path && Storage::exists('public/'.$post->image_path)) {
+        //     Storage::delete('public/'.$post->image_path);
+        // }
+        $client->delete();
+    
+        return redirect()->route('clients.index');
+        
     }
    
 
