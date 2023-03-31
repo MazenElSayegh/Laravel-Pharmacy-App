@@ -49,6 +49,7 @@ class ClientController extends Controller
                 'national_id'=>$request->national_id,
                 'birth_day'=>$request->birth_day,
                 'mobile'=>$request->mobile,
+                'gender'=>$request->gender,
 
             ]);
     

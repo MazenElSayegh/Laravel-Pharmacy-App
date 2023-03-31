@@ -32,7 +32,7 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput2">password</label>
-            <input type="text" name="password" class="form-control" id="exampleFormControlInput2" >
+            <input type="password" name="password" class="form-control" id="exampleFormControlInput2" >
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput4">national id</label>
