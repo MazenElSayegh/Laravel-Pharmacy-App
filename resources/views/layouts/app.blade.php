@@ -235,11 +235,16 @@
   integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
   crossorigin="anonymous"></script>
 <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script>
+<!-- <script>
         $(document).ready( function () {
-    $('#mytable').DataTable();
+    $('#mytable').DataTable({
+        "processing":true,
+        "serverSide":true,
+        "ajax":"{{route('pharmacies.index')}}"
+    });
 } );
-    </script>
+    </script> -->
+    @stack('scripts')
 </body>
 </html>
 

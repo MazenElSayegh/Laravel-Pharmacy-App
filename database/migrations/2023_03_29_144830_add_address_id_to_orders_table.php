@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->bigInteger('pharmacy_id')->unsigned();
             $table->bigInteger('address_id')->unsigned();
-            $table->foreign('pharmacy_id')->references('national_id')->on('pharmacies');
-            $table->foreign('address_id')->references('id')->on('client_addresses');
+            $table->foreign('pharmacy_id')->references('id')->on('pharmacies');
+            $table->foreign('address_id')->references('id')->on('addresses');
         });
     }
 

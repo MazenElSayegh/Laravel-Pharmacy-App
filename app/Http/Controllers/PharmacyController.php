@@ -10,12 +10,15 @@ use App\Jobs\PruneOldPostsJob;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use App\DataTables\PharmaciesDataTable;
+use DataTables;
 class PharmacyController extends Controller
 {
-    public function index()
+    public function index(PharmaciesDataTable $dataTable)
     {
-        $allPharmacies=Pharmacy::all();
-        return view('pharmacy.index', ['pharmacies' => $allPharmacies]);
+       // $allPharmacies=Pharmacy::all();
+        return $dataTable->render('pharmacies.index');
+        //return view('pharmacy.index', ['pharmacies' => $allPharmacies]);
     }
     public function show($pharmacyId)
     {
