@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="text-center">
-        <button type="button" class="mt-4 btn btn-success"><a href="#" style="color:white;text-decoration:none;">Create clinet</a></button>
+        <button type="button" class="mt-4 btn btn-success"><a href="{{route('clients.create')}}" style="color:white;text-decoration:none;">Create client</a></button>
     </div>
     <table id="mytable" class="table mt-4">
         <thead>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreClientRequest;
 use Illuminate\Http\Request;
 use App\Models\Client;
 
@@ -24,5 +25,44 @@ class ClientController extends Controller
             "client" => $client
         ]);
     }
+
+    public function create(Request $request){
+
+        return view('clients.create');
+
+    }
+
+    
+
+    public function store(StoreClientRequest $request){
+
+       
+            $title = request()->title;
+            $description = request()->description;
+            $postCreator = request()->post_creator;
+    
+            
+            $client = Client::create([
+                'name' =>  $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'national_id'=>$request->national_id,
+                'birth_day'=>$request->birth_day,
+                'mobile'=>$request->mobile,
+
+            ]);
+    
+            if ($request->hasFile('avatar')) {
+                $avatar = $request->file('avatar');
+                $filename = $avatar->getClientOriginalName();
+                $path = $request->file('avatar')->storeAs('clientImgs', $filename, 'public');
+                $client->avatar_path= $path;
+                $client->save();
+            }
+    
+            return redirect()->route('clients.index');
+            
+    }
+   
 
 }
