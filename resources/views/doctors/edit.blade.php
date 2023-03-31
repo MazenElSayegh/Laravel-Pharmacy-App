@@ -1,7 +1,7 @@
 @extends('layouts.sub')
 
 
-@section('title') Create @endsection
+@section('title') Edit @endsection
 
 @section('content')
 
@@ -16,15 +16,16 @@
 </div>
 @endif
 
-<form action="{{route('doctors.store')}}" method="POST" enctype="multipart/form-data">
+<form action="{{route('doctors.update',$doctor)}}" method="POST" enctype="multipart/form-data">
   @csrf
+  @method ("PUT")
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Doctor's name</label>
-      <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$doctor->name}}">
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Doctor's email</label>
-      <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$doctor->email}}">
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Password</label>
@@ -32,11 +33,11 @@
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Doctor's national id</label>
-      <input name="national_id" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <input name="national_id" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$doctor->national_id}}">
     </div>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Avatar Image</label>
-        <input name="avatar_image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <input name="avatar_image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
       </div>
 
     <div class="mb-3">
@@ -47,7 +48,7 @@
           @endforeach
       </select>
     </div>
-    <button type="submit" class="btn btn-success">Create</button>
+    <button type="submit" class="btn btn-primary">Update</button>
   </form>
  
 

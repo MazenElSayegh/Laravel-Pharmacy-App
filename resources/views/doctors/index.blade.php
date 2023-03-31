@@ -48,12 +48,17 @@
                 <td>{{$doctor->created_at}}</td>
                 <td>
                     <a class="btn btn-info" href="{{route('doctors.show',$doctor->id)}}">View</a>
-                    <a class="btn btn-primary" >Edit</a>
-                    <form style="display: inline" method="POST">
-                    @method('DELETE')
-                    @csrf
-                    <button onclick="return confirm('Are you sure you want to delete this post?');" class="btn btn-danger">Delete</button>
-                </form>
+                    <a class="btn btn-primary" href="{{route('doctors.edit',$doctor->id)}}">Edit</a>
+                    <form action="{{route('doctors.destroy',$doctor->id)}}" style="display: inline" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button onclick="return confirm('Are you sure you want to delete this post?');" class="btn btn-danger">Delete</button>
+                    </form>
+                    <a class="btn btn-warning" href="{{route('doctors.ban',$doctor->id)}}">
+                        @if($doctor->is_banned==0) Ban
+                        @else Unban
+                        @endif
+                    </a>
                 </td>
             </tr>
   
