@@ -28,7 +28,7 @@ class DoctorController extends Controller
         return view('doctors.create',['pharmacies'=>$pharmacies]);
     }
 
-    public function store(Request $request)
+    public function store(StoreDoctorRequest $request)
     {
         $doctor=Doctor::create([
             'name'=> request()->name,
@@ -57,7 +57,7 @@ class DoctorController extends Controller
         return view('doctors.edit', ['doctor'=>$doctor, 'pharmacies'=>$pharmacies]);
     }
 
-    public function update(Request $request,$id)
+    public function update(StoreDoctorRequest $request,$id)
     {
         // dd($request);
         $doctor = Doctor::findOrFail($id);

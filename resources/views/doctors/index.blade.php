@@ -15,6 +15,7 @@
             <th scope="col">Image</th>
             <th scope="col">Is Banned</th>
             <th scope="col">Created At</th>
+            <th scope="col">Pharmacy</th>
             <th scope="col">Actions</th>
             {{-- @if($user->hasRole('admin')){
                 <th scope="col">Pharmacy Id</th> 
@@ -46,6 +47,7 @@
                 } 
                 @endif --}}
                 <td>{{$doctor->created_at}}</td>
+                <td>{{$doctor->pharmacy->name}}</td>
                 <td>
                     <a class="btn btn-info" href="{{route('doctors.show',$doctor->id)}}">View</a>
                     <a class="btn btn-primary" href="{{route('doctors.edit',$doctor->id)}}">Edit</a>
