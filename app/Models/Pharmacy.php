@@ -9,7 +9,7 @@ class Pharmacy extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'name','email','password','image','nationalId','areaId','priority'];
+        'name','email','password','image_path','national_id','area_id','priority'];
 
     // public function type()
     // {
