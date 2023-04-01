@@ -15,37 +15,38 @@
             <th scope="col">Image</th>
             <th scope="col">Is Banned</th>
             <th scope="col">Created At</th>
+            <th scope="col">Pharmacy</th>
+            <th scope="col">type</th>
             <th scope="col">Actions</th>
-            {{-- @if($user->hasRole('admin')){
-                <th scope="col">Pharmacy Id</th> 
-            } 
-            @endif --}}
         </tr>
         </thead>
         <tbody>
 
         @foreach($doctors as $doctor)
             <tr>
-                <td>{{$doctor->name}}</td>
-                <td>{{$doctor->email}}</td>
+                <td>{{$doctor->type->name}}</td>
+                <td>{{$doctor->type->email}}</td>
                 <td>{{$doctor->national_id}}</td>
                 @if($doctor->image_path)
                 <td>{{$doctor->image_path}}</td>
                 @else
                 <td>Not Found</td>
                 @endif
-                @if($doctor->is_banned==0){
+                @if($doctor->is_banned==0)
                         <td>No</td>
-                    }
-                @else{
+                @else
                     <td>Yes</td>
-                }
                 @endif
-                {{-- @if($user->hasRole('admin')){
-                    <td>{{$doctor->pharmacy_id}}</td>
-                } 
-                @endif --}}
                 <td>{{$doctor->created_at}}</td>
+                <td>{{$doctor->pharmacy->name}}</td>
+                @if($doctor->type->hasRole('admin')){
+                    <td>{{ucfirst(str_replace(['[',']','"'],"",$doctor->type->getRoleNames()))}}</td>
+                }
+                @elseif($doctor->type->hasRole('doctor'))
+                    <td>{{ucfirst(str_replace(['[',']','"'],"",$doctor->type->getRoleNames()))}}</td>
+                @else
+                    <td>No Role</td>
+                @endif
                 <td>
                     <a class="btn btn-info" href="{{route('doctors.show',$doctor->id)}}">View</a>
                     <a class="btn btn-primary" href="{{route('doctors.edit',$doctor->id)}}">Edit</a>
