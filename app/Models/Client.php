@@ -21,17 +21,8 @@ class Client extends Model
     {
         return $this->hasMany('Address');
     }
-<<<<<<< HEAD
-
-    public function type()
-    {
-        return $this->morphOne(User::class,'typeable');
-    }
-
-=======
     public function type()
     {
         return $this->morphOne(User::class, 'typeable');
     }
->>>>>>> 267ee5c53a3accf0e2e89f987581a11e96350a3c
 }
