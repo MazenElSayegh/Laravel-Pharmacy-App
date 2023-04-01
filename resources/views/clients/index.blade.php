@@ -15,6 +15,7 @@
             <th scope="col">Gender</th>
             <th scope="col">Birth Day</th>
             <th scope="col">Image</th>
+            <th scope="col">Actions</th>
             
         </tr>
         </thead>

@@ -15,9 +15,9 @@ return new class extends Migration
             
             $table->id();
             $table->unsignedBigInteger('national_id')->unique();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
+            // $table->string('name');
+            // $table->string('email')->unique();
+            // $table->string('password');
             $table->boolean('is_banned');
             $table->string('image_path')->nullable();
             $table->timestamps();

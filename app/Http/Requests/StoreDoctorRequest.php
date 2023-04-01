@@ -22,8 +22,8 @@ class StoreDoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'=>['required','unique'],
-            'national_id'=>['required','unique'],
+            'email'=>['required','unique:doctors,email,'.$this->doctor],
+            'national_id'=>['required','unique:doctors,national_id,'.$this->doctor],
             'password' => ['required','min:6'],
             'avatar_image' => ['mimes:jpeg,png,jpg'],
         ];
