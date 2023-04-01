@@ -4,17 +4,20 @@
 
 @section('content')
     <div class="text-center">
-        <button type="button" class="mt-4 btn btn-success"><a href="#" style="color:white;text-decoration:none;">Create Order</a></button>
+        <button type="button" class="mt-4 btn btn-success"><a href="{{route('orders.create')}}" style="color:white;text-decoration:none;">Create Order</a></button>
     </div>
     <table id="mytable" class="table mt-4">
         <thead>
         <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">National ID</th>
-            <th scope="col">Image</th>
-            <th scope="col">Priority</th>
+            <th scope="col">Order ID</th>
+            <th scope="col">Ordered User Name</th>
+            <th scope="col">Delivering Address</th>
+            <th scope="col">Doctor Name</th>
+            <th scope="col">Is Insured</th>
+            <th scope="col">Status</th>
             <th scope="col">Created At</th>
+            <th scope="col">Actions</th>
+            
         </tr>
         </thead>
         <tbody>

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-  <title>@yield('title')</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"></head>
+    <title>@yield('title')</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 
   <!-- Google Font: Source Sans Pro -->
@@ -28,6 +28,8 @@
   <link rel="stylesheet" href="{{asset('plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -156,12 +158,12 @@
                   <p>User Addresses</p>
                 </a>
               </li>
-              {{-- <li class="nav-item">
+              <li class="nav-item">
                 <a href="{{route('orders.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Orders</p>
                 </a>
-              </li> --}}
+              </li> 
               <li class="nav-item">
                 <a href="{{route('medicines.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -275,6 +277,17 @@
 } );
     </script> -->
     @stack('scripts')
+    
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>$('.jqSelect').select2({
+      tags: true
+    });
+    
+    </script>
+  
+    {{-- <script src="{{ asset('js/order.js')}}"></script> --}}
+
 </body>
 </html>
 
