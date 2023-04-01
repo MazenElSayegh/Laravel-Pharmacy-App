@@ -36,7 +36,7 @@
                 
                 <td>
                     <a  href="{{route('addresses.show', $address['id'])}}" class="btn btn-info">View</a>
-                    <a class="btn btn-primary" >Edit</a>
+                    <a href="{{route("addresses.edit",$address["id"]),"/edit"}}" class="btn btn-primary" >Edit</a>
                     <form action="{{route('addresses.destroy',$address->id)}}" style="display: inline" method="POST">
                     @method('DELETE')
                     @csrf

@@ -61,6 +61,18 @@ class AddressController extends Controller
         return redirect()->route('addresses.index');
     }
     
+    public function edit(StoreAddressRequest $address)
+    {
+    
+        $clients = Client::all();
+        $areas = Area::all();
+        return view('addresses.edit', [
+            'address' => $address,
+            'clients' => $clients,
+            'areas' => $areas,
+        ]);
+    }
+
     public function destroy($address)
     {      
         $address = Address::findOrFail($address);
