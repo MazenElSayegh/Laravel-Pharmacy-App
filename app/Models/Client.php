@@ -22,4 +22,9 @@ class Client extends Model
         return $this->hasMany('Address');
     }
 
+    public function type()
+    {
+        return $this->morphOne(User::class,'typeable');
+    }
+
 }
