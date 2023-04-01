@@ -11,7 +11,7 @@ class StorePharmacyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,9 @@ class StorePharmacyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'=>['required','unique'],
-            'national_id'=>['required','unique'],
+
+            'email'=>['required','unique:pharmacies,email,'.$this->pharmacy],
+            'national_id'=>['required','unique:pharmacies,national_id,'.$this->pharmacy],
             'password' => ['required','min:6'],
             'avatar_image' => ['mimes:jpeg,png,jpg'],
         ];

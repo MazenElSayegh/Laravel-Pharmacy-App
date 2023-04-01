@@ -16,7 +16,7 @@
 </div>
 @endif
 
-<form action="{{route('pharmacies.update',$pharmacy)}}" method="POST" enctype="multipart/form-data">
+<form action="{{route('pharmacies.update',$pharmacy->id)}}" method="POST" enctype="multipart/form-data">
   @csrf
   @method ("PUT")
     <div class="mb-3">
