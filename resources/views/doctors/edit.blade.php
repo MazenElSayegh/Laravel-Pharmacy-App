@@ -21,11 +21,11 @@
   @method ("PUT")
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Doctor's name</label>
-      <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$doctor->name}}">
+      <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$doctor->type->name}}">
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Doctor's email</label>
-      <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$doctor->email}}">
+      <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$doctor->type->email}}">
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Password</label>

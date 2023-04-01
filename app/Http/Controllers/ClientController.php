@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClientRequest;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -37,22 +38,21 @@ class ClientController extends Controller
     public function store(StoreClientRequest $request){
 
        
-            $title = request()->title;
-            $description = request()->description;
-            $clientCreator = request()->client_creator;
-    
-            
-            $client = Client::create([
-                'name' =>  $request->name,
-                'email' => $request->email,
-                'password' => $request->password,
-                'national_id'=>$request->national_id,
+         
+        $client=Client::create([
+            'national_id'=>$request->national_id,
                 'birth_day'=>$request->birth_day,
                 'mobile'=>$request->mobile,
                 'gender'=>$request->gender,
 
-            ]);
-    
+        ]);
+
+         $client->type()->create([
+            'name'=>request()->name,
+            'email'=>request()->email,
+            'password'=> request()->password,
+        ]);
+
             if ($request->hasFile('avatar')) {
                 $avatar = $request->file('avatar');
                 $filename = $avatar->getClientOriginalName();
@@ -81,6 +81,38 @@ class ClientController extends Controller
     
         return redirect()->route('clients.index');
         
+    }
+
+    public function update(StoreClientRequest $request,$id)
+    {
+        // dd($request);
+        $client = Client::findOrFail($id);
+
+        if ($request->hasFile('avatar_image')) {
+            if ($client->image_path) {
+                Storage::delete("public/" . $client->image_path);
+            }
+            $image = $request->file('avatar_image');
+            $filename = $image->getClientOriginalName();
+            $path= $request->file('avatar_image')->storeAs('clientsImages',$filename,'public');
+            $client->image_path =$path;
+            $client->save();
+        }
+
+        $client->update([
+            'national_id'=>$request->national_id,
+                'birth_day'=>$request->birth_day,
+                'mobile'=>$request->mobile,
+                'gender'=>$request->gender,
+        ]);
+
+        $client->type()->update([
+            'name'=>request()->name,
+            'email'=>request()->email,
+            'password'=> request()->password,
+        ]);
+
+        return redirect()->route('clients.index');        
     }
    
 

@@ -23,8 +23,8 @@
 
         @foreach($clients as $client)
             <tr>
-                <td>{{$client->name}}</td>
-                <td>{{$client->email}}</td>
+                <td>{{$client->type->name}}</td>
+                <td>{{$client->type->email}}</td>
                 <td>{{$client->national_id}}</td>
                 <td>{{$client->gender}}</td>
                 <td>{{$client->birth_day}}</td>

@@ -22,8 +22,8 @@ class StoreClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'=>['required','unique:clients'],
-            'national_id'=>['required','unique:clients'],
+            'email'=>['required','unique:users,email,'.$this->client],
+            'national_id'=>['required','unique:clients,national_id,'.$this->client],
             'password' => ['required','min:6'],
             'avatar' => ['mimes:jpeg,png,jpg'],
         ];

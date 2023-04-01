@@ -17,7 +17,7 @@
         <label for="client_id">Client</label>
         <select class="form-control" name="client_id">
             @foreach($clients as $client)
-            <option value="{{$client->id}}">{{$client->name}}</option>
+            <option value="{{$client->id}}">{{$client->type->name}}</option>
             @endforeach
         </select>
         <div class="form-group">
