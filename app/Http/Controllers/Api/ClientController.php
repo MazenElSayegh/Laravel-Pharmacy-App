@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreClientRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -36,49 +37,48 @@ class ClientController extends Controller
     
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'email' => ['incorrect email or password.'],
             ]);
         }
     
         return $user->createToken($request->device_name)->plainTextToken;
     }
 
-    public function register(Request $request){
+    public function register(StoreClientRequest $request){
 
-        $client = $request->only(['name', 'email','password' ,'national_id', 'avatar', 'gender', 'birth_day', 'mobile']);
-        $avatar = isset($client['avatar'])? $client['avatar'] : "";
-        if ($avatar) 
-        {
-            $new_name = time() . '_' . $avatar->getClientOriginalExtension();
-            $avatar->move(public_path('images'), $new_name);
-        }
-        else
-        {
-            $new_name = "default.jpg";
-        }
+        // $avatar = isset($client['avatar'])? $client['avatar'] : "";
+        // if ($avatar) 
+        // {
+        //     $new_name = time() . '_' . $avatar->getClientOriginalExtension();
+        //     $avatar->move(public_path('images'), $new_name);
+        // }
+        // else
+        // {
+        //     $new_name = "default.jpg";
+        // }
        
-        $user = User::create([
-            'name'=> $client['name'],
-            'email'=> $client['email'],
-            'password' => Hash::make($client['password']),
+        $client=Client::create([
+            'national_id'=>$request->national_id,
+                'birth_day'=>$request->birth_day,
+                'mobile'=>$request->mobile,
+                'gender'=>$request->gender,
 
         ]);
-        $clientUser = Client::create([
-            'national_id' => $client['national_id'],
-            'avatar' => $new_name,
-            'gender' => $client['gender'],
-            'birth_day' => $client['birth_day'],
-            'mobile' => $client['mobile'],
-            'last_login' => now(),
+
+         $client->type()->create([
+            'name'=>request()->name,
+            'email'=>request()->email,
+            'password'=> Hash::make(
+                request()->password),
         ]);
 
         $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
         // return response()->json([
         //     'success' => $success,
         //     // 'verification Link' => route('verificationapi.verifyLink', $user->id),
-        //     'Data' => new ClientResource($clientUser)
+        //     'Data' => new ClientResource($client)
         // ], $this->successStatus);
-        return new ClientResource($clientUser);
+        return new ClientResource($client);
 
 
     }
