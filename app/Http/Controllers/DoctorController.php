@@ -7,13 +7,13 @@ use App\Models\Doctor;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Models\Pharmacy;
+use App\DataTables\DoctorsDataTable;
 
 class DoctorController extends Controller
 {
-    public function index()
+    public function index(DoctorsDataTable $dataTable)
     {
-        $allDoctors = Doctor::all();
-        return view('doctors.index', ['doctors' => $allDoctors]);
+        return $dataTable->render('doctors.index');
     }
 
     public function show($id)

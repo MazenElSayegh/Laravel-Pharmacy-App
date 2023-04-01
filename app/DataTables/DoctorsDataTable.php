@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Pharmacy;
+use App\Models\Doctor;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PharmaciesDataTable extends DataTable
+class DoctorsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,22 +23,20 @@ class PharmaciesDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', '
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <a class="btn btn-success mx-1" id="edit" href="{{Route("pharmacies.edit",$id)}}"> edit </a>
-                    <a class="btn btn-primary mx-1" id="show" href="{{Route("pharmacies.show",$id)}}"> show </a>
-                    <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("pharmacies.destroy",$id)}}">
-                        @csrf
+            <a class="btn btn-info" href="{{route("doctors.show",$id)}}">View</a>
+                    <a class="btn btn-primary" href="{{route("doctors.edit",$id)}}">Edit</a>
+                    <form action="{{route("doctors.destroy",$id)}}" style="display: inline" method="POST">
                         @method("DELETE")
-                        <button onclick="return confirm("Are you sure you want to delete this post?" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
-                    </form>
-                </div>')
-            ;
+                        @csrf
+                        <button onclick="return confirm("Are you sure you want to delete this post?");" class="btn btn-danger">Delete</button>
+                    </form>')
+        ;
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Pharmacy $model): QueryBuilder
+    public function query(Doctor $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -49,7 +47,7 @@ class PharmaciesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('pharmacies-table')
+                    ->setTableId('doctors-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -71,16 +69,16 @@ class PharmaciesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('name'),
-            Column::make('national_id'),
-            Column::make('email'),
-            Column::make('priority'),
-            Column::make('area_id'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->addClass('text-center'),
-        ];
+                Column::make('name'),
+                Column::make('national_id'),
+                Column::make('email'),
+                Column::make('is_banned'),
+                Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->addClass('text-center'),
+            ];
+        
     }
 
     /**
@@ -88,6 +86,6 @@ class PharmaciesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Pharmacies_' . date('YmdHis');
+        return 'Doctors_' . date('YmdHis');
     }
 }

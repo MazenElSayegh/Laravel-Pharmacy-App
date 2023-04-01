@@ -18,9 +18,7 @@ class PharmacyController extends Controller
 {
     public function index(PharmaciesDataTable $dataTable)
     {
-       // $allPharmacies=Pharmacy::all();
         return $dataTable->render('pharmacies.index');
-        //return view('pharmacy.index', ['pharmacies' => $allPharmacies]);
     }
     public function show($pharmacyId)
     {

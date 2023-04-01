@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\DataTables\MedicinesDataTable;
 use App\Http\Requests\StoreMedicineRequest;
 use App\Models\Medicine;
 
@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 
 class MedicineController extends Controller
 {
-    public function index() {
-        $medicines = Medicine::all();
-        return view('medicines.index', ["medicines" => $medicines]);
+    public function index(MedicinesDataTable $dataTable)
+    {
+            return $dataTable->render('medicines.index');
+        
+
     }
 
     public function create() {
