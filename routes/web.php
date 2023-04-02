@@ -67,7 +67,7 @@ Route::resource('pharmacies',PharmacyController::class);
 
 // ------------------------------ doctors routes -----------------------------
 Route::resource('doctors',DoctorController::class);
-Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban')->middleware('auth','role:doctor');
+Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
 // ------------------------------ orders routes -----------------------------
 Route::resource('orders', OrderController::class);
 

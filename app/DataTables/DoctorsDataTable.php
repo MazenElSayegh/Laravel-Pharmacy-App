@@ -43,7 +43,12 @@ class DoctorsDataTable extends DataTable
                 @else Unban
                 @endif
             </a>
-            </div>')->setRowId('id');}
+            </div>')->addColumn('is_banned', function ($doctor) {
+                if($doctor->is_banned==0){
+                return "No";
+            }else{
+            return "Yes";
+            }})->setRowId('id');}
 
     /**
      * Get the query source of dataTable.
@@ -51,7 +56,7 @@ class DoctorsDataTable extends DataTable
     public function query(Doctor $model): QueryBuilder
     {
         return $model->newQuery()->with([
-            'pharmacy','type'
+            'pharmacy','type','pharmacy.type'
         ])->select('doctors.*');
     }
     
@@ -88,7 +93,7 @@ class DoctorsDataTable extends DataTable
                 Column::make('national_id'),
                 Column::make('type.email')->title('email')->data('type.email'),
                 Column::make('is_banned'),
-                Column::make('pharmacy.name')->title('pharmacy')->data('pharmacy.name'),
+                Column::make('pharmacy.type.name')->title('pharmacy')->data('pharmacy.type.name'),
                 Column::computed('action')
                     ->exportable(false)
                     ->printable(false)
