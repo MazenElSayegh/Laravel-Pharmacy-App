@@ -23,7 +23,7 @@
     <select id="ClientName" onchange="selectAddress()" name="ClientName" class="form-control">
         <option></option>
         @foreach($clients as $client)
-            <option value="{{$client}}">{{$client->name}}</option>
+            <option value="{{$client}}">{{$client->type->name}}</option>
         @endforeach
     </select>
   </div>
@@ -135,7 +135,6 @@
               <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
               <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control h-50" placeholder="medicine quantity">
                  </div>
-
                  <div class="col-md-3 mb-3 mt-3">
                     <label for="MedicinePrice" class="form-label">Medicine Price</label>
                     <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice h-50" placeholder="medicine price">
@@ -152,14 +151,10 @@
     
     });
   
-
     $(".medData").on("change",".jqSelect",{},function(e){
 var medprice =  JSON.parse($(this).find(":selected").val()).price;
-
 $(this).parent().next().next().children(':first-child').next().val(medprice);
-
 })
-
     }
     
     document.addEventListener("click", deleteMedicine);
@@ -171,7 +166,6 @@ $(this).parent().next().next().children(':first-child').next().val(medprice);
             inptxt.remove();
         }
     }
-
     
       
      
@@ -186,7 +180,6 @@ $(this).parent().next().next().children(':first-child').next().val(medprice);
        
          var clientid = JSON.parse(select.value).id;
      
-
        
          for(let i=0 ; i<addresses.length;i++)
          {
@@ -198,14 +191,11 @@ $(this).parent().next().next().children(':first-child').next().val(medprice);
             
             deliviringaddress.appendChild(option);
           }
-
          
          }
          
       }
-
  
-
     </script>
 
 

@@ -5,8 +5,10 @@ use App\DataTables\OrdersDataTable;
 
 use App\Models\Address;
 use App\Models\Client;
+use App\Models\Doctor;
 use App\Models\Medicine;
 use App\Models\Order;
+use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 class OrderController extends Controller
@@ -40,15 +42,18 @@ class OrderController extends Controller
     public function create()
     {
         $allClients = Client::all();
+        
         $allMedicines = Medicine::all();
         $allAddresses = Address::all();
+        $allPharmacies = Pharmacy::all();
+        $allDoctors = Doctor::all();
 
-       return view('orders.create',['clients'=>$allClients,'medicines' => $allMedicines,'addresses'=>$allAddresses]);
+       return view('orders.create',['clients'=>$allClients,'medicines' => $allMedicines,'addresses'=>$allAddresses ,'pharmacies'=>$allPharmacies , 'doctors' =>$allDoctors ]);
     }
 
     public function store(Request $request)
     {
-        dd(request()->medicine_price);
+        dd(request()->doctor_name);
 
         // $allData=$request->all();
 
