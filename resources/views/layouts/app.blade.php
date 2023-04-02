@@ -284,6 +284,17 @@
       tags: true,
       placeholder: "Select a medicine name",
     });
+
+    $(".medData").on("change",".jqSelect",{},function(e){
+   
+ 
+  
+   var medprice =  JSON.parse($(this).find(":selected").val()).price;
+   
+   $(this).parent().next().next().children(':first-child').next().val(medprice);
+   
+   
+   })
     
     </script>
   

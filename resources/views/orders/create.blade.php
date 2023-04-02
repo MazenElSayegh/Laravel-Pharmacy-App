@@ -20,9 +20,10 @@
   @csrf
   <div>
     <label for="ClientName" class="form-label">Client Name</label>
-    <select id="ClientName" name="ClientName" class="form-control">
+    <select id="ClientName" onchange="selectAddress()" name="ClientName" class="form-control">
+        <option></option>
         @foreach($clients as $client)
-            <option value="{{$client->id}}">{{$client->name}}</option>
+            <option value="{{$client}}">{{$client->name}}</option>
         @endforeach
     </select>
   </div>
@@ -34,13 +35,14 @@
         <option>purple</option>
       </select> --}}
       <div class="row">
-        <div class="col-md-3 mb-3 mt-3">
+        <div class="col-md-3 mb-3 mt-3 medData">
      {{-- <input type="text" name="medicine_name[]" class="form-control" placeholder="medicine Name"> --}}
+    
      <label for="MedicineName" class="form-label ">Medicine Name</label>
-     <select id="MedicineName" name="medicine_name[]" class="form-control  jqSelect">
-            <option ></option>
-         @foreach($mediciens as $medicine)
-             <option  class="ob"  value="{{$medicine->id}}">{{$medicine->name}} {{$medicine->price}}</option>
+     <select id="MedicineName"  name="medicine_item[]" class="form-control  jqSelect  ">
+            <option  ></option>
+         @foreach($medicines as $medicine)
+             <option    value="{{$medicine}}">{{$medicine->name}}</option>
          @endforeach
      </select>
      
@@ -52,10 +54,10 @@
 
                    <div class="col-md-3 mb-3 mt-3">
                     <label for="MedicinePrice" class="form-label">Medicine Price</label>
-                    {{-- <input type="number" id="MedicinePrice" name="medicine_price[]" value="0" class="form-control medPrice h-50" placeholder="medicine price"> --}}
+                    <input type="number" id="MedicinePrice" name="medicine_price[]" value="0" class="form-control medPrice h-50" placeholder="medicine price">
                     
+                
 
-                      
                   
                             
 
@@ -82,28 +84,21 @@
                    </div>
                   </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-3 mt-3">
-              <label for="eliviringaddress" class="form-label">DeliviringAddress</label>
-                  <select id="deliviringaddress" name="deliviring_address" class="form-control">
-                      <option ></option>
-                      @foreach($addresses as $address)
-                        <option value="{{$address->id}}">{{$address->street_name}}</option>
-                       @endforeach
-                                
-                   </select>
-                                   
-        </div>
-    </div>
 
+    
     <div class="row">
-        <div class="col-md-6 mb-3 mt-3">
-            <label for="OrderTotalPrice" class="form-label">Order Total Price ($)</label>
-            <input type="text" id="OrderTotalPrice" name="total_price" class="form-control h-50" disabled>
-          
-         </div>
-    </div>
- 
+      <div class="col-md-6 mb-3 mt-3">
+            <label for="deliviringaddress" class="form-label">DeliviringAddress</label>
+                <select id="deliviringaddress" name="deliviring_address" class="form-control" data-address ="{{$addresses}}" >
+                  
+                 </select>
+                                 
+      </div>
+  </div>
+
+
+
+
  
     <div>
  
@@ -115,7 +110,7 @@
  
 
   <script>
- var ob =document.getElementsByClassName("ob");
+ var ob =document.getElementById("MedicineName");
  var o =document.getElementById("MedicineQnt");
    var OrderTotalPrice =document.getElementById("OrderTotalPrice");
     var btn = document.getElementById("add_item_btn");
@@ -124,15 +119,14 @@
     function addMedicine(e) {
         e.preventDefault();
       
-        var newDiv = document.createElement("div");
-        newDiv.innerHTML = ` <div class="row">
+        var newDiv = document.createElement("div");        newDiv.innerHTML = ` <div class="row medData">
       <div class="col-md-3 mb-3 mt-3">
     
     <label for="MedicineName" class="form-label ">Medicine Name</label>
-    <select id="MedicineName" name="medicine_name[]" class="form-control  jqSelect">
+    <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect">
           <option ></option>
-          @foreach($mediciens as $medicine)
-             <option value="{{$medicine->id}}">{{$medicine->name}}</option>
+          @foreach($medicines as $medicine)
+             <option value="{{$medicine}}">{{$medicine->name}}</option>
          @endforeach
     </select>
     
@@ -144,7 +138,7 @@
 
                  <div class="col-md-3 mb-3 mt-3">
                     <label for="MedicinePrice" class="form-label">Medicine Price</label>
-                    <input type="number" id="MedicinePrice" name="medicine_price[]" value=0 class="form-control medPrice h-50" placeholder="medicine price">
+                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice h-50" placeholder="medicine price">
                        </div>
     
                  <div class="col-md-3 mb-3 mt-5">
@@ -157,6 +151,15 @@
       placeholder: "Select a medicine name",
     
     });
+  
+
+    $(".medData").on("change",".jqSelect",{},function(e){
+var medprice =  JSON.parse($(this).find(":selected").val()).price;
+
+$(this).parent().next().next().children(':first-child').next().val(medprice);
+
+})
+
     }
     
     document.addEventListener("click", deleteMedicine);
@@ -169,32 +172,39 @@
         }
     }
 
-    document.addEventListener("change", setTotalPrice);
-      
-      function setTotalPrice(e){
-        let tar = e.target;
-        if (e.target.classList.contains("medPrice")) {
-           
-        
-        OrderTotalPrice.value = Number(OrderTotalPrice.value)+Number(tar.value);
-         
-        }
- 
-        
-      }
-
-      
-      o.addEventListener("click", gg);
-      
-      function gg(){
-        
-       alert(ob.getAttribute("value"));
- 
-        
-      }
     
-  
+      
+     
+      
+      function selectAddress(){
+        let select = document.getElementById('ClientName');
+        let deliviringaddress = document.getElementById('deliviringaddress');
+        deliviringaddress.innerHTML="<option ></option>";
+        let address = deliviringaddress.getAttribute("data-address");
+      
+        let addresses= JSON.parse(address);
+       
+         var clientid = JSON.parse(select.value).id;
+     
 
+       
+         for(let i=0 ; i<addresses.length;i++)
+         {
+          if(addresses[i].client_id==clientid){
+            var option = document.createElement('option'); 
+            option.value = addresses[i].id;
+            
+            option.appendChild(document.createTextNode(addresses[i].street_name));
+            
+            deliviringaddress.appendChild(option);
+          }
+
+         
+         }
+         
+      }
+
+ 
 
     </script>
 
