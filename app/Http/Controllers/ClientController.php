@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClientRequest;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\DataTables\ClientsDataTable;
 use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function index(ClientsDataTable $dataTable)
     {
-        $clients=Client::all();
-        return view('clients.index',['clients'=>$clients]);
+        return $dataTable->render('clients.index');
     }
+    
 
     public function show( $id)
     {

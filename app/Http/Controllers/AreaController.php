@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAreaRequest;
 use Illuminate\Http\Request;
 use App\Models\Area;
+use App\DataTables\AreasDataTable;
 
 class AreaController extends Controller
 {
-    public function index() {
-        $areas = Area::all();
-        return view('areas.index', ["areas" => $areas]);
+    public function index(AreasDataTable $dataTable)
+    {
+        return $dataTable->render('areas.index');
     }
 
     public function create() {

@@ -82,8 +82,77 @@ class ClientController extends Controller
 
 
     }
+   
+    public function show($client)
+    {
+        $exist = User::where('id', $client);
+        if ($exist->count()>0) 
+        {
+            return new ClientResource(
+                Client::find(User::find($client)->typeable->id)
+            );
+        }
+        else
+        {
+            return response()->json([
+                "message" => "client is not found"
+            ], 404);
+        }
+    }
 
 
+    
+    public function destroy($client)
+    {
+        $clientId = User::find($client)->typeable->id;
+        Client::find($clientId)->delete();
+        User::find($client)->delete();
+        return response()->json([
+            'success' => 'Client deleted successfully'
+        ], 200);
+    }
 
+    public function update(StoreClientRequest $request)
+    {
+        $exist = User::where('id', $request->client);
+        if ($exist->count()>0) 
+        {
+            $clientUser = $request->only(['name', 'email' ,'national_id', 'avatar', 'gender', 'birth_day', 'mobile']);
+            $avatar = isset($clientUser['avatar'])? $clientUser['avatar'] : "";
+            if ($avatar) 
+            {
+                $new_name = time() . '_' . $avatar->getClientOriginalExtension();
+                $avatar->move(public_path('images'), $new_name);
+            }
+            else
+            {
+                $new_name = "default.jpg";
+            }
+
+           $user = User::find($request->client);
+           $client = Client::find($user->typeable->id);
+           $client->update([
+            'national_id'=>$request->national_id,
+                'birth_day'=>$request->birth_day,
+                'mobile'=>$request->mobile,
+                'gender'=>$request->gender,
+        ]);
+
+        $client->type()->update([
+            'name'=>request()->name,
+            'email'=>request()->email,
+            'password'=> request()->password,
+        ]);
+
+            return new ClientResource($client);
+        }
+        else
+        {
+            return response()->json([
+                "message" => "client not found"
+            ], 404);
+        }
+
+    }
 
 }

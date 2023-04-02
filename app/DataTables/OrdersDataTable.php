@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Pharmacy;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PharmaciesDataTable extends DataTable
+class OrdersDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,32 +22,30 @@ class PharmaciesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', '
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <a class="btn btn-success mx-1" id="edit" href="{{Route("pharmacies.edit",$id)}}"> edit </a>
-                    <a class="btn btn-primary mx-1" id="show" href="{{Route("pharmacies.show",$id)}}"> show </a>
-                    <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("pharmacies.destroy",$id)}}">
-                        @csrf
-                        @method("DELETE")
-                        <button onclick="return confirm_delete()" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
-                        <script type="text/javascript">
-                        function confirm_delete() {
-                        return confirm("Are you sure you want to delete this pharmacy?");
-                        }
-                        </script>
-                    </form>
-                </div>')
-            ;
+        ->addColumn('action', '
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <a class="btn btn-success mx-1" id="edit" href="{{Route("orders.edit",$id)}}"> edit </a>
+            <a class="btn btn-primary mx-1" id="show" href="{{Route("orders.show",$id)}}"> show </a>
+            <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("orders.destroy",$id)}}">
+                @csrf
+                @method("DELETE")
+                <button onclick="return confirm_delete()" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
+                <script type="text/javascript">
+                function confirm_delete() {
+                return confirm("Are you sure you want to delete this order?");
+                }
+                </script>
+            </form>
+        </div>')
+    ;
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Pharmacy $model): QueryBuilder
+    public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery()->with([
-            'type','area'
-        ])->select('pharmacies.*');
+        return $model->newQuery();
     }
 
     /**
@@ -56,7 +54,7 @@ class PharmaciesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('pharmacies-table')
+                    ->setTableId('orders-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -78,12 +76,13 @@ class PharmaciesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-          
-            Column::make('type.name')->title('name')->data('type.name'),
-            Column::make('national_id'),
-            Column::make('type.email')->title('email')->data('type.email'),
-            Column::make('priority'),
-            Column::make('area.name')->title('area')->data('area.name'),
+            Column::make('id'),
+            Column::make('client_id'),
+            Column::make('address_id'),
+            Column::make('doctor_id'),
+            Column::make('is_insured'),
+            Column::make('status'),
+            Column::make('created_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -96,6 +95,6 @@ class PharmaciesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Pharmacies_' . date('YmdHis');
+        return 'Orders_' . date('YmdHis');
     }
 }

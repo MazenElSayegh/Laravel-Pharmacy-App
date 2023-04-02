@@ -7,14 +7,14 @@ use App\Models\Address;
 use App\Models\Area;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use App\DataTables\AddressesDataTable;
 use Illuminate\Support\Facades\Storage;
 
 class AddressController extends Controller
 {
-    public function index()
+    public function index(AddressesDataTable $dataTable)
     {
-        $addresses=Address::all();
-        return view('addresses.index',['addresses'=>$addresses]);
+        return $dataTable->render('addresses.index');
     }
 
     public function show( $id)

@@ -3,13 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Auth\Events\Registered;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
@@ -23,6 +27,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'typeable_type',
+        'typeable_id',
+        'remember_token',
+        'email_verified_at',
     ];
 
     /**
@@ -48,4 +56,5 @@ class User extends Authenticatable
     {
         return $this->morphTo();
     }
+
 }

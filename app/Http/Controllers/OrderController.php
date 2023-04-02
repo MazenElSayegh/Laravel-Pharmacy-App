@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\DataTables\OrdersDataTable;
 
 use App\Models\Address;
 use App\Models\Client;
@@ -10,19 +11,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 class OrderController extends Controller
 {
-    public function index()
-    {
-        // sign_in by admin or doctor or user pass it as argus in link.
-        // check using has role method
+       /* sign_in by admin or doctor or user pass it as argus in link.
+        check using has role method
 
-        // if admin get all orders table records + order_create_by_column.
+        if admin get all orders table records + order_create_by_column.
 
-        // if doctor  get all orders belongs to this pharmacy 
+        if doctor  get all orders belongs to this pharmacy 
 
-        // if user get all orders belongs to this user only
+        if user get all orders belongs to this user only
 
       
-        return view('orders.index');
+        return view('orders.index');*/
+        public function index(OrdersDataTable $dataTable)
+    {
+        
+            return $dataTable->render('orders.index');
+        
 
     }
 

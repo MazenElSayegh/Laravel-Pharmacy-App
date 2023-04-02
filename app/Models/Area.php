@@ -17,4 +17,7 @@ class Area extends Model
         {
             return $this->hasMany(Address::class);
         }
+    public function pharmacies(){
+        return $this->hasMany(Pharmacy::class);
+    }
 }
