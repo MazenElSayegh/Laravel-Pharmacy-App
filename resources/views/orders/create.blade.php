@@ -119,8 +119,7 @@
     function addMedicine(e) {
         e.preventDefault();
       
-        var newDiv = document.createElement("div");
-        newDiv.innerHTML = ` <div class="row medData">
+        var newDiv = document.createElement("div");        newDiv.innerHTML = ` <div class="row medData">
       <div class="col-md-3 mb-3 mt-3">
     
     <label for="MedicineName" class="form-label ">Medicine Name</label>
