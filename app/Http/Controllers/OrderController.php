@@ -39,12 +39,13 @@ class OrderController extends Controller
         $allMedicines = Medicine::all();
         $allAddresses = Address::all();
 
-       return view('orders.create',['clients'=>$allClients,'mediciens' => $allMedicines,'addresses'=>$allAddresses]);
+       return view('orders.create',['clients'=>$allClients,'medicines' => $allMedicines,'addresses'=>$allAddresses]);
     }
 
     public function store(Request $request)
     {
-        dd(request()->medicine_name);
+        dd(request()->medicine_price);
+
         // $allData=$request->all();
 
         // dd($title,$description,$DoctorCreator);
