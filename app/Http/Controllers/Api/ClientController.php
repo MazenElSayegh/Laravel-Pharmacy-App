@@ -40,8 +40,12 @@ class ClientController extends Controller
                 'email' => ['incorrect email or password.'],
             ]);
         }
-    
-        return $user->createToken($request->device_name)->plainTextToken;
+        return [
+            'Access Token' => $user->createToken($request->device_name)->plainTextToken,
+            'Data' => new ClientResource(
+                Client::find($user->typeable->id)
+            )
+        ];
     }
 
     public function register(StoreClientRequest $request){
@@ -65,19 +69,20 @@ class ClientController extends Controller
 
         ]);
 
-         $client->type()->create([
+       $user = $client->type()->create([
             'name'=>request()->name,
             'email'=>request()->email,
             'password'=> Hash::make(
                 request()->password),
         ]);
+        $user->sendEmailVerificationNotification();
 
         $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
-        // return response()->json([
-        //     'success' => $success,
-        //     // 'verification Link' => route('verificationapi.verifyLink', $user->id),
-        //     'Data' => new ClientResource($client)
-        // ], $this->successStatus);
+        return response()->json([
+            'success' => $success,
+            'verification Link' => route('verification.verifyLink', $client->id),
+            'Data' => new ClientResource($client)
+        ], $this->successStatus);
         return new ClientResource($client);
 
 

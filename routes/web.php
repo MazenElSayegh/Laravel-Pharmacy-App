@@ -14,6 +14,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\PaymentController;
 
 
 /*
@@ -83,6 +84,21 @@ Route::resource('clients',ClientController::class);
 
 Route::resource('addresses',AddressController::class);
 
+// ------------------------------ Payment controller ------------------------ 
+
+Route::get("/payments",[PaymentController::class,'index'])->name('payments.index');
+Route::get("/payments/success",[PaymentController::class,'success'])->name('payments.success');
+Route::get("/payments/cancel",[PaymentController::class,'cancel'])->name('payments.cancel');
+Route::post("/payments/checkout",[PaymentController::class,'checkout'])->name('payments.checkout');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get("test",function(){
+    $user = User::find(2);
+    // dd($user);
+    $user->sendEmailVerificationNotification();
+
+});

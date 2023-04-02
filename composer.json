@@ -14,6 +14,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "spatie/laravel-permission": "^5.10",
+        "stripe/stripe-php": "^10.12",
         "yajra/laravel-datatables": "^10.0",
         "yajra/laravel-datatables-oracle": "10.3.1"
     },
