@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AddressController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,7 +66,7 @@ Route::resource('pharmacies',PharmacyController::class);
 
 // ------------------------------ doctors routes -----------------------------
 Route::resource('doctors',DoctorController::class);
-Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
+Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban')->middleware('auth','role:doctor');
 // ------------------------------ orders routes -----------------------------
 Route::resource('orders', OrderController::class);
 
