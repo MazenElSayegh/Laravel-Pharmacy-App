@@ -23,5 +23,25 @@ class VerificationController extends Controller
         return ['status' => 'verification-link-sent'];
     }
 
+    public function verify(Request $request)
+	{
+		$userID = $request['id'];
+		$user = User::findOrFail($userID);
+		$date = date("Y-m-d g:i:s");
+		$user->email_verified_at = $date; 
+		$user->save();
+		return response()->json('Email verified!');
+	}
+
+    public function resend(Request $request)
+	{
+
+		$user = User::find($request->id);
+		if ($user->email_verified_at) {
+		return response()->json('User already have verified email!', 422);
+	}
+		$user->sendEmailVerificationNotification();
+		return response()->json('The notification has been resubmitted');
+	}
 
 }

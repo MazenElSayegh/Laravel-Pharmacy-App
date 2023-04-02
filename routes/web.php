@@ -85,3 +85,11 @@ Route::resource('addresses',AddressController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get("test",function(){
+    $user = User::find(2);
+    // dd($user);
+    $user->sendEmailVerificationNotification();
+
+});

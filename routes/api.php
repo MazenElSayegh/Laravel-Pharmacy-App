@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,12 @@ Route::resource('clients',ClientController::class)->middleware('auth:sanctum');
 Route::post('email/verifyLink/{id}', [VerificationController::class ,'sendVerificationEmail'])->name('verification.verifyLink');
 Route::get('email/verify/{id}', [VerificationController::class ,'verify'])->name('verification.verify');
 Route::get('email/resend/{id}', [VerificationController::class ,'resend'])->name('verification.resend');
+
+
+// ------------------------- client's addresses Routes ---------------------------
+
+Route::resource('addresses',AddressController::class)->middleware('auth:sanctum');
+
 
 // ------------------------- Orders Routes ---------------------------
 
