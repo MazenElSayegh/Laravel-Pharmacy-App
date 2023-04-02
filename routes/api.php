@@ -31,12 +31,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/clients/login', [ClientController::class,'login']);
 Route::post('/clients/register', [ClientController::class ,'register']);
 
-Route::resource('clients',ClientController::class)->middleware('auth:sanctum');
+Route::resource('clients',ClientController::class)->middleware(['auth:sanctum','emailVerified']);
 
 
 // ------------------------ Email verification ----------------------
 
-Route::post('email/verifyLink/{id}', [VerificationController::class ,'sendVerificationEmail'])->name('verification.verifyLink');
+Route::get('email/verifyLink/{id}', [VerificationController::class ,'sendVerificationEmail'])->name('verification.verifyLink');
 Route::get('email/verify/{id}', [VerificationController::class ,'verify'])->name('verification.verify');
 Route::get('email/resend/{id}', [VerificationController::class ,'resend'])->name('verification.resend');
 
