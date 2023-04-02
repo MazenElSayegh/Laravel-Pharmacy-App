@@ -18,6 +18,14 @@ class DoctorSeeder extends Seeder
     {
         Area::factory(2)->create()->each(function($area){
         Pharmacy::factory(2)->create(['area_id'=>$area->id,])->each(function ($pharmacy) {
+        $user= $pharmacy->type()->create([
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => '123456', // password
+            'remember_token' => Str::random(10),
+        ]);
+        $user->assignRole('pharmacy'); 
         Doctor::factory(2)->create([
             'pharmacy_id'=> $pharmacy->id,
         ])->each(function($doctor){

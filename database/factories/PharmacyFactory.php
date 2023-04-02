@@ -17,10 +17,7 @@ class PharmacyFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->email(),
             'national_id'=> $this->faker->randomNumber(2),
-            'password' => '123456',
             'priority'=>$this->faker->randomDigit(),
         ];
     }

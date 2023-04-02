@@ -44,56 +44,63 @@ class PharmacyController extends Controller
             if ($pharmacy->image_path) {
                 Storage::delete("public/" . $pharmacy->image_path);
             }
-            $image = $request->file('image');
+            $image = $request->file('avatar_image');
             $filename = $image->getClientOriginalName();
-            $path= $request->file('image')->storeAs('pharmaciesImages',$filename,'public');
+            $path= $request->file('avatar_image')->storeAs('pharmaciesImages',$filename,'public');
             $pharmacy->image_path =$path;
             $pharmacy->save();
         }
-        $path = !empty($request->file('image'))?$request->file('image')->store('pharmaciesImages',["disk"=>"public"]):"";
-        $name=request()->name;
-        $email=request()->email;
-        $password=request()->password;
-        $nationalId=request()->national_id;
-        $areaId=request()->area_id;
-        $priority=request()->priority;
-        $pharmacy = Pharmacy::where('id',$id)->update([
-            'name'=>$name,
-            'email'=>$email,
-            'password'=>Hash::make($password),
-            'image_path'=>$path,
-            'national_id'=>$nationalId,
-            'area_id'=>$areaId,
-            'priority'=>$priority
+
+        $pharmacy->update([
+            'national_id'=>request()->national_id,
+            'area_id'=> request()->area_id,
+            'image_path'=>request()->image_path,
+            'priority'=>request()->priority,
         ]);
+
+        $pharmacy->type()->update([
+            'name'=>request()->name,
+            'email'=>request()->email,
+            'password'=> Hash::make(request()->password),
+        ]);
+
         return to_route(route:'pharmacies.index');
         }
 
    public function store(StorePharmacyRequest $request){
-            $path = !empty($request->file('image'))?$request->file('image')->store('pharmaciesImages',["disk"=>"public"]):"";
-            $name=request()->name;
-            $email=request()->email;
-            $password=request()->password;
-            $nationalId=request()->national_id;
-            $areaId=request()->area_id;
-            $priority=request()->priority;
+            // $path = !empty($request->file('image'))?$request->file('image')->store('pharmaciesImages',["disk"=>"public"]):"";
 
-            Pharmacy::create([
-                'name'=>$name,
-                'email'=>$email,
-                'password'=>Hash::make($password),
-                'image_path'=>$path,
-                'national_id'=>$nationalId,
-                'area_id'=>$areaId,
-                'priority'=>$priority
+            $pharmacy=Pharmacy::create([
+                'national_id'=>request()->national_id,
+                'area_id'=> request()->area_id,
+                'image_path'=>request()->image_path,
+                'priority'=>request()->priority,
             ]);
+    
+            $user= $pharmacy->type()->create([
+                'name'=>request()->name,
+                'email'=>request()->email,
+                'password'=> Hash::make(request()->password),
+            ]);
+    
+            $user->assignRole('pharmacy'); 
+    
+            // dd($user);
+    
+            if ($request->hasFile('avatar_image')) {
+                $image = $request->file('avatar_image');
+                $filename = $image->getClientOriginalName();
+                $path= $request->file('avatar_image')->storeAs('pharmaciesImages',$filename,'public');
+                $pharmacy->image_path =$path;
+                $pharmacy->save();
+            }
             return to_route(route:'pharmacies.index');
             
         }
 
-        public function destroy($pharmacyId)
+        public function destroy($id)
     {
-        $pharmacy=Pharmacy::find( $pharmacyId);
+        $pharmacy=Pharmacy::find( $id);
         $pharmacy->doctors()->each(function ($doctor) {
             $doctor->delete();
             if ($doctor->image_path) {
@@ -103,8 +110,10 @@ class PharmacyController extends Controller
         if ($pharmacy->image_path) {
             Storage::delete("public/" . $pharmacy->image_path);
         }
-        Doctor::where('pharmacy_id', $pharmacyId)->delete();
-        Pharmacy::where('id', $pharmacyId)->delete();
+        Doctor::where('pharmacy_id', $id)->delete();
+        Pharmacy::where('id', $id)->delete();
+        $pharmacy->type()->delete();
+
         return to_route('pharmacies.index');
     
     }
