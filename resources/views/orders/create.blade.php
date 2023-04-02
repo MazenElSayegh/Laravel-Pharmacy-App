@@ -15,15 +15,15 @@
     </ul>
 </div>
 @endif
-
 <form action="/orders" method="POST" enctype="multipart/form-data" id="add_form">
   @csrf
+ 
   <div>
     <label for="ClientName" class="form-label">Client Name</label>
     <select id="ClientName" onchange="selectAddress()" name="ClientName" class="form-control">
         <option></option>
         @foreach($clients as $client)
-            <option value="{{$client}}">{{$client->name}}</option>
+            <option value="{{$client}}">{{$client->type->name}}</option>
         @endforeach
     </select>
   </div>
