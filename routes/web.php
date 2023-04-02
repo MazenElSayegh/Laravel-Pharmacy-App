@@ -51,6 +51,13 @@ Route::get('/roles', function () {
 
         echo  'ooooo doctor rule is taken!';
     }
+    try{
+        Role::create(['name' => 'client']);
+        echo 'wooww client created role';
+    }catch(Exception $ex){
+
+        echo  'ooooo doctor rule is taken!';
+    }
 });
 
 // ------------------------------ pharmacies routes ---------------------

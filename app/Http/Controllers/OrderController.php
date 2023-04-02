@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\DataTables\OrdersDataTable;
+
+use App\Models\Address;
 use App\Models\Client;
+use App\Models\Medicine;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -37,8 +40,10 @@ class OrderController extends Controller
     public function create()
     {
         $allClients = Client::all();
+        $allMedicines = Medicine::all();
+        $allAddresses = Address::all();
 
-       return view('orders.create',['clients'=>$allClients]);
+       return view('orders.create',['clients'=>$allClients,'mediciens' => $allMedicines,'addresses'=>$allAddresses]);
     }
 
     public function store(Request $request)
