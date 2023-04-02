@@ -29,18 +29,18 @@ use App\Http\Controllers\AddressController;
 Route::get('/roles', function () {
     try{
         Role::create(['name' => 'admin']);
-        echo 'wooww admin created role';
+        echo 'wooww admin created role<br>';
     }catch(Exception $ex){
 
-        echo 'ooooo rule is taken!';
+        echo 'ooooo rule is taken!<br>';
     }
 
     try{
         Role::create(['name' => 'pharmacy']);
-        echo 'wooww pharmacy created role';
+        echo 'wooww pharmacy created role<br>';
     }catch(Exception $ex){
 
-        echo 'ooooo pharmacy rule is taken!';
+        echo 'ooooo pharmacy rule is taken!<br>';
     }
 
 

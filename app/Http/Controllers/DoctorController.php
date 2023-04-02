@@ -7,6 +7,8 @@ use App\Models\Doctor;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Models\Pharmacy;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 use App\DataTables\DoctorsDataTable;
 
 class DoctorController extends Controller
@@ -31,13 +33,21 @@ class DoctorController extends Controller
     public function store(StoreDoctorRequest $request)
     {
         $doctor=Doctor::create([
-            'name'=> request()->name,
-            'email'=> request()->email,
-            'password'=> request()->password,
-            'national_id'=> request()->national_id,
+            'national_id'=>request()->national_id,
             'pharmacy_id'=> request()->pharmacy_id,
             'is_banned'=>0,
         ]);
+
+        $user= $doctor->type()->create([
+            'name'=>request()->name,
+            'email'=>request()->email,
+            'password'=> request()->password,
+        ]);
+
+        $user->assignRole('doctor'); 
+
+        // dd($user);
+
         if ($request->hasFile('avatar_image')) {
             $image = $request->file('avatar_image');
             $filename = $image->getClientOriginalName();
@@ -73,14 +83,17 @@ class DoctorController extends Controller
             $doctor->save();
         }
 
-        Doctor::where('id',$id)
-            ->update([
-                'name'=> request()->name,
-                'email'=> request()->email,
-                'password'=> request()->password,
-                'national_id'=> request()->national_id,
-                'pharmacy_id'=> request()->pharmacy_id,
-        ]);   
+        $doctor->update([
+            'national_id'=>request()->national_id,
+            'pharmacy_id'=> request()->pharmacy_id,
+            'is_banned'=>0,
+        ]);
+
+        $doctor->type()->update([
+            'name'=>request()->name,
+            'email'=>request()->email,
+            'password'=> request()->password,
+        ]);
 
         return redirect()->route('doctors.index');        
     }
@@ -89,6 +102,8 @@ class DoctorController extends Controller
     {
     $doctor = Doctor::findOrFail($id);
     Doctor::destroy($id);
+    $doctor->type()->delete();
+    
     if ($doctor->image_path && Storage::exists("public/". $doctor->image_path)) {
         Storage::delete( "public/". $doctor->image_path);
     }

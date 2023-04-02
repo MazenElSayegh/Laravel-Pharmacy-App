@@ -29,7 +29,12 @@ class AreasDataTable extends DataTable
             <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("areas.destroy",$id)}}">
                 @csrf
                 @method("DELETE")
-                <button onclick="return confirm("Are you sure you want to delete this area?" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
+                <button onclick="return confirm_delete()" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
+                <script type="text/javascript">
+                function confirm_delete() {
+                return confirm("Are you sure you want to delete this area?");
+                }
+                </script>
             </form>
         </div>')
     ;

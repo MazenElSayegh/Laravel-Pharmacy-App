@@ -16,22 +16,22 @@
     @endif
 
 
-    <form method="POST" action="{{route('clients.update',$client)}}" enctype="multipart/form-data">
+    <form method="POST" action="{{route('clients.update',['client' => $client['id']])}}" enctype="multipart/form-data">
     @csrf
     @isset($client)
     @method('PUT')
     @endisset
     <div class="form-group">
         <label for="exampleFormControlInput1">name</label>
-        <input type="text" name="name" class="form-control" id="exampleFormControlInput1" value="{{$client->name}}">
+        <input type="text" name="name" class="form-control" id="exampleFormControlInput1" value="{{$client->type->name}}">
     </div>
     <div class="form-group">
         <label for="exampleFormControlInput2">email</label>
-        <input type="text" name="email" class="form-control" id="exampleFormControlInput2" value="{{$client->email}}">
+        <input type="text" name="email" class="form-control" id="exampleFormControlInput2" value="{{$client->type->email}}">
     </div>
     <div class="form-group">
         <label for="exampleFormControlInput2">password</label>
-        <input type="text" name="password" class="form-control" id="exampleFormControlInput2" >
+        <input type="password" name="password" class="form-control" id="exampleFormControlInput2" >
     </div>
     <div class="form-group">
         <label for="exampleFormControlInput4">national id</label>
@@ -70,7 +70,7 @@
     <div class="form-group">
         <input type="file" name="avatar" value="{{$client->avatar}}">
     </div>
-    <button class="btn btn-success m-3" type="submit">Store</button>
+    <button class="btn btn-success m-3" type="submit">Update</button>
 </form>
 
 @endsection

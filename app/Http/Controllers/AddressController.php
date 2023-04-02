@@ -8,6 +8,7 @@ use App\Models\Area;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\DataTables\AddressesDataTable;
+use Illuminate\Support\Facades\Storage;
 
 class AddressController extends Controller
 {
@@ -18,7 +19,7 @@ class AddressController extends Controller
 
     public function show( $id)
     {
-        // @dd($client);
+        // @dd($address);
        $address = Address::find($id);
 
 
@@ -32,10 +33,13 @@ class AddressController extends Controller
     public function create()
     {
         $areas = Area::all();
-        $clients = Client::all();
+        $addresses = Address::all();
+        $clients=Client::all();
+
         return view('addresses.create', [
             'areas' => $areas,
-            'clients' => $clients
+            'addresss' => $addresses,
+            'clients'=>$clients
         ]);
     }
 
@@ -46,7 +50,7 @@ class AddressController extends Controller
 
         $request = $request->only([
             'area_id', 'street_name', 'build_no',
-            'floor_no', 'flat_no', 'is_main', 'client_id'
+            'floor_no', 'flat_no', 'is_main','client_id'
         ]);
 
         Address::create([
@@ -61,14 +65,16 @@ class AddressController extends Controller
         return redirect()->route('addresses.index');
     }
     
-    public function edit(StoreAddressRequest $address)
+    public function edit($id)
     {
     
-        $clients = Client::all();
+        $address = Address::find($id);
         $areas = Area::all();
+        $clients = Client::all();
+       
         return view('addresses.edit', [
+            'clients'=> $clients,
             'address' => $address,
-            'clients' => $clients,
             'areas' => $areas,
         ]);
     }
@@ -85,6 +91,37 @@ class AddressController extends Controller
 
         return redirect()->route('addresses.index');
 
+    }
+
+    public function update(StoreAddressRequest $request,$id)
+    {
+        // dd($request);
+        $address = Address::findOrFail($id);
+
+        if ($request->hasFile('avatar_image')) {
+            if ($address->image_path) {
+                Storage::delete("public/" . $address->image_path);
+            }
+            $image = $request->file('avatar_image');
+            $filename = $image->getClientOriginalName();
+            $path= $request->file('avatar_image')->storeAs('addressesImages',$filename,'public');
+            $address->image_path =$path;
+            $address->save();
+        }
+
+        $address->update([
+            'area_id' => $request['area_id'],
+            'street_name' => $request['street_name'],
+            'build_no' => $request['build_no'],
+            'floor_no' => $request['floor_no'],
+            'flat_no' => $request['flat_no'],
+            'is_main' => $request['is_main'],
+            'address_id' => $request['address_id'],
+        ]);
+
+       
+
+        return redirect()->route('addresses.index');        
     }
 
 

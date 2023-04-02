@@ -19,7 +19,7 @@ class DoctorFactory extends Factory
         return [
             // 'name' => $this->faker->name(),
             // 'email' => $this->faker->email(),
-            'national_id'=> $this->faker->randomNumber(2),
+            'national_id'=> $this->faker->unique()->randomNumber(5),
             // 'password' => '123456',
             'is_banned'=> '0',
         ];

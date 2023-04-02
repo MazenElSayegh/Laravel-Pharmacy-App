@@ -29,7 +29,12 @@ class PharmaciesDataTable extends DataTable
                     <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("pharmacies.destroy",$id)}}">
                         @csrf
                         @method("DELETE")
-                        <button onclick="return confirm("Are you sure you want to delete this post?" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
+                        <button onclick="return confirm_delete()" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
+                        <script type="text/javascript">
+                        function confirm_delete() {
+                        return confirm("Are you sure you want to delete this pharmacy?");
+                        }
+                        </script>
                     </form>
                 </div>')
             ;
@@ -40,7 +45,9 @@ class PharmaciesDataTable extends DataTable
      */
     public function query(Pharmacy $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with([
+            'type','area'
+        ])->select('pharmacies.*');
     }
 
     /**
@@ -71,11 +78,12 @@ class PharmaciesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('name'),
+          
+            Column::make('type.name')->title('name')->data('type.name'),
             Column::make('national_id'),
-            Column::make('email'),
+            Column::make('type.email')->title('email')->data('type.email'),
             Column::make('priority'),
-            Column::make('area_id'),
+            Column::make('area.name')->title('area')->data('area.name'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

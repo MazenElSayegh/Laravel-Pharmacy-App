@@ -29,10 +29,15 @@ class ClientsDataTable extends DataTable
             <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("addresses.destroy",$id)}}">
                 @csrf
                 @method("DELETE")
-                <button onclick="return confirm("Are you sure you want to delete this address?" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
+                <button onclick="return confirm_delete()" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
+                <script type="text/javascript">
+                function confirm_delete() {
+                return confirm("Are you sure you want to delete this client?");
+                }
+                </script>
             </form>
-        </div>')
-    ;
+        </div>');
+    
     }
 
     /**
@@ -40,7 +45,9 @@ class ClientsDataTable extends DataTable
      */
     public function query(Client $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with([
+            'type'
+        ])->select('clients.*');
     }
 
     /**
@@ -71,9 +78,9 @@ class ClientsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('name'),
-            Column::make('email'),
+            Column::make('type.name')->title('name')->data('type.name'),
             Column::make('national_id'),
+            Column::make('type.email')->title('email')->data('type.email'),
             Column::make('gender'),
             Column::make('birth_day'),
             Column::computed('action')
