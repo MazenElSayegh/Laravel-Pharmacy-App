@@ -10,6 +10,7 @@ use App\Models\Pharmacy;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use App\DataTables\DoctorsDataTable;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
 {
@@ -41,7 +42,7 @@ class DoctorController extends Controller
         $user= $doctor->type()->create([
             'name'=>request()->name,
             'email'=>request()->email,
-            'password'=> request()->password,
+            'password'=> Hash::make(request()->password),
         ]);
 
         $user->assignRole('doctor'); 
@@ -92,7 +93,7 @@ class DoctorController extends Controller
         $doctor->type()->update([
             'name'=>request()->name,
             'email'=>request()->email,
-            'password'=> request()->password,
+            'password'=> Hash::make(request()->password) ,
         ]);
 
         return redirect()->route('doctors.index');        

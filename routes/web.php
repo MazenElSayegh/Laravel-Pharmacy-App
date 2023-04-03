@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PaymentController;
-
+use App\Http\Controllers\RevenueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ use App\Http\Controllers\PaymentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/',function(){ return to_route('login');});
 Route::get('/roles', function () {
     try{
         Role::create(['name' => 'admin']);
@@ -87,25 +87,31 @@ Route::group(
 );
 // ------------------------------ doctors routes -----------------------------
 Route::group(['middleware' => ['auth','role:admin|pharmacy']], function () {
+    Route::group(['middleware' => ['auth','role:admin|pharmacy']], function () {
     Route::resource('doctors',DoctorController::class);
-});
+    });
 
 Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
+    Route::get('revenues',[RevenueController::class,'index'])->name('revenues.index');
+});
 // ------------------------------ orders routes -----------------------------
-Route::resource('orders', OrderController::class);
+Route::group(['middleware' => ['auth','role:admin|pharmacy|doctor']], function () {
+    Route::resource('orders', OrderController::class);
+    Route::resource('medicines', MedicineController::class);
+});
 
 // ------------------------------ medicines routes --------------------------
-Route::resource('medicines', MedicineController::class);
+
 
 // ------------------------------ areas routes -----------------------------
-Route::resource('areas', AreaController::class);
+
 
 // ------------------------------ client controller ------------------------ 
-Route::resource('clients',ClientController::class);
+
 
 // ------------------------------ address controller ------------------------ 
 
-Route::resource('addresses',AddressController::class);
+
 
 // ------------------------------ Payment controller ------------------------ 
 
