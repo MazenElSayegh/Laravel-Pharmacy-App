@@ -63,7 +63,11 @@ Route::get('/roles', function () {
 });
 
 // ------------------------------ pharmacies routes ---------------------
-Route::resource('pharmacies',PharmacyController::class);
+Route::group(['middleware' => ['auth','role:admin']], function () {
+    Route::resource('pharmacies',PharmacyController::class);
+    Route::get('/', [PharmacyController::class, 'index'])->name('pharmacies.index');
+});
+
 
 // ------------------------------ doctors routes -----------------------------
 Route::resource('doctors',DoctorController::class);
