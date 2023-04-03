@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.sub')
+@section('title') {{$client->type->name}} @endsection
+@section('backtolink') <a href="{{route('clients.index')}}" class="nav-link">All Clients</a> @endsection
 @section('content')
 
 <img src="{{asset('/storage/' .$client->avatar)}}" class="img-fluid w-25">

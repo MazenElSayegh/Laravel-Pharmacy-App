@@ -3,6 +3,7 @@
 @section('title')
     {{$area->name}}
 @endsection
+@section('backtolink') <a href="{{route('areas.index')}}" class="nav-link">All Areas</a> @endsection
 
 @section('content')
 <div class="card card-primary">

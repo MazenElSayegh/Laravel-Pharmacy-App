@@ -3,6 +3,7 @@
 @section('title')
     {{$medicine->name}}
 @endsection
+@section('backtolink') <a href="{{route('medicines.index')}}" class="nav-link">All Medicines</a> @endsection
 
 @section('content')
 <div class="card card-primary">

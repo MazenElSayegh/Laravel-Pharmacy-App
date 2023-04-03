@@ -1,6 +1,7 @@
 @extends('layouts.sub')
 
-@section('title') Index @endsection
+@section('title') {{$doctor->type->name}} @endsection
+@section('backtolink') <a href="{{route('doctors.index')}}" class="nav-link">All Doctors</a> @endsection
 
 @section('content')
 <img src="{{asset('/storage/' .$doctor->image_path)}}" class="img-fluid w-25">
