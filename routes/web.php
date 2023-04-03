@@ -62,55 +62,42 @@ Route::get('/roles', function () {
     }
 });
 
-// ------------------------------ pharmacies routes ---------------------
+// ------------------------------ admin only routes ---------------------
 Route::group(
     ["middleware" => ['auth','role:admin']],
     function () {
-        Route::get("/pharmacies", [PharmacyController::class, "index"])->name("pharmacies.index");
+       
         Route::get("/pharmacies/create", [PharmacyController::class, "create"])->name("pharmacies.create");
         Route::post("/pharmacies", [PharmacyController::class, "store"])->name("pharmacies.store");
         Route::delete("/pharmacies/{pharmacy}", [PharmacyController::class, "destroy"])->name("pharmacies.destroy");
-        Route::resource('users', UserController::class);
         Route::resource('areas', AreaController::class);
+        Route::resource('clients',ClientController::class);
+        Route::resource('addresses',AddressController::class);
     }
 );
+
+// ------------------------------ admin, pharmacy routes -----------------------------
+
 Route::group(
     ["middleware" => ['auth','role:admin|pharmacy']],
     function () {
+        Route::get("/pharmacies", [PharmacyController::class, "index"])->name("pharmacies.index");
         Route::get("/pharmacies/{pharmacy}", [PharmacyController::class, "show"])->name("pharmacies.show");
         Route::get("/pharmacies/{pharmacy}/edit", [PharmacyController::class, "edit"])->name("pharmacies.edit");
         Route::put("/pharmacies/{pharmacy}", [PharmacyController::class, "update"])->name("pharmacies.update");
-        Route::put("/doctors/{doctor}/ban", [UserController::class, "ban"])->name("doctors.ban");
-        Route::put("/doctors/{doctor}/unban", [UserController::class, "unban"])->name("doctors.unban");
-        Route::get("/", [DoctorController::class, "index"]);
+        Route::resource('doctors',DoctorController::class);
+        Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
+        Route::get('revenues',[RevenueController::class,'index'])->name('revenues.index');
+        Route::resource('medicines', MedicineController::class);
     }
 );
-// ------------------------------ doctors routes -----------------------------
-Route::group(['middleware' => ['auth','role:admin|pharmacy']], function () {
-    Route::group(['middleware' => ['auth','role:admin|pharmacy']], function () {
-    Route::resource('doctors',DoctorController::class);
-    });
 
-Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
-    Route::get('revenues',[RevenueController::class,'index'])->name('revenues.index');
-});
-// ------------------------------ orders routes -----------------------------
+// ------------------------------ admin,pharmacy.doctor routes -----------------------------
+
 Route::group(['middleware' => ['auth','role:admin|pharmacy|doctor']], function () {
     Route::resource('orders', OrderController::class);
-    Route::resource('medicines', MedicineController::class);
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
-
-// ------------------------------ medicines routes --------------------------
-
-
-// ------------------------------ areas routes -----------------------------
-
-
-// ------------------------------ client controller ------------------------ 
-
-
-// ------------------------------ address controller ------------------------ 
-
 
 
 // ------------------------------ Payment controller ------------------------ 
@@ -121,8 +108,6 @@ Route::get("/payments/cancel",[PaymentController::class,'cancel'])->name('paymen
 Route::post("/payments/checkout",[PaymentController::class,'checkout'])->name('payments.checkout');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::get("test",function(){

@@ -5,22 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Pharmacy;
 use Illuminate\Http\Request;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
 
 class RevenueController extends Controller
 {
     public function index(){
-        $totalOrders= Order::all();
-        $userId= auth()->user()->id;
-        $order= Order::where('pharmacy_id',$userId);
-        $totalPrice=0;
-        $pharmacies= Pharmacy::all();
-        $ordersCount= Order::count();
-        foreach($totalOrders as $order){
-            $totalPrice+=$order->total_price;
+
+        //-------if pharmacy --------//
+        if(auth()->user()->hasRole('pharmacy')){
+            $pharmacyId= auth()->user()->typeable_id;
+            $pharmacy= Pharmacy::find($pharmacyId);
+            $revenue=0;
+            foreach($pharmacy->orders as $order){
+                $revenue+=$order->total_price;
+            };
+            $ordersCount=$pharmacy->orders->count();
+            // dd($ordersCount);
+            return view('revenues.index',['revenue'=>$revenue,'ordersCount'=>$ordersCount]);
         }
-        $pharmacy=Pharmacy::find(1);
-        dd($pharmacy->orders);
-        // dd($order);
-        return view('revenues.index',['totalPrice'=>$totalPrice,'pharmacies'=>$pharmacies,'orders'=>$ordersCount]);
+        //-------if admin--------//
+        else{
+            $pharmacies= Pharmacy::all();
+            $totalPrice=0;
+            return view('revenues.index',['pharmacies'=>$pharmacies,'totalPrice'=>$totalPrice]);
+        }
     }
 }

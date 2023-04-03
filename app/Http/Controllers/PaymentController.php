@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medicine;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -13,29 +15,29 @@ class PaymentController extends Controller
 
     public function checkout() {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
-       
-        $line_items = [
-            [
+        $order_id = 2;
+
+
+        $orderDetails = DB::table('medicines_orders')->where('order_id', $order_id)->get();
+        $line_items = [];
+        foreach($orderDetails as $order) {
+            $medicineItem = Medicine::find($order->medicine_id);
+            
+            $medicineName = $medicineItem->name;
+            $medicinePrice = $medicineItem->price;
+            $quantity = $order->quantity;
+            $orderItem = [
                 'price_data' => [
-                'currency' => 'usd',
-                'product_data' => [
-                    'name' => 'T-shirt',
-                ],
-                'unit_amount' => 2000,
-                ],
-                'quantity' => 1,
-            ],
-            [
-                'price_data' => [
-                'currency' => 'usd',
-                'product_data' => [
-                    'name' => 'T-shirt',
-                ],
-                'unit_amount' => 2000,
-                ],
-                'quantity' => 1,
-            ],
-        ];
+                    'currency' => 'usd',
+                    'product_data' => [
+                        'name' => $medicineName,
+                    ],
+                    'unit_amount' => $medicinePrice,
+                    ],
+                    'quantity' => $quantity,
+                ];
+            $line_items[] = $orderItem; 
+        }
 
         $checkout_session = $stripe->checkout->sessions->create([
             'line_items' => [$line_items],
@@ -52,6 +54,6 @@ class PaymentController extends Controller
     }
 
     public function cancel() {
-        return view("payments.cancel");
+        return redirect()->route('orders.index');
     }
 }

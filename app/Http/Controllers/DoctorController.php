@@ -16,7 +16,11 @@ class DoctorController extends Controller
 {
     public function index(DoctorsDataTable $dataTable)
     {
-        return $dataTable->render('doctors.index');
+        $pharmacyId= auth()->user()->typeable_id;
+        $pharmacy= Pharmacy::find($pharmacyId);
+        $doctors=$pharmacy->doctors;
+        // dd($doctors);
+        return $dataTable->render('doctors.index',['doctors'=>$doctors]);
     }
 
     public function show($id)
@@ -56,6 +60,12 @@ class DoctorController extends Controller
             $doctor->image_path =$path;
             $doctor->save();
         }
+        else {
+            $path= 'defaultImages/default.jpg';
+            // dd($path);
+            $doctor->image_path =$path;
+            $doctor->save();
+        }
 
         return to_route('doctors.index');
     }
@@ -74,8 +84,8 @@ class DoctorController extends Controller
         $doctor = Doctor::findOrFail($id);
 
         if ($request->hasFile('avatar_image')) {
-            if ($doctor->image_path) {
-                Storage::delete("public/" . $doctor->image_path);
+            if ($doctor->image_path && $doctor->image_path!='defaultImages/default.jpg') {
+                    Storage::delete("public/" . $doctor->image_path);
             }
             $image = $request->file('avatar_image');
             $filename = $image->getClientOriginalName();

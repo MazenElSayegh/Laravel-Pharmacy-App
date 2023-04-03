@@ -26,6 +26,7 @@ class PharmaciesDataTable extends DataTable
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <a class="btn btn-success mx-1" id="edit" href="{{Route("pharmacies.edit",$id)}}"> edit </a>
                     <a class="btn btn-primary mx-1" id="show" href="{{Route("pharmacies.show",$id)}}"> show </a>
+                    @if(auth()->user()->hasRole("admin"))
                     <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("pharmacies.destroy",$id)}}">
                         @csrf
                         @method("DELETE")
@@ -36,7 +37,14 @@ class PharmaciesDataTable extends DataTable
                         }
                         </script>
                     </form>
-                </div>')
+                    @endif
+                </div>')->setRowId('id')->addColumn('name', function (Pharmacy $pharmacy) {
+                    return $pharmacy->type->name;
+                })->addColumn('area', function (Pharmacy $pharmacy) {
+                    return $pharmacy->area->name;
+                })->addColumn('email', function (Pharmacy $pharmacy) {
+                    return $pharmacy->type->email;
+                })
             ;
     }
 
@@ -45,9 +53,11 @@ class PharmaciesDataTable extends DataTable
      */
     public function query(Pharmacy $model): QueryBuilder
     {
-        return $model->newQuery()->with([
-            'type','area'
-        ])->select('pharmacies.*');
+        if (auth()->user()->hasRole("pharmacy")) {
+            return $model->where("id", "=", auth()->user()->typeable_id);
+        }else{
+        return $model->newQuery()->select('pharmacies.*');
+    }
     }
 
     /**
@@ -78,12 +88,12 @@ class PharmaciesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-          
-            Column::make('type.name')->title('name')->data('type.name'),
+            Column::make('id'),
+            Column::make('name'),
             Column::make('national_id'),
-            Column::make('type.email')->title('email')->data('type.email'),
+            Column::make('email'),
             Column::make('priority'),
-            Column::make('area.name')->title('area')->data('area.name'),
+            Column::make('area'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

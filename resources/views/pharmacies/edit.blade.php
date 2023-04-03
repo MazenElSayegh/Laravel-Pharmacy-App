@@ -21,11 +21,11 @@
   @method ("PUT")
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Pharmacy Owner's name</label>
-      <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$pharmacy->name}}">
+      <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$pharmacy->type->name}}">
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Email</label>
-      <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$pharmacy->email}}">
+      <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$pharmacy->type->email}}">
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Password</label>
@@ -39,11 +39,13 @@
         <label for="exampleInputEmail1" class="form-label">Avatar Image</label>
         <input name="image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
       </div>
+      @if(auth()->user()->hasRole('admin'))
       <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Priority</label>
-      <input name="priority" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <input name="priority" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$pharmacy->priority}}">
     </div>
-
+    @endif
+    @if(auth()->user()->hasRole('admin'))
     <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label">Area</label>
       <select name="area_id" class="form-control">
@@ -52,6 +54,7 @@
           @endforeach
       </select>
     </div>
+    @endif
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
  

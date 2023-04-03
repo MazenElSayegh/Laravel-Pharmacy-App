@@ -4,10 +4,13 @@
 
 @section('content')
 <div class="container">
+    @role('pharmacy')
     <div class="card">
-        <div class="card-header">Revenue</div>
-        <div class="text-center"></div>
+        <div class="card-header">Revenue = ${{$revenue/100}}</div>
+        <div class="card-header">Orders count = {{$ordersCount}}</div>
     </div>
+    @endrole
+    @role('admin')
     <table id="mytable" class="table mt-4">
         <thead>
             <tr>
@@ -19,24 +22,21 @@
         </thead>
 
         <tbody>
-        @role('pharmacy')
-        <tr>
-        <td>avatar</td>
-        <td>{{auth()->user()->name}}</td>
-        <td></td>
-        <td></td>
-        @else
         @foreach($pharmacies as $pharmacy)
         <tr>
-        <td>avatar</td>
+        <td><img src="{{asset('/storage/' . $pharmacy->avatar_image)}}"></td>
         <td>{{$pharmacy->type->name}}</td>
-        <td>{{$orders}}</td>
-        <td>{{$totalPrice}}</td>
+        <td>{{$pharmacy->orders->count()}}</td>
+        @foreach($pharmacy->orders as $order)
+        <p style="display: none;">{{$totalPrice+=$order->total_price}}</p>
         @endforeach
-        @endrole
+        <td>${{$totalPrice/100}}</td>
+        <p style="display: none">{{$totalPrice=0}}</p>
         </tr>
+        @endforeach
         </tbody>
         
     </table>
+    @endrole
 </div>
 @endsection

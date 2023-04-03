@@ -3,7 +3,7 @@
 @section('title') Index @endsection
 
 @section('content')
-<img src="{{asset('storage/' .$pharmacy->image_path)}}" class="img-fluid" alt="Responsive image">
+<img src="{{asset('storage/' .$pharmacy->image_path)}}" class="img-fluid">
 <div class="card">
   <div class="card-body">
     <p class="card-text">NAME: {{$pharmacy->type->name}}</p>

@@ -154,12 +154,24 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+            @if(auth()->user())
+            @if(auth()->user()->hasRole('admin'))
               <li class="nav-item">
                 <a href="{{route('pharmacies.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pharmacies</p>
                 </a>
               </li>
+              @endif
+              @if(auth()->user()->hasRole('pharmacy'))
+              <li class="nav-item">
+                <a href="{{route('pharmacies.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>My Pharmacy</p>
+                </a>
+              </li>
+              @endif
+              @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('pharmacy'))
               <li class="nav-item">
                 <a href="{{route('doctors.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -185,23 +197,27 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('orders.index')}}" class="nav-link">
+                <a href="{{route('revenues.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Orders</p>
+                  <p>Revenue</p>
                 </a>
-              </li> 
+              </li>
               <li class="nav-item">
                 <a href="{{route('medicines.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Medicines</p>
                 </a>
               </li>
-              {{-- <li class="nav-item">
-                <a href="{{route('revenue.index')}}" class="nav-link">
+              @endif
+              @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('pharmacy') || auth()->user()->hasRole('doctor'))
+              <li class="nav-item">
+                <a href="{{route('orders.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Revenue</p>
+                  <p>Orders</p>
                 </a>
-              </li> --}}
+              </li> 
+              @endif
+              @endif
             </ul>
           </li>
           

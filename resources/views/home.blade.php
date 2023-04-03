@@ -14,7 +14,7 @@
                 @role('pharmacy')
                 <div class='card-header'>You can access Doctors ,Orders ,and Medicines</div>
                 @else
-                <div class='card-header'>You can access Orders and Medicines</div>
+                <div class='card-header'>You can access Orders only</div>
                 @endrole
                 @endrole
                 <div class="card-body">
