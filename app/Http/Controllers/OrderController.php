@@ -37,7 +37,16 @@ class OrderController extends Controller
     {
     
         $order = Order::where('id', $id)->first();
-        return view('orders.show' ,['order' => $order]);
+        // dd($order);
+        $medicine_order = MedicinesOrder::where('order_id',$id)->get();
+        // dd($medicine_order);
+        // // foreach($order_medicine as $medicine){
+        // //     dd($medicine);
+        // // }
+        // // dd($order_medicine);
+
+        
+        return view('orders.show' ,['order' => $order,'medicine_order'=>$medicine_order]);
     }
 
     public function create()
@@ -180,11 +189,10 @@ class OrderController extends Controller
     public function destroy($id)
     {
     $order = Order::findOrFail($id);
+    $medicine_order = MedicinesOrder::where('order_id',$id)->delete();
+  
     Order::destroy($id);
-    if ($order->prescription_image && Storage::exists("public/". $order->prescription_image)) {
-        
-        Storage::delete( "public/". $order->prescription_image);
-    }
+  
     return redirect()->route('orders.index');
     }
 }

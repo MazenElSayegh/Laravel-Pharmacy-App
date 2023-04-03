@@ -38,9 +38,9 @@ class Order extends Model
         return $this->belongsTo(Address::class);
     }
 
-    public function medicineOrders(){
+    public function medicinesOrders(){
         {
-            return $this->hasMany(MedicineOrder::class);
+            return $this->hasMany(MedicinesOrder::class);
         }
         
     

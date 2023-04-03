@@ -127,9 +127,22 @@
     {{-- <button type="submit" class="btn btn-success">Create</button> --}}
     <input type="submit" value="Order" class="btn btn-success w-25"  id="add_btn">
   </div>
+  <div class="mt-5">
+ 
+    {{-- <button type="submit" class="btn btn-success">Create</button> --}}
+    
+  
+    {{-- //{{route('posts.edit', $post['id'])}} --}}
+  </div>
+  
   
   </form>
- 
+   
+  {{-- <form action="{{route('payments.checkout',['id'=>$id])}}" method="post">
+    @csrf
+   
+    <button  class="btn btn-primary">Check Out</button>
+</form> --}}
 
   <script>
  var ob =document.getElementById("MedicineName");
