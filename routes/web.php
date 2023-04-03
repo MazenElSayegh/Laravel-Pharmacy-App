@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PaymentController;
-
+use App\Http\Controllers\RevenueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ use App\Http\Controllers\PaymentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/',function(){ return to_route('login');});
 Route::get('/roles', function () {
     try{
         Role::create(['name' => 'admin']);
@@ -68,14 +68,15 @@ Route::group(['middleware' => ['auth','role:admin']], function () {
     Route::resource('areas', AreaController::class);
     Route::resource('clients',ClientController::class);
     Route::resource('addresses',AddressController::class);
+    Route::resource('pharmacies',PharmacyController::class);
 });
 
 
 // ------------------------------ doctors routes -----------------------------
 Route::group(['middleware' => ['auth','role:admin|pharmacy']], function () {
-    Route::resource('pharmacies',PharmacyController::class);
     Route::resource('doctors',DoctorController::class);
     Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
+    Route::get('revenues',[RevenueController::class,'index'])->name('revenues.index');
 });
 // ------------------------------ orders routes -----------------------------
 Route::group(['middleware' => ['auth','role:admin|pharmacy|doctor']], function () {
