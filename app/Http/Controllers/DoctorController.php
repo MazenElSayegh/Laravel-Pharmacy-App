@@ -16,7 +16,11 @@ class DoctorController extends Controller
 {
     public function index(DoctorsDataTable $dataTable)
     {
-        return $dataTable->render('doctors.index');
+        $pharmacyId= auth()->user()->typeable_id;
+        $pharmacy= Pharmacy::find($pharmacyId);
+        $doctors=$pharmacy->doctors;
+        // dd($doctors);
+        return $dataTable->render('doctors.index',['doctors'=>$doctors]);
     }
 
     public function show($id)

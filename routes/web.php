@@ -70,8 +70,9 @@ Route::group(
         Route::get("/pharmacies/create", [PharmacyController::class, "create"])->name("pharmacies.create");
         Route::post("/pharmacies", [PharmacyController::class, "store"])->name("pharmacies.store");
         Route::delete("/pharmacies/{pharmacy}", [PharmacyController::class, "destroy"])->name("pharmacies.destroy");
-        Route::resource('users', UserController::class);
         Route::resource('areas', AreaController::class);
+        Route::resource('clients',ClientController::class);
+        Route::resource('addresses',AddressController::class);
     }
 );
 Route::group(
@@ -80,20 +81,13 @@ Route::group(
         Route::get("/pharmacies/{pharmacy}", [PharmacyController::class, "show"])->name("pharmacies.show");
         Route::get("/pharmacies/{pharmacy}/edit", [PharmacyController::class, "edit"])->name("pharmacies.edit");
         Route::put("/pharmacies/{pharmacy}", [PharmacyController::class, "update"])->name("pharmacies.update");
-        Route::put("/doctors/{doctor}/ban", [UserController::class, "ban"])->name("doctors.ban");
-        Route::put("/doctors/{doctor}/unban", [UserController::class, "unban"])->name("doctors.unban");
-        Route::get("/", [DoctorController::class, "index"]);
+        Route::resource('doctors',DoctorController::class);
+        Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
+        Route::get('revenues',[RevenueController::class,'index'])->name('revenues.index');
     }
 );
 // ------------------------------ doctors routes -----------------------------
-Route::group(['middleware' => ['auth','role:admin|pharmacy']], function () {
-    Route::group(['middleware' => ['auth','role:admin|pharmacy']], function () {
-    Route::resource('doctors',DoctorController::class);
-    });
 
-Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
-    Route::get('revenues',[RevenueController::class,'index'])->name('revenues.index');
-});
 // ------------------------------ orders routes -----------------------------
 Route::group(['middleware' => ['auth','role:admin|pharmacy|doctor']], function () {
     Route::resource('orders', OrderController::class);
