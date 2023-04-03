@@ -178,6 +178,7 @@
                   <p>Doctors</p>
                 </a>
               </li>
+              @if(auth()->user()->hasRole('admin'))
               <li class="nav-item">
                 <a href="{{route('clients.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -196,6 +197,7 @@
                   <p>User Addresses</p>
                 </a>
               </li>
+              @endif
               <li class="nav-item">
                 <a href="{{route('revenues.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
