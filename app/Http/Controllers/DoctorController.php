@@ -115,7 +115,7 @@ class DoctorController extends Controller
     Doctor::destroy($id);
     $doctor->type()->delete();
     
-    if ($doctor->image_path && Storage::exists("public/". $doctor->image_path && $doctor->image_path!='defaultImages/default.jpg')) {
+    if ($doctor->image_path && Storage::exists("public/". $doctor->image_path ) && $doctor->image_path!='defaultImages/default.jpg') {
         Storage::delete( "public/". $doctor->image_path);
     }
     return redirect()->route('doctors.index');

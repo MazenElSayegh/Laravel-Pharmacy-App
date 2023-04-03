@@ -58,8 +58,8 @@ class ClientController extends Controller
             if ($request->hasFile('avatar')) {
                 $avatar = $request->file('avatar');
                 $filename = $avatar->getClientOriginalName();
-                $path = $request->file('avatar')->storeAs('clientImgs', $filename, 'public');
-                $client->avatar_path= $path;
+                $path = $request->file('avatar')->storeAs('clientImages', $filename, 'public');
+                $client->avatar= $path;
                 $client->save();
             }
             else{
@@ -95,13 +95,13 @@ class ClientController extends Controller
         // dd($request);
         $client = Client::findOrFail($id);
 
-        if ($request->hasFile('avatar_image')) {
+        if ($request->hasFile('avatar')) {
             if ($client->avatar && $client->avatar!='defaultImages/default.jpg') {
                 Storage::delete("public/" . $client->avatar);
             }
-            $image = $request->file('avatar_image');
+            $image = $request->file('avatar');
             $filename = $image->getClientOriginalName();
-            $path= $request->file('avatar_image')->storeAs('clientsImages',$filename,'public');
+            $path= $request->file('avatar')->storeAs('clientImages',$filename,'public');
             $client->avatar =$path;
             $client->save();
         }
