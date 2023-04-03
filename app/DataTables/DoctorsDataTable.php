@@ -93,7 +93,7 @@ class DoctorsDataTable extends DataTable
                 Column::make('national_id'),
                 Column::make('type.email')->title('email')->data('type.email'),
                 Column::make('is_banned'),
-                Column::make('pharmacy.type.name')->title('pharmacy')->data('pharmacy.type.name'),
+                Column::make('pharmacy.type.name')->title('pharmacy')->data('pharmacy.type.name')->visible(auth()->user()->hasRole("admin")),
                 Column::computed('action')
                     ->exportable(false)
                     ->printable(false)
