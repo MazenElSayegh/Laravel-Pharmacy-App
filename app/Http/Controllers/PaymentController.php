@@ -13,7 +13,7 @@ class PaymentController extends Controller
 
     public function checkout() {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
-
+       
         $line_items = [
             [
                 'price_data' => [

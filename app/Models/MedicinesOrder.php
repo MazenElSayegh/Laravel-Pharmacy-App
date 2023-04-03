@@ -20,5 +20,13 @@ class MedicinesOrder extends Model
     {
         return $this->belongsTo(Order::class);
     }
-}    
+}
+
+public function medicine(){
+    {
+        return $this->belongsTo(Medicine::class);
+    }
+}
+
+
 }
