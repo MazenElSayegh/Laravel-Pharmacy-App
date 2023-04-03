@@ -76,10 +76,10 @@ class MedicinesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('Name'),
-            Column::make('Type'),
-            Column::make('Price'),
-            Column::make('Created At'),
+            Column::make('name'),
+            Column::make('type'),
+            Column::make('price'),
+            Column::make('created_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

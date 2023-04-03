@@ -3,6 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Order;
+use App\Models\Doctor;
+use App\Models\User;
+use App\Models\Pharmacy;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -26,17 +29,31 @@ class OrdersDataTable extends DataTable
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <a class="btn btn-success mx-1" id="edit" href="{{Route("orders.edit",$id)}}"> edit </a>
             <a class="btn btn-primary mx-1" id="show" href="{{Route("orders.show",$id)}}"> show </a>
+            <a class="btn btn-warning mx-1" id="edit" href="{{Route("payments.checkout",["id"=>$id])}}}"> checkout </a>
             <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("orders.destroy",$id)}}">
                 @csrf
                 @method("DELETE")
                 <button onclick="return confirm_delete()" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
                 <script type="text/javascript">
                 function confirm_delete() {
-                return confirm("Are you sure you want to delete this order?");
+                    return confirm("Are you sure you want to delete this order?");
                 }
                 </script>
             </form>
-        </div>')
+        </div>')->addColumn('is_insured', function (Order $order) {
+            if($order->is_insured==0){
+            return "No";
+        }else{
+        return "Yes";
+        }})->setRowId('id')->addColumn('client', function (Order $order) {
+            return $order->pharmacy->type->name;
+        })->addColumn('address', function (Order $order) {
+            return $order->pharmacy->type->name;
+        })->addColumn('doctor', function (Order $order) {
+            return $order->doctor->type->name;
+        })->addColumn('pharmacy', function (Order $order) {
+            return $order->pharmacy->type->name;
+        })
     ;
     }
 
@@ -45,7 +62,9 @@ class OrdersDataTable extends DataTable
      */
     public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with([
+            'pharmacy.type','client.type','address','doctor.type'
+        ])->select('orders.*');
     }
 
     /**
@@ -77,9 +96,10 @@ class OrdersDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('client_id'),
-            Column::make('address_id'),
-            Column::make('doctor_id'),
+            Column::make('client'),
+            Column::make('address'),
+            Column::make('doctor'),
+            Column::make('pharmacy'),
             Column::make('is_insured'),
             Column::make('status'),
             Column::make('created_at'),
