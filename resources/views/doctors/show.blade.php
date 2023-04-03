@@ -13,5 +13,10 @@
                                     @else Yes
                                     @endif
     </p>
+    {{-- @dd(asset('/storage/'.$doctor->image_path)) --}}
+    {{-- asset('/storage/'.$post->image_path) --}}
+    @if($doctor->image_path)
+    <img src="{{asset('/storage/'.$doctor->image_path)}}" width="200px;">
+    @endif
 
 @endsection

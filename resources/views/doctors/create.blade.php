@@ -43,7 +43,7 @@
       <label for="exampleFormControlTextarea1" class="form-label">Pharmacy name</label>
       <select name="pharmacy_id" class="form-control">
           @foreach($pharmacies as $pharmacy)
-              <option value="{{$pharmacy->id}}">{{$pharmacy->name}}</option>
+              <option value="{{$pharmacy->id}}">{{$pharmacy->type->name}}</option>
           @endforeach
       </select>
     </div>

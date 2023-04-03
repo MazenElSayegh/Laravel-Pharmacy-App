@@ -24,13 +24,13 @@
         <tbody>
         @foreach($pharmacies as $pharmacy)
         <tr>
-        <td>avatar</td>
+        <td><img src="{{asset('/storage/' . $pharmacy->avatar_image)}}"></td>
         <td>{{$pharmacy->type->name}}</td>
         <td>{{$pharmacy->orders->count()}}</td>
         @foreach($pharmacy->orders as $order)
         <p style="display: none;">{{$totalPrice+=$order->total_price}}</p>
         @endforeach
-        <td>{{$totalPrice}}</td>
+        <td>${{$totalPrice/100}}</td>
         <p style="display: none">{{$totalPrice=0}}</p>
         </tr>
         @endforeach

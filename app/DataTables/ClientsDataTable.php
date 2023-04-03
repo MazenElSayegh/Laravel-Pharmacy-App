@@ -24,9 +24,9 @@ class ClientsDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', '
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <a class="btn btn-success mx-1" id="edit" href="{{Route("addresses.edit",$id)}}"> edit </a>
-            <a class="btn btn-primary mx-1" id="show" href="{{Route("addresses.show",$id)}}"> show </a>
-            <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("addresses.destroy",$id)}}">
+            <a class="btn btn-success mx-1" id="edit" href="{{Route("clients.edit",$id)}}"> edit </a>
+            <a class="btn btn-primary mx-1" id="show" href="{{Route("clients.show",$id)}}"> show </a>
+            <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("clients.destroy",$id)}}">
                 @csrf
                 @method("DELETE")
                 <button onclick="return confirm_delete()" type="submit" class="btn btn-danger" id="delete_{{$id}}">delete</button>
