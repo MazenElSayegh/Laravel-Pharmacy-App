@@ -95,6 +95,7 @@ Route::group(
 Route::group(['middleware' => ['auth','role:admin|pharmacy|doctor']], function () {
     Route::resource('orders', OrderController::class);
     Route::resource('medicines', MedicineController::class);
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 
@@ -106,8 +107,6 @@ Route::get("/payments/cancel",[PaymentController::class,'cancel'])->name('paymen
 Route::post("/payments/checkout",[PaymentController::class,'checkout'])->name('payments.checkout');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::get("test",function(){
