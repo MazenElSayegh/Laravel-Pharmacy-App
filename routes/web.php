@@ -88,6 +88,7 @@ Route::group(
         Route::resource('doctors',DoctorController::class);
         Route::get('doctors/ban/{id}',[DoctorController::class,'ban'])->name('doctors.ban');
         Route::get('revenues',[RevenueController::class,'index'])->name('revenues.index');
+        Route::resource('medicines', MedicineController::class);
     }
 );
 
@@ -95,7 +96,6 @@ Route::group(
 
 Route::group(['middleware' => ['auth','role:admin|pharmacy|doctor']], function () {
     Route::resource('orders', OrderController::class);
-    Route::resource('medicines', MedicineController::class);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
