@@ -36,7 +36,13 @@ class PharmaciesDataTable extends DataTable
                         }
                         </script>
                     </form>
-                </div>')
+                </div>')->setRowId('id')->addColumn('name', function (Pharmacy $pharmacy) {
+                    return $pharmacy->type->name;
+                })->addColumn('area', function (Pharmacy $pharmacy) {
+                    return $pharmacy->area->name;
+                })->addColumn('email', function (Pharmacy $pharmacy) {
+                    return $pharmacy->type->email;
+                })
             ;
     }
 
@@ -45,9 +51,7 @@ class PharmaciesDataTable extends DataTable
      */
     public function query(Pharmacy $model): QueryBuilder
     {
-        return $model->newQuery()->with([
-            'type','area'
-        ])->select('pharmacies.*');
+        return $model->newQuery();
     }
 
     /**
@@ -78,12 +82,12 @@ class PharmaciesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-          
-            Column::make('type.name')->title('name')->data('type.name'),
+            Column::make('id'),
+            Column::make('name'),
             Column::make('national_id'),
-            Column::make('type.email')->title('email')->data('type.email'),
+            Column::make('email'),
             Column::make('priority'),
-            Column::make('area.name')->title('area')->data('area.name'),
+            Column::make('area'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

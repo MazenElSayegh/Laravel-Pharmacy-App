@@ -48,16 +48,28 @@ class DoctorsDataTable extends DataTable
                 return "No";
             }else{
             return "Yes";
-            }})->setRowId('id');}
+            }})->setRowId('id')->addColumn('name', function (Doctor $doctor) {
+                return $doctor->type->name;
+            })->addColumn('email', function (Doctor $doctor) {
+                return $doctor->type->email;
+            })->addColumn('pharmacy', function (Doctor $doctor) {
+                return $doctor->pharmacy->type->name;
+            });}
 
     /**
      * Get the query source of dataTable.
      */
     public function query(Doctor $model): QueryBuilder
     {
+        if (auth()->user()->hasRole("pharmacy")) {
+            return $model->where("pharmacy_id", "=", auth()->user()->typeable_id)->with([
+                'pharmacy','type','pharmacy.type'
+            ]);
+        }else{
         return $model->newQuery()->with([
             'pharmacy','type','pharmacy.type'
         ])->select('doctors.*');
+    }
     }
     
 
@@ -89,11 +101,11 @@ class DoctorsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-                Column::make('type.name')->title('name')->data('type.name'),
+                Column::make('name'),
                 Column::make('national_id'),
-                Column::make('type.email')->title('email')->data('type.email'),
+                Column::make('email'),
                 Column::make('is_banned'),
-                Column::make('pharmacy.type.name')->title('pharmacy')->data('pharmacy.type.name')->visible(auth()->user()->hasRole("admin")),
+                Column::make('pharmacy')->visible(auth()->user()->hasRole("admin")),
                 Column::computed('action')
                     ->exportable(false)
                     ->printable(false)
