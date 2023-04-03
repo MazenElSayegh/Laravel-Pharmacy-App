@@ -9,13 +9,13 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable =[
-        'user_id',
+        'client_id',
         'pharmacy_id',
         'doctor_id',
         'prescription_image',
         'status',
         'is_insured',
-        'delivering_address',
+        'address_id',
         'total_price',
         'creator_type',
        
@@ -37,5 +37,13 @@ class Order extends Model
 
         return $this->belongsTo(Address::class);
     }
+
+    public function medicineOrders(){
+        {
+            return $this->hasMany(MedicineOrder::class);
+        }
+        
+    
+        }
     
 }

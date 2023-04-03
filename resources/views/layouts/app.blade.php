@@ -285,16 +285,31 @@
       placeholder: "Select a medicine name",
     });
 
+
+
+
     $(".medData").on("change",".jqSelect",{},function(e){
    
- 
-  
-   var medprice =  JSON.parse($(this).find(":selected").val()).price;
-   
+
+   let medprice =  JSON.parse($(this).find(":selected").val()).price;
+    let medqty= $(this).parent().next().children(':first-child').next().val();
+    let total_price = Number(medqty)*Number(medprice);
+    
    $(this).parent().next().next().children(':first-child').next().val(medprice);
+   $(this).parent().next().next().next().children(':first-child').next().val(total_price);
    
-   
-   })
+   });
+   $(".medData").on("change",".medQty",{},function(e){
+    var medqty =  JSON.parse($(this).val());
+    
+    let medprice =$(this).parent().next().children(':first-child').next().val();
+    
+    let total_price = Number(medqty)*Number(medprice);
+    $(this).parent().next().next().children(':first-child').next().val(total_price);
+    
+});
+
+
     
     </script>
   
