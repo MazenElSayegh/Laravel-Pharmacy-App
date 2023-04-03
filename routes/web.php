@@ -62,7 +62,7 @@ Route::get('/roles', function () {
     }
 });
 
-// ------------------------------ pharmacies routes ---------------------
+// ------------------------------ admin only routes ---------------------
 Route::group(
     ["middleware" => ['auth','role:admin']],
     function () {
@@ -75,6 +75,9 @@ Route::group(
         Route::resource('addresses',AddressController::class);
     }
 );
+
+// ------------------------------ admin, pharmacy routes -----------------------------
+
 Route::group(
     ["middleware" => ['auth','role:admin|pharmacy']],
     function () {
@@ -86,25 +89,13 @@ Route::group(
         Route::get('revenues',[RevenueController::class,'index'])->name('revenues.index');
     }
 );
-// ------------------------------ doctors routes -----------------------------
 
-// ------------------------------ orders routes -----------------------------
+// ------------------------------ admin,pharmacy.doctor routes -----------------------------
+
 Route::group(['middleware' => ['auth','role:admin|pharmacy|doctor']], function () {
     Route::resource('orders', OrderController::class);
     Route::resource('medicines', MedicineController::class);
 });
-
-// ------------------------------ medicines routes --------------------------
-
-
-// ------------------------------ areas routes -----------------------------
-
-
-// ------------------------------ client controller ------------------------ 
-
-
-// ------------------------------ address controller ------------------------ 
-
 
 
 // ------------------------------ Payment controller ------------------------ 
