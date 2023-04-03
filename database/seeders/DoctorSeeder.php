@@ -8,6 +8,7 @@ use App\Models\Area;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorSeeder extends Seeder
 {
@@ -22,7 +23,7 @@ class DoctorSeeder extends Seeder
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '123456', // password
+            'password' => Hash::make('123456'), // password
             'remember_token' => Str::random(10),
         ]);
         $user->assignRole('pharmacy'); 
@@ -33,7 +34,7 @@ class DoctorSeeder extends Seeder
                 'name' => fake()->name(),
                 'email' => fake()->unique()->safeEmail(),
                 'email_verified_at' => now(),
-                'password' => '123456', // password
+                'password' => Hash::make('123456'), // password
                 'remember_token' => Str::random(10),
             ]);
     

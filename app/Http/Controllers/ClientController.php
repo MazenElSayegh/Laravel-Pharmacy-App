@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\DataTables\ClientsDataTable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
@@ -51,7 +52,7 @@ class ClientController extends Controller
          $client->type()->create([
             'name'=>request()->name,
             'email'=>request()->email,
-            'password'=> request()->password,
+            'password'=> Hash::make(request()->password),
         ]);
 
             if ($request->hasFile('avatar')) {
@@ -110,7 +111,7 @@ class ClientController extends Controller
         $client->type()->update([
             'name'=>request()->name,
             'email'=>request()->email,
-            'password'=> request()->password,
+            'password'=> Hash::make(request()->password),
         ]);
 
         return redirect()->route('clients.index');        

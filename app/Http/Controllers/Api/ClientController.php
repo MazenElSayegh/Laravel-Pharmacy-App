@@ -108,7 +108,7 @@ class ClientController extends Controller
 
     
     public function destroy($client)
-    {
+    { 
         $clientId = User::find($client)->typeable->id;
         Client::find($clientId)->delete();
         User::find($client)->delete();
@@ -146,7 +146,7 @@ class ClientController extends Controller
         $client->type()->update([
             'name'=>request()->name,
             'email'=>request()->email,
-            'password'=> request()->password,
+            'password'=> Hash::make(request()->password),
         ]);
 
             return new ClientResource($client);
