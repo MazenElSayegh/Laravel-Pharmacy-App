@@ -28,7 +28,7 @@ class Address extends Model
 
     public function client()
     {
-        return $this->belongsTo('Client');
+        return $this->belongsTo(Client::class);
     }
 
     
