@@ -29,7 +29,10 @@ class OrdersDataTable extends DataTable
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <a class="btn btn-success mx-1" id="edit" href="{{Route("orders.edit",$id)}}"> edit </a>
             <a class="btn btn-primary mx-1" id="show" href="{{Route("orders.show",$id)}}"> show </a>
-            <a class="btn btn-warning mx-1" id="edit" href="{{Route("payments.checkout",["id"=>$id])}}}"> checkout </a>
+            <form action="{{Route("payments.checkout",["id"=>$id])}}}" method="post">
+            @csrf
+            <button class="btn btn-warning mx-1">Checkout</button>
+            </form>
             <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("orders.destroy",$id)}}">
                 @csrf
                 @method("DELETE")

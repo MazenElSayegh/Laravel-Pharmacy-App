@@ -13,9 +13,9 @@ class PaymentController extends Controller
         return view('payments.index');
     }
 
-    public function checkout() {
+    public function checkout(Request $request) {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
-        $order_id = 2;
+        $order_id = $request->id;
 
 
         $orderDetails = DB::table('medicines_orders')->where('order_id', $order_id)->get();
