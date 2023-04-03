@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
+<img src="{{asset('/storage/' .$client->avatar)}}" class="img-fluid w-25">
 <div class="card">
   <div class="card-body">
-    
     <p class="card-text">NAME: {{$client->type->name}}</p>
     <p class="card-text">EMAIL: {{$client->type->email}}</p>
     <p class="card-text">NATIONAL ID: {{$client->national_id}}</p>

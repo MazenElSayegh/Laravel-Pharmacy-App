@@ -62,6 +62,11 @@ class ClientController extends Controller
                 $client->avatar_path= $path;
                 $client->save();
             }
+            else{
+                $path= 'defaultImages/default.jpg';
+                $client->avatar =$path;
+                $client->save();
+            }
     
             return redirect()->route('clients.index');
             
@@ -76,9 +81,9 @@ class ClientController extends Controller
     public function destroy($client){
         
         $client = Client::findOrFail($client);
-        // if ($post->image_path && Storage::exists('public/'.$post->image_path)) {
-        //     Storage::delete('public/'.$post->image_path);
-        // }
+        if ($client->avatar && $client->avatar!='defaultImages/default.jpg') {
+            Storage::delete('public/'.$client->avatar);
+        }
         $client->delete();
     
         return redirect()->route('clients.index');
@@ -91,13 +96,13 @@ class ClientController extends Controller
         $client = Client::findOrFail($id);
 
         if ($request->hasFile('avatar_image')) {
-            if ($client->image_path) {
-                Storage::delete("public/" . $client->image_path);
+            if ($client->avatar && $client->avatar!='defaultImages/default.jpg') {
+                Storage::delete("public/" . $client->avatar);
             }
             $image = $request->file('avatar_image');
             $filename = $image->getClientOriginalName();
             $path= $request->file('avatar_image')->storeAs('clientsImages',$filename,'public');
-            $client->image_path =$path;
+            $client->avatar =$path;
             $client->save();
         }
 

@@ -3,7 +3,7 @@
 @section('title') Index @endsection
 
 @section('content')
-
+<img src="{{asset('/storage/' .$doctor->image_path)}}" class="img-fluid w-25">
 <div class="card">
   <div class="card-body">
     <p class="card-text">NAME: {{$doctor->type->name}}</p>
@@ -13,10 +13,5 @@
                                     @else Yes
                                     @endif
     </p>
-    {{-- @dd(asset('/storage/'.$doctor->image_path)) --}}
-    {{-- asset('/storage/'.$post->image_path) --}}
-    @if($doctor->image_path)
-    <img src="{{asset('/storage/'.$doctor->image_path)}}" width="200px;">
-    @endif
 
 @endsection

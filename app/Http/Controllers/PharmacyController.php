@@ -41,7 +41,7 @@ class PharmacyController extends Controller
         $pharmacy = Pharmacy::findOrFail($id);
 
         if ($request->hasFile('avatar_image')) {
-            if ($pharmacy->image_path) {
+            if ($pharmacy->image_path && $pharmacy->image_path!='defaultImages/default.jpg') {
                 Storage::delete("public/" . $pharmacy->image_path);
             }
             $image = $request->file('avatar_image');
@@ -94,6 +94,12 @@ class PharmacyController extends Controller
                 $pharmacy->image_path =$path;
                 $pharmacy->save();
             }
+            else {
+                $path= 'defaultImages/default.jpg';
+                // dd($path);
+                $pharmacy->image_path =$path;
+                $pharmacy->save();
+            }
             return to_route(route:'pharmacies.index');
             
         }
@@ -103,11 +109,11 @@ class PharmacyController extends Controller
         $pharmacy=Pharmacy::find( $id);
         $pharmacy->doctors()->each(function ($doctor) {
             $doctor->delete();
-            if ($doctor->image_path) {
+            if ($doctor->image_path && $doctor->image_path!='defaultImages/default.jpg') {
                 Storage::delete("public/" . $doctor->image_path);
             }
         });
-        if ($pharmacy->image_path) {
+        if ($pharmacy->image_path && $pharmacy->image_path!='defaultImages/default.jpg') {
             Storage::delete("public/" . $pharmacy->image_path);
         }
         Doctor::where('pharmacy_id', $id)->delete();
