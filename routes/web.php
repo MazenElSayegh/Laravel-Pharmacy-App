@@ -66,7 +66,7 @@ Route::get('/roles', function () {
 Route::group(
     ["middleware" => ['auth','role:admin']],
     function () {
-        Route::get("/pharmacies", [PharmacyController::class, "index"])->name("pharmacies.index");
+       
         Route::get("/pharmacies/create", [PharmacyController::class, "create"])->name("pharmacies.create");
         Route::post("/pharmacies", [PharmacyController::class, "store"])->name("pharmacies.store");
         Route::delete("/pharmacies/{pharmacy}", [PharmacyController::class, "destroy"])->name("pharmacies.destroy");
@@ -81,6 +81,7 @@ Route::group(
 Route::group(
     ["middleware" => ['auth','role:admin|pharmacy']],
     function () {
+        Route::get("/pharmacies", [PharmacyController::class, "index"])->name("pharmacies.index");
         Route::get("/pharmacies/{pharmacy}", [PharmacyController::class, "show"])->name("pharmacies.show");
         Route::get("/pharmacies/{pharmacy}/edit", [PharmacyController::class, "edit"])->name("pharmacies.edit");
         Route::put("/pharmacies/{pharmacy}", [PharmacyController::class, "update"])->name("pharmacies.update");
