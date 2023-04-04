@@ -37,27 +37,17 @@ class OrderController extends Controller
     {
     
         $order = Order::where('id', $id)->first();
-        // dd($order);
         $medicine_order = MedicinesOrder::where('order_id',$id)->get();
-        // dd($medicine_order);
-        // // foreach($order_medicine as $medicine){
-        // //     dd($medicine);
-        // // }
-        // // dd($order_medicine);
-
-        
         return view('orders.show' ,['order' => $order,'medicine_order'=>$medicine_order]);
     }
 
     public function create()
     {
         $allClients = Client::all();
-        
         $allMedicines = Medicine::all();
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
         $allDoctors = Doctor::all();
-
        return view('orders.create',['clients'=>$allClients,'medicines' => $allMedicines,'addresses'=>$allAddresses ,'pharmacies'=>$allPharmacies , 'doctors' =>$allDoctors ]);
     }
 
@@ -72,27 +62,13 @@ class OrderController extends Controller
         //error if not filled
             $client_id =json_decode(request()->client_name, true)['id']; 
             $medicines =request()->medicine_name;
-            // dd($medicines[0]);
+            // dd($medicines);
             $medicine_quantity =request()->medicine_qty;
-            // dd($medicine_quantity[0]);
             $is_insured =request()->is_insured;
             $doctor_id = request()->doctor_name;
             $pharmacy_id= request()->pharmacy_name;
             $address_id=request()->delivering_address;
-        // dd( request()->medicine_name);
-        // dd(count($medicines));
-        // foreach($medicines as $medicine)
-        // {
-        //    $medicine=json_decode($medicine, true);
-
-        //         // dd($medicine['id']);
-            
-              
-        // }
-
-       
-      
-
+        
         $order=Order::create([
             'is_insured'=>$is_insured,
             'total_price'=>$orderTotalPrice,
@@ -115,73 +91,77 @@ class OrderController extends Controller
             ]);
              
          }
-        // dd($order['id']);
-        // foreach($medicines as $medicine)
-        // {
-        //     dd($medicine);
-        // }
-        // $allData=$request->all();
-
-        // dd($title,$description,$DoctorCreator);
-        // $order=Order::create([
-        //     'user_id'=> request()->user_id,
-        //     'pharmacy_id'=>request()->pharmacy_id,
-        //     'doctor_id'=>request()->doctor_id,
-        //     'status'=>request()->status,
-        //     'is_insured'=>request()->is_insured,
-        //     'delivering_address'=>request()->delivering_address,
-            
-        // ]);
-       
-        // if ($request->hasFile('prescription_image')) {
-        //     $image = $request->file('prescription_image');
-        //     $filename = $image->getClientOriginalName();
-            
-        //     $path= $request->file('prescription_image')->storeAs('ordersImages',$filename,'public');
-        //     $order->prescription_image =$path;
-        //     $order->save();
-        // }
+   
 
         return to_route('orders.index');
     }
 
     public function edit($id)
-    
+   
     {
       
         $order= Order::find($id);
+        $allClients = Client::all();
         
-        return view('orders.edit', ['order'=>$order]);
+        $allMedicines = Medicine::all();
+        $allAddresses = Address::all();
+        $allPharmacies = Pharmacy::all();
+        $allDoctors = Doctor::all();
+        
+        return view('orders.edit', ['order'=>$order, 'clients'=>$allClients,'medicines' => $allMedicines,'addresses'=>$allAddresses ,'pharmacies'=>$allPharmacies , 'doctors' =>$allDoctors ]);
     }
 
 
-    public function update(Request $request,$id)
+    public function update(Request $request ,$id)
     {
         
+        
         $order = Order::findOrFail($id);
-
-        if ($request->hasFile('prescription_image')) {
-            if ($order->prescription_image) {
-                Storage::delete("public/" . $order->prescription_image);
-            }
-            $image = $request->file('prescription_image');
-            $filename = $image->getClientOriginalName();
-           
-            $path= $request->file('prescription_image')->storeAs('ordersImages',$filename,'public');
-            $order->prescription_image =$path;
-            $order->save();
-        }
-
        
-       Order::where('id',$id)
-            ->update([
-                'user_id'=> request()->user_id,
-                'pharmacy_id'=>request()->pharmacy_id,
-                'doctor_id'=>request()->doctor_id,
-                'status'=>request()->status,
-                'is_insured'=>request()->is_insured,
-                'delivering_address'=>request()->delivering_address,
-        ]);   
+    
+    $orderTotalPrice=0;
+    $medTotalPrices =request()->total_price;
+    foreach($medTotalPrices as $medTotalPrice)
+    {
+        $orderTotalPrice+=intval($medTotalPrice);
+    }
+    
+        $client_id =json_decode(request()->client_name, true)['id']; 
+        $medicines =request()->medicine_name;
+        
+        $medicine_quantity =request()->medicine_qty;
+        
+        $is_insured =request()->is_insured;
+        $doctor_id = request()->doctor_name;
+        $pharmacy_id= request()->pharmacy_name;
+        $address_id=request()->delivering_address;
+   
+    $medicine_order = MedicinesOrder::where('order_id',$id)->get();
+    $order->update([
+        'is_insured'=>$is_insured,
+        'total_price'=>$orderTotalPrice,
+        'client_id'=>$client_id,
+        'pharmacy_id'=>$pharmacy_id,
+        'doctor_id'=>$doctor_id,
+        'address_id'=>$address_id,
+        'status'=>1,
+        'creator_type'=>'doctor',
+    ]);
+   
+ 
+    $medicine_order = MedicinesOrder::where('order_id',$id)->delete();
+    for($i = 0 ; $i<count($medicines);$i++){
+        $medicine= json_decode($medicines[$i], true);
+        $medicine_order=MedicinesOrder::create([
+           
+            
+            'order_id' =>$id,
+            'medicine_id' =>$medicine['id'],
+            'quantity' =>$medicine_quantity[$i],
+    
+        ]);
+         
+     }
 
         return redirect()->route('orders.index');        
     }
