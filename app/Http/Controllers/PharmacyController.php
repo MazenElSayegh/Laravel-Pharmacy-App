@@ -22,9 +22,7 @@ class PharmacyController extends Controller
         $pharmacies = Pharmacy::onlyTrashed()
                 ->get();
         $users= User::onlyTrashed()
-                ->get();  
-        $areas= Area::onlyTrashed()
-                ->get();  
+                ->get();   
         return $dataTable->render('pharmacies.index',['pharmacies' => $pharmacies],['users' => $users]);
     }
     public function show($pharmacyId)

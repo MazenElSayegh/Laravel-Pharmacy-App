@@ -65,10 +65,10 @@ class OrderController extends Controller
             // dd($medicines);
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
-            $doctor_id = request()->doctor_name;
-            $pharmacy_id= request()->pharmacy_name;
+            $doctor_id = request()->doctor_name!=NULL?request()->doctor_name:"";
+            $pharmacy_id= request()->pharmacy_name!=NULL?request()->pharmacy_name:"";
             $address_id=request()->delivering_address;
-        
+        if(auth()->user()->hasRole('admin')){
         $order=Order::create([
             'is_insured'=>$is_insured,
             'total_price'=>$orderTotalPrice,
@@ -77,8 +77,31 @@ class OrderController extends Controller
             'doctor_id'=>$doctor_id,
             'address_id'=>$address_id,
             'status'=>1,
+            'creator_type'=>'admin',
+        ]);
+    }elseif(auth()->user()->hasRole('pharmacy')){
+        $order=Order::create([
+            'is_insured'=>$is_insured,
+            'total_price'=>$orderTotalPrice,
+            'client_id'=>$client_id,
+            'pharmacy_id'=>auth()->user()->typeable_id,
+            'doctor_id'=>null,
+            'address_id'=>$address_id,
+            'status'=>1,
+            'creator_type'=>'pharmacy',
+        ]);
+    }else{
+        $order=Order::create([
+            'is_insured'=>$is_insured,
+            'total_price'=>$orderTotalPrice,
+            'client_id'=>$client_id,
+            'pharmacy_id'=>auth()->user()->typeable->pharmacy_id,
+            'doctor_id'=>auth()->user()->typeable_id,
+            'address_id'=>$address_id,
+            'status'=>1,
             'creator_type'=>'doctor',
         ]);
+    }
         for($i = 0 ; $i<count($medicines);$i++){
             $medicine= json_decode($medicines[$i], true);
             $medicine_order=MedicinesOrder::create([
