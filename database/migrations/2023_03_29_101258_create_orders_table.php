@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_insured');
-            $table->unsignedInteger('status');
+            $table->enum('status', ['New', 'Processing', 'WaitingForUserConfirmation','Confirmed','Delivered','Canceled']);
             $table->unsignedBigInteger('total_price');
             $table->string('prescription_image')->nullable();
             $table->string('creator_type');
