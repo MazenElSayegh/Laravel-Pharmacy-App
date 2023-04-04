@@ -39,7 +39,7 @@ class DoctorController extends Controller
     {
         $doctor=Doctor::create([
             'national_id'=>request()->national_id,
-            'pharmacy_id'=> request()->pharmacy_id,
+            'pharmacy_id'=> auth()->user()->typeable_id,
             'is_banned'=>0,
         ]);
 

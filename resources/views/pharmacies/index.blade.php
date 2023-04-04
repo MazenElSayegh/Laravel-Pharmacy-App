@@ -20,6 +20,7 @@
         </div>
     </div>
 </div>
+@if(auth()->user()->hasRole('admin'))
 <div class="container">
         <div class="card">
             <div class="card-header">Deleted Pharmacies</div>
@@ -61,6 +62,7 @@
 </div>
 </div>
 </div>
+@endif
     @endsection
     @push('scripts')
     {{ $dataTable->scripts() }}

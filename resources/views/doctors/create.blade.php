@@ -38,7 +38,7 @@
         <label for="exampleInputEmail1" class="form-label">Avatar Image</label>
         <input name="avatar_image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
       </div>
-
+    @if(auth()->user()->hasRole('admin'))
     <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label">Pharmacy name</label>
       <select name="pharmacy_id" class="form-control">
@@ -47,6 +47,7 @@
           @endforeach
       </select>
     </div>
+    @endif
     <button type="submit" class="btn btn-success">Create</button>
   </form>
  
