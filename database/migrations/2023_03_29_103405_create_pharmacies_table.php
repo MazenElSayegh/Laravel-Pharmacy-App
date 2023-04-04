@@ -16,8 +16,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('national_id')->unique();
             // $table->string('name');
-            // $table->string('email')->unique();
-            // $table->string('password');
             $table->string('image_path')->nullable();
             $table->unsignedInteger('priority');
             $table->timestamps();

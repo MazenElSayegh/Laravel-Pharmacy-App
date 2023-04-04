@@ -1,8 +1,8 @@
 @extends('layouts.sub')
 
 
-@section('title') Create @endsection
-
+@section('title') Create Doctor @endsection
+@section('backtolink') <a href="{{route('doctors.index')}}" class="nav-link">All Doctors</a> @endsection
 @section('content')
 
 @if ($errors->any())
@@ -38,7 +38,7 @@
         <label for="exampleInputEmail1" class="form-label">Avatar Image</label>
         <input name="avatar_image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
       </div>
-
+      @role('admin')
     <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label">Pharmacy name</label>
       <select name="pharmacy_id" class="form-control">
@@ -47,6 +47,7 @@
           @endforeach
       </select>
     </div>
+    @endrole
     <button type="submit" class="btn btn-success">Create</button>
   </form>
  
