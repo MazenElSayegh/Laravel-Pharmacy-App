@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('creator_type');
             $table->timestamps();
            
-            $table->bigInteger('doctor_id')->unsigned();
-            $table->bigInteger('client_id')->unsigned();
+            $table->bigInteger('doctor_id')->unsigned()->nullable();
+            $table->bigInteger('client_id')->unsigned()->nullable();
 
             $table->foreign('client_id')->references('id')->on('clients');
    
