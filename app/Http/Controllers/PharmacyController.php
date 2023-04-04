@@ -61,7 +61,6 @@ class PharmacyController extends Controller
         $pharmacy->update([
             'national_id'=>request()->national_id,
             'area_id'=> request()->area_id,
-            'image_path'=>request()->image_path,
             'priority'=>request()->priority,
         ]);
 

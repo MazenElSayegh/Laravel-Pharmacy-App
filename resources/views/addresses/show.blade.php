@@ -1,5 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.sub')
+@section('title') Area #{{$address->id}} @endsection
+@section('backtolink') <a href="{{route('addresses.index')}}" class="nav-link">All Addresses</a> @endsection
 @section('content')
+
 
 <div class="card">
   <div class="card-body">

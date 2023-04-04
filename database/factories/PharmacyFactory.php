@@ -19,6 +19,7 @@ class PharmacyFactory extends Factory
         return [
             'national_id'=> $this->faker->randomNumber(2),
             'priority'=>$this->faker->randomDigit(),
+            'image_path'=> 'defaultImages/default.jpg',
         ];
     }
 }

@@ -29,7 +29,7 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="sidebar-collapse">
 <div class="wrapper">
 
   <!-- Preloader -->
@@ -41,14 +41,13 @@
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
+      
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{route('home')}}" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        @yield('backtolink')
+        {{-- <a href="#" class="nav-link">Contact</a> --}}
       </li>
     </ul>
 
@@ -87,7 +86,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            {{-- <h1 class="m-0">Info</h1> --}}
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
