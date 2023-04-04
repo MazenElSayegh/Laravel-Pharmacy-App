@@ -90,7 +90,7 @@ class ClientController extends Controller
    
     public function show($client)
     {
-        $exist = User::where('id', $client);
+        $exist = Client::where('id', $client);
         if ($exist->count()>0) 
         {
             return new ClientResource(
@@ -119,7 +119,7 @@ class ClientController extends Controller
 
     public function update(StoreClientRequest $request)
     {
-        $exist = User::where('id', $request->client);
+        $exist = Client::where('id', $request->client);
         if ($exist->count()>0) 
         {
             $clientUser = $request->only(['name', 'email' ,'national_id', 'avatar', 'gender', 'birth_day', 'mobile']);
