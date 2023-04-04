@@ -48,5 +48,5 @@ Route::resource('addresses',AddressController::class)->middleware('auth:sanctum'
 
 // ------------------------- Orders Routes ---------------------------
 
-Route::post('/orders', [OrderController::class ,'store']);
+Route::resource('orders',OrderController::class)->middleware(['auth:sanctum','emailVerified']);
 
