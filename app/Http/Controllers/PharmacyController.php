@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Order;
 use App\Models\Pharmacy;
 use App\Models\Doctor;
 use App\Models\User;
@@ -18,7 +19,13 @@ class PharmacyController extends Controller
 {
     public function index(PharmaciesDataTable $dataTable)
     {
-        return $dataTable->render('pharmacies.index');
+        $pharmacies = Pharmacy::onlyTrashed()
+                ->get();
+        $users= User::onlyTrashed()
+                ->get();  
+        $areas= Area::onlyTrashed()
+                ->get();  
+        return $dataTable->render('pharmacies.index',['pharmacies' => $pharmacies],['users' => $users]);
     }
     public function show($pharmacyId)
     {
@@ -104,24 +111,50 @@ class PharmacyController extends Controller
             
         }
 
-        public function destroy($id)
+    public function destroy($id)
     {
+        
         $pharmacy=Pharmacy::find( $id);
+        if($pharmacy->orders()->exists()){
+                    return to_route('pharmacies.index');
+            }else{
+       
         $pharmacy->doctors()->each(function ($doctor) {
-            $doctor->delete();
             if ($doctor->image_path && $doctor->image_path!='defaultImages/default.jpg') {
                 Storage::delete("public/" . $doctor->image_path);
+                
             }
+            if( $doctor->orders()->exists()){ 
+                return to_route('pharmacies.index');
+                }
         });
         if ($pharmacy->image_path && $pharmacy->image_path!='defaultImages/default.jpg') {
             Storage::delete("public/" . $pharmacy->image_path);
         }
-        Doctor::where('pharmacy_id', $id)->delete();
-        Pharmacy::where('id', $id)->delete();
+        $pharmacy->doctors()->each(function ($doctor) {
+            if(!$doctor->orders()->exists()){
+                $doctor->delete();
+                
+            }
+        });
+        if(!$pharmacy->doctors()->exists()){
+        $pharmacy->delete();
         $pharmacy->type()->delete();
-
-        return to_route('pharmacies.index');
+        }
+        return to_route('pharmacies.index'); 
+      
+    }
+       
     
     }
+    public function restore($id){
+        Pharmacy::withTrashed()
+        ->where('id', $id)
+        ->restore();
+            User::withTrashed()
+            ->where('typeable_id', $id)
+            ->restore();
         
+        return to_route('pharmacies.index'); 
     }
+}

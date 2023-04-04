@@ -66,7 +66,7 @@ Route::get('/roles', function () {
 Route::group(
     ["middleware" => ['auth','role:admin']],
     function () {
-       
+        Route::get("/pharmacies/restore/{pharmacy}", [PharmacyController::class, "restore"])->name("pharmacies.restore");
         Route::get("/pharmacies/create", [PharmacyController::class, "create"])->name("pharmacies.create");
         Route::post("/pharmacies", [PharmacyController::class, "store"])->name("pharmacies.store");
         Route::delete("/pharmacies/{pharmacy}", [PharmacyController::class, "destroy"])->name("pharmacies.destroy");
