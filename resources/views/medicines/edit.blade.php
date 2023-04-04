@@ -34,6 +34,10 @@
             <input name="price" type="text" class="form-control" id="price" value="{{$medicine->price}}">
         </div>
         
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input name="quantity" type="text" class="form-control" id="quantity">
+        </div>
 
         <button class="btn btn-primary">Update</button>
     </form>

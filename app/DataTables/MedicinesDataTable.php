@@ -1,7 +1,7 @@
 <?php
 
 namespace App\DataTables;
-
+use App\Models\PharmaciesMedicines;
 use App\Models\Medicine;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -36,16 +36,24 @@ class MedicinesDataTable extends DataTable
                 }
                 </script>
             </form>
-        </div>')
+        </div>')->addColumn('pharmacy', function (PharmaciesMedicines $medicine) {
+            return $medicine->pharmacy->type->name;
+        })->addColumn('medicine', function (PharmaciesMedicines $medicine) {
+            return $medicine->medicine->name;
+        })
     ;
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Medicine $model): QueryBuilder
+    public function query(PharmaciesMedicines $model): QueryBuilder
     {
-        return $model->newQuery();
+        if(auth()->user()->hasRole("pharmacy")){
+            return $model->where('pharmacy_id','=',auth()->user()->typeable_id);
+        }else{
+            return $model->newQuery()->select('pharmacies_medicines.*');
+        }
     }
 
     /**
@@ -54,7 +62,7 @@ class MedicinesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('medicines-table')
+                    ->setTableId('pharmacies_medicines-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -76,10 +84,12 @@ class MedicinesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('name'),
-            Column::make('type'),
-            Column::make('price'),
+            Column::make('id'),
+            Column::make('pharmacy')->visible(auth()->user()->hasRole("admin")),
+            Column::make('medicine'),
+            Column::make('quantity'),
             Column::make('created_at'),
+           
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -92,6 +102,6 @@ class MedicinesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Medicines_' . date('YmdHis');
+        return 'Pharmacies_Medicines_' . date('YmdHis');
     }
 }
