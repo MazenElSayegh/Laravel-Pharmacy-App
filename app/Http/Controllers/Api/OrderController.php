@@ -23,7 +23,7 @@ class OrderController extends Controller
 	public function index()
     {
 
-        $orders = Auth::user()->order ?? Order::all();
+        $orders = auth()->user()->typeable->orders;
         return OrderResource::collection($orders);
     }
 
@@ -46,10 +46,8 @@ class OrderController extends Controller
 
 	public function store(StoreClientOrderRequest $request)
 	{
-		// $OrderSent = $request->only(['is_insured', 'address_id', 'image']);
 
 		$address = Address::find($request->address_id);
-		$pharmacy = Pharmacy::where('area_id', $address->area_id)->orderby('priority')->first();
 
 		$user = Auth::user();
 		$order = Order::create([
@@ -58,7 +56,6 @@ class OrderController extends Controller
 			'doctor_id' => $request->doctor_id,
 			'is_insured' => $request->is_insured,
 			'status' => 'New',
-			'pharmacy_id' => $pharmacy->id,
 			'creator_type' => 'Client',
 			'total_price' =>$request->total_price,
 			'prescription_image' =>$request->prescription_image
@@ -73,7 +70,6 @@ class OrderController extends Controller
 		$user = Auth::user();
 
 		$exist = Order::where('id', $request->order);
-		// dd($request);
 
 		if ($exist->count() > 0) {
 			$order = Order::find($request->order);
@@ -81,7 +77,6 @@ class OrderController extends Controller
 				if ($order->status == '1') {
 
 					$address = Address::find($request->address_id);
-					$pharmacy = Pharmacy::where('area_id', $address->area_id)->orderby('priority')->first();
 
 					$order->update([
 						'client_id' => $user->typeable->id,
@@ -89,16 +84,12 @@ class OrderController extends Controller
 						'doctor_id' => $request->doctor_id,
 						'is_insured' => $request->is_insured,
 						'status' => $request->status,
-						'pharmacy_id' => $pharmacy->id,
 						'creator_type' => 'Client',
 						'total_price' =>$request->total_price,
 						'prescription_image' =>$request->prescription_image
 					]);
 
-					// if (isset($OrderSent['image'])) {
-					// 	$this->deletePriscription($order->images, $order);
-					// 	$this->orderPrescription($request->file('image'), $order);
-					// }
+					
 
 					return new OrderResource($order);
 				}
