@@ -79,10 +79,10 @@ class RevenuesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')->exportable(false)
+            Column::computed('action')->title("Pharmacy Avatar")->exportable(false)
             ->printable(false)
             ->addClass('text-center'),
-            Column::make('Pharmacy Name'),
+            Column::make('Pharmacy Name')->visible(auth()->user()->hasRole("admin")),
             Column::make('Total Orders'),
             Column::make('Total Revenue'),
         ];
