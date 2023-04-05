@@ -92,7 +92,6 @@ class ClientController extends Controller
 
     public function update(StoreClientRequest $request,$id)
     {
-        // dd($request);
         $client = Client::findOrFail($id);
 
         if ($request->hasFile('avatar')) {

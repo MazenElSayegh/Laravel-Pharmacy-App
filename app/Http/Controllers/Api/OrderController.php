@@ -53,14 +53,23 @@ class OrderController extends Controller
 		$order = Order::create([
 			'client_id' => $user->typeable->id,
 			'address_id' => $address->id,
-			'doctor_id' => $request->doctor_id,
 			'is_insured' => $request->is_insured,
 			'status' => 'New',
 			'creator_type' => 'Client',
-			'total_price' =>$request->total_price,
-			'prescription_image' =>$request->prescription_image
 
 		]);
+		if ($request->hasFile('prescription_image')) {
+            $avatar = $request->file('prescription_image');
+            $filename = $avatar->getClientOriginalName();
+            $path = $request->file('prescription_image')->storeAs('prescriptionImages', $filename, 'public');
+            $order->prescription_image= $path;
+            $order->save();
+        }
+        else{
+            $path= 'defaultImages/default.jpg';
+            $order->prescription_image=$path;
+            $order->save();
+        }
 
 		return response()->json(new OrderResource($order), 201);
 	}
@@ -81,14 +90,22 @@ class OrderController extends Controller
 					$order->update([
 						'client_id' => $user->typeable->id,
 						'address_id' => $address->id,
-						'doctor_id' => $request->doctor_id,
 						'is_insured' => $request->is_insured,
 						'status' => $request->status,
 						'creator_type' => 'Client',
-						'total_price' =>$request->total_price,
-						'prescription_image' =>$request->prescription_image
 					]);
-
+					if ($request->hasFile('prescription_image')) {
+						$avatar = $request->file('prescription_image');
+						$filename = $avatar->getClientOriginalName();
+						$path = $request->file('prescription_image')->storeAs('prescriptionImages', $filename, 'public');
+						$order->prescription_image= $path;
+						$order->save();
+					}
+					else{
+						$path= 'defaultImages/default.jpg';
+						$order->prescription_image=$path;
+						$order->save();
+					}
 					
 
 					return new OrderResource($order);
