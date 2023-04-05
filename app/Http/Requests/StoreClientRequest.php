@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\DB;
 
 class StoreClientRequest extends FormRequest
 {
@@ -22,9 +21,8 @@ class StoreClientRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user = DB::table("users")->where("typeable_id", $this->client)->where("typeable_type","App\Models\Client")->first();
         return [
-            'email'=>['required','unique:users,email,'.$user->id],
+            'email'=>['required','unique:users,email,'.$this->user],
             'national_id'=>['required','unique:clients,national_id,'.$this->client],
             'password' => ['required','min:6'],
             'avatar' => ['mimes:jpeg,png,jpg'],

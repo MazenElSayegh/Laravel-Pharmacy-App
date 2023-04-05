@@ -10,6 +10,7 @@ use App\Models\Pharmacy;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use App\DataTables\DoctorsDataTable;
+use App\Http\Requests\UpdateDoctorRequest;
 use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
@@ -92,7 +93,7 @@ class DoctorController extends Controller
         return view('doctors.edit', ['doctor'=>$doctor, 'pharmacies'=>$pharmacies]);
     }
 
-    public function update(StoreDoctorRequest $request,$id)
+    public function update(UpdateDoctorRequest $request,$id)
     {
         // dd($request);
         $doctor = Doctor::findOrFail($id);
