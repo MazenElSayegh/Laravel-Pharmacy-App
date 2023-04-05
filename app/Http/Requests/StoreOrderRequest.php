@@ -23,8 +23,6 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'client_name'=>['required'],
-            'pharmacy_name'=>['required'],
-            'doctor_name'=>['required'],
             // 'medicine_name[]'=>['required'],
             'medicine_qty[]'=>['required|integer|min:0'],
             // 'medicine_price[]'=>['required'],

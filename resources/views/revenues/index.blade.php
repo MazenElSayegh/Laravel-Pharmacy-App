@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') Pharmacies Index @endsection
+@section('title') Revenue Index @endsection
 
 @section('content')
 <div class="container">

@@ -31,34 +31,34 @@ Route::get('/',function(){ return to_route('login');});
 Route::get('/roles', function () {
     try{
         Role::create(['name' => 'admin']);
-        echo 'wooww admin created role<br>';
+        echo 'Created Admin role<br>';
     }catch(Exception $ex){
 
-        echo 'ooooo rule is taken!<br>';
+        echo 'Role is already created!<br>';
     }
 
     try{
         Role::create(['name' => 'pharmacy']);
-        echo 'wooww pharmacy created role<br>';
+        echo 'Created Pharmacy role<br>';
     }catch(Exception $ex){
 
-        echo 'ooooo pharmacy rule is taken!<br>';
+        echo 'Role is already created!<br>';
     }
 
 
     try{
         Role::create(['name' => 'doctor']);
-        echo 'wooww doctor created role';
+        echo 'Created Doctor role<br>';
     }catch(Exception $ex){
 
-        echo  'ooooo doctor rule is taken!';
+        echo  'Role is already created!<br>';
     }
     try{
         Role::create(['name' => 'client']);
-        echo 'wooww client created role';
+        echo 'Created Client role';
     }catch(Exception $ex){
 
-        echo  'ooooo doctor rule is taken!';
+        echo  'Role is already created!';
     }
 });
 
@@ -66,7 +66,7 @@ Route::get('/roles', function () {
 Route::group(
     ["middleware" => ['auth','role:admin']],
     function () {
-       
+        Route::get("/pharmacies/restore/{pharmacy}", [PharmacyController::class, "restore"])->name("pharmacies.restore");
         Route::get("/pharmacies/create", [PharmacyController::class, "create"])->name("pharmacies.create");
         Route::post("/pharmacies", [PharmacyController::class, "store"])->name("pharmacies.store");
         Route::delete("/pharmacies/{pharmacy}", [PharmacyController::class, "destroy"])->name("pharmacies.destroy");

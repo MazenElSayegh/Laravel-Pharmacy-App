@@ -49,13 +49,21 @@ class OrdersDataTable extends DataTable
         }else{
         return "Yes";
         }})->setRowId('id')->addColumn('client', function (Order $order) {
-            return $order->pharmacy->type->name;
+            return $order->client_id;
         })->addColumn('address', function (Order $order) {
-            return $order->pharmacy->type->name;
+            return $order->address_id;
         })->addColumn('doctor', function (Order $order) {
+            if($order->doctor!=null){
             return $order->doctor->type->name;
+            }else{
+                return "";
+            }
         })->addColumn('pharmacy', function (Order $order) {
+            if($order->pharmacy!=null){
             return $order->pharmacy->type->name;
+            }else{
+                return "";
+            }
         })
     ;
     }
@@ -65,9 +73,13 @@ class OrdersDataTable extends DataTable
      */
     public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery()->with([
-            'pharmacy.type','client.type','address','doctor.type'
-        ])->select('orders.*');
+        if (auth()->user()->hasRole("doctor")) {
+            return $model->where("doctor_id", "=", auth()->user()->typeable_id);
+        }elseif(auth()->user()->hasRole("pharmacy")){
+            return $model->where("pharmacy_id", "=", auth()->user()->typeable_id);
+        }else{
+        return $model->newQuery()->select('orders.*');
+    }
     }
 
     /**
@@ -102,7 +114,7 @@ class OrdersDataTable extends DataTable
             Column::make('client'),
             Column::make('address'),
             Column::make('doctor'),
-            Column::make('pharmacy'),
+            Column::make('pharmacy')->visible(auth()->user()->hasRole("admin")),
             Column::make('is_insured'),
             Column::make('status'),
             Column::make('created_at'),

@@ -14,5 +14,9 @@ class Medicine extends Model
         'price',
         'type',
     ];
+    public function pharmaciesMedicines(){
+        
+            return $this->hasMany(PharmaciesMedicines::class);
+        }
     
 }

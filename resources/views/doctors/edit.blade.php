@@ -1,7 +1,8 @@
 @extends('layouts.sub')
 
 
-@section('title') Edit @endsection
+@section('title') Edit Doctor @endsection
+@section('backtolink') <a href="{{route('doctors.index')}}" class="nav-link">All Doctors</a> @endsection
 
 @section('content')
 
@@ -40,6 +41,7 @@
         <input name="avatar_image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
       </div>
 
+      @role('admin')
     <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label">Pharmacy name</label>
       <select name="pharmacy_id" class="form-control">
@@ -48,6 +50,7 @@
           @endforeach
       </select>
     </div>
+    @endrole
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
  

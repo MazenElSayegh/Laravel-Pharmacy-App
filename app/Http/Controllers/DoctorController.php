@@ -16,10 +16,15 @@ class DoctorController extends Controller
 {
     public function index(DoctorsDataTable $dataTable)
     {
-        $pharmacyId= auth()->user()->typeable_id;
-        $pharmacy= Pharmacy::find($pharmacyId);
-        $doctors=$pharmacy->doctors;
-        // dd($doctors);
+        if(auth()->user()->hasRole('pharmacy')){
+            $pharmacyId= auth()->user()->typeable_id;
+            $pharmacy= Pharmacy::find($pharmacyId);
+            // dd($pharmacy);
+            $doctors=$pharmacy->doctors;
+        }
+        else{
+            $doctors=Doctor::all();
+        }
         return $dataTable->render('doctors.index',['doctors'=>$doctors]);
     }
 
@@ -37,11 +42,20 @@ class DoctorController extends Controller
 
     public function store(StoreDoctorRequest $request)
     {
-        $doctor=Doctor::create([
-            'national_id'=>request()->national_id,
-            'pharmacy_id'=> request()->pharmacy_id,
-            'is_banned'=>0,
-        ]);
+        if(auth()->user()->hasRole('pharmacy')){
+            $doctor=Doctor::create([
+                'national_id'=>request()->national_id,
+                'is_banned'=>0,
+                'pharmacy_id'=>auth()->user()->typeable_id,
+            ]);  
+        }
+        else{
+            $doctor=Doctor::create([
+                'national_id'=>request()->national_id,
+                'is_banned'=>0,
+                'pharmacy_id'=>request()->pharmacy_id,
+            ]);
+        }
 
         $user= $doctor->type()->create([
             'name'=>request()->name,
@@ -94,11 +108,19 @@ class DoctorController extends Controller
             $doctor->save();
         }
 
-        $doctor->update([
-            'national_id'=>request()->national_id,
-            'pharmacy_id'=> request()->pharmacy_id,
-            'is_banned'=>0,
-        ]);
+        if(auth()->user()->hasRole('admin')){
+            $doctor->update([
+                'national_id'=>request()->national_id,
+                'pharmacy_id'=> request()->pharmacy_id,
+                'is_banned'=>0,
+            ]);
+        }
+        else{
+            $doctor->update([
+                'national_id'=>request()->national_id,
+                'is_banned'=>0,
+            ]);
+        }
 
         $doctor->type()->update([
             'name'=>request()->name,

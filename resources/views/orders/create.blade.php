@@ -28,7 +28,7 @@
         @endforeach
     </select>
   </div>
-
+  @role('admin')
   <div class="mt-4">
     <label for="PharmacyName" class="form-label">Pharmacy Name</label>
     <select id="PharmacyName"  name="pharmacy_name" class="form-control w-50">
@@ -38,7 +38,8 @@
         @endforeach
     </select>
   </div>
-  
+  @endrole
+  @role('admin')
   <div class="mt-4">
     <label for="DoctorName" class="form-label">Doctor Name</label>
     <select id="DoctorName"  name="doctor_name" class="form-control w-50">
@@ -48,7 +49,7 @@
         @endforeach
     </select>
   </div>
-
+@endrole
 
   <div id="show_item" >
     {{-- <select id="om" class="form-control">
