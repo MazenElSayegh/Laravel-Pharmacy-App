@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_insured');
             $table->enum('status', ['New', 'Processing', 'WaitingForUserConfirmation','Confirmed','Delivered','Canceled']);
-            $table->unsignedBigInteger('total_price');
+            $table->unsignedBigInteger('total_price')->nullable();
             $table->string('prescription_image')->nullable();
             $table->string('creator_type');
             $table->timestamps();
