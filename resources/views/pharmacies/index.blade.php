@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-@if(auth()->user()->hasRole('admin'))
+@if(auth()->user()->hasRole('admin') && $pharmacies->isNotEmpty())
 <div class="container">
         <div class="card">
             <div class="card-header">Deleted Pharmacies</div>
