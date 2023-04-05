@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\GreetingNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,4 +26,6 @@ class Client extends Model
     {
         return $this->morphOne(User::class, 'typeable');
     }
+
+   
 }
