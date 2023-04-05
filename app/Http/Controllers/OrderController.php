@@ -10,7 +10,12 @@ use App\Models\Medicine;
 use App\Models\MedicinesOrder;
 use App\Models\Order;
 use App\Models\Pharmacy;
+
+use App\Notifications\NotifyUserOrderDetails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 class OrderController extends Controller
 {
@@ -35,9 +40,15 @@ class OrderController extends Controller
 
     public function show($id)
     {
-    
+        // $user =auth()->user();
+        // dd($user);
         $order = Order::where('id', $id)->first();
         $medicine_order = MedicinesOrder::where('order_id',$id)->get();
+        // dd($medicine_order[0]['quantity']);
+       
+        // $user->notify(new NotifyUserOrderDetails($order));
+        // dd("done");
+        
         return view('orders.show' ,['order' => $order,'medicine_order'=>$medicine_order]);
     }
 
@@ -60,8 +71,11 @@ class OrderController extends Controller
             $orderTotalPrice+=intval($medTotalPrice);
         }
         //error if not filled
+            $client=json_decode(request()->client_name, true);
+            
             $client_id =json_decode(request()->client_name, true)['id']; 
             $medicines =request()->medicine_name;
+            // dd($medicines);
             // dd($medicines);
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
@@ -98,7 +112,7 @@ class OrderController extends Controller
             'pharmacy_id'=>auth()->user()->typeable->pharmacy_id,
             'doctor_id'=>auth()->user()->typeable_id,
             'address_id'=>$address_id,
-            'status'=>1,
+            'status'=>2,
             'creator_type'=>'doctor',
         ]);
     }
@@ -114,7 +128,9 @@ class OrderController extends Controller
             ]);
              
          }
-   
+         $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
+        //  dd($client);
+         Notification::send($client,new NotifyUserOrderDetails($order,$medicines));
 
         return to_route('orders.index');
     }
