@@ -28,7 +28,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->job(new OrdersAssignJob)->everyMinute();
         $schedule->command('email:inactive-client-command')
             ->daily()
             ->evenInMaintenanceMode()
