@@ -143,13 +143,14 @@ class OrderController extends Controller
       
         $order= Order::find($id);
         $allClients = Client::all();
-        
+        $client = Client::find($order->client_id);
+        // dd($client);
         $allMedicines = Medicine::all();
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
         $allDoctors = Doctor::all();
         
-        return view('orders.edit', ['order'=>$order, 'clients'=>$allClients,'medicines' => $allMedicines,'addresses'=>$allAddresses ,'pharmacies'=>$allPharmacies , 'doctors' =>$allDoctors ]);
+        return view('orders.edit', ['order'=>$order,'client'=>$client ,'clients'=>$allClients,'medicines' => $allMedicines,'addresses'=>$allAddresses ,'pharmacies'=>$allPharmacies , 'doctors' =>$allDoctors ]);
     }
 
 

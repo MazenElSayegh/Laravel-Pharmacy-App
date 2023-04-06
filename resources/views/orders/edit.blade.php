@@ -21,12 +21,13 @@
   @method ("PUT")
   <div class="mt-4"> 
     <label for="ClientName" class="form-label">Client Name</label>
-    <select id="ClientName" onchange="selectAddress()" name="client_name" class="form-control w-50">
-        <option></option>
-        @foreach($clients as $client)
+    <select id="ClientName" name="client_name" class="form-control w-50">
+        <option value="{{$client}}" >{{$client->type->name }} </option>
+        
+        {{-- @foreach($clients as $client)
           
             <option value="{{$client}}">{{$client->type->name }} </option>
-        @endforeach
+        @endforeach --}}
     </select>
   </div>
   @role('admin')
@@ -99,10 +100,11 @@
  <div class="col-md-6 mb-3 mt-3">
                 <label for="OrderTotalPrice" class="form-label">Is Insured</label>
                 <select id="isinsured" name="is_insured" class="form-control">
-                  <option ></option>
-                  <option value="1">Insured</option>
-                  <option value="0">Not Insured</option>
-             
+                  @if($order->is_insured)
+                  <option value="1" selected>Insured</option>
+                  @else
+                  <option value="0" selected>Not Insured</option>
+                  @endif
            </select>
                 
                    </div>
@@ -244,7 +246,7 @@ $(".medData").on("change",".medQty",{},function(e){
         let addresses= JSON.parse(address);
        
          var clientid = JSON.parse(select.value).id;
-     
+          console.log(clientid);
 
        
          for(let i=0 ; i<addresses.length;i++)
