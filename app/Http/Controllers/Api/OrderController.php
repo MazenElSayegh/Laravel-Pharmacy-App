@@ -118,4 +118,13 @@ class OrderController extends Controller
 		}
 		return response()->json(['message' => 'Order Not Found'], 404);
 	}
+
+	public function confirmOrder($order){
+
+		Order::find($order)->update([
+			'status' => 'Confirmed',
+		]);
+		return response()->json(['success' => 'Order is Confirmed'], 200);
+
+	}
 }
