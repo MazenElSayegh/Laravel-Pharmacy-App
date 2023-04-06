@@ -37,14 +37,17 @@ class NotifyUserOrderDetails extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         foreach($this->medicine as $med){
-            $medicine= json_decode($med, true);
+            $medicine2= json_decode($med, true);
+            // ->link('order details')
+
             // dd($medicine);
         }
         return (new MailMessage)
                     ->line('Order Details')
                     ->line('Order Total Price : '.$this->order['total_price'].'$')
 
-                    ->line('Medicine : '.$this->medicine)
+                    // ->line('Medicine : '.$this->medicine)
+
                     ->action('Confirm order ', route('orders.show',$this->order['id']))
                     
                     ->line('Thank you for using our application!');

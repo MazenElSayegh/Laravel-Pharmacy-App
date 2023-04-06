@@ -8,11 +8,20 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
+     * 
      * Define the application's command schedule.
      */
-    protected function schedule(Schedule $schedule): void
+
+     protected $commands = [
+      
+        Commands\NewToProcessingOrder::class,
+    ];
+    protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // $schedule->command('inspire')->everyMinute();
+        $schedule->command('requests:processing')->everyMinute();
+      
+
     }
 
     /**
