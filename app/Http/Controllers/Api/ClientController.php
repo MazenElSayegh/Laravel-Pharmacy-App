@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
-
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -40,6 +40,13 @@ class ClientController extends Controller
                 'email' => ['incorrect email or password.'],
             ]);
         }
+        Auth::login($user);
+
+        $userLoginDate = $user;
+        if($userLoginDate->hasrole('client')){
+            $userLoginDate->typeable->last_login = now();
+            $userLoginDate->typeable->save();
+        };
         return [
             'Access Token' => $user->createToken($request->device_name)->plainTextToken,
             'Data' => new ClientResource(
@@ -50,13 +57,11 @@ class ClientController extends Controller
 
     public function register(StoreClientRequest $request){
 
-       
-       
         $client=Client::create([
             'national_id'=>$request->national_id,
-                'birth_day'=>$request->birth_day,
-                'mobile'=>$request->mobile,
-                'gender'=>$request->gender,
+            'birth_day'=>$request->birth_day,
+            'mobile'=>$request->mobile,
+            'gender'=>$request->gender,
 
         ]);
 
@@ -79,6 +84,8 @@ class ClientController extends Controller
             $client->avatar =$path;
             $client->save();
         }
+        $user->assignRole('client'); 
+
         
         $user->sendEmailVerificationNotification();
 
@@ -145,7 +152,7 @@ class ClientController extends Controller
             $client->avatar =$path;
             $client->save();
         }
-        
+
            $client->update([
             'national_id'=>$request->national_id,
                 'birth_day'=>$request->birth_day,
