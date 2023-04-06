@@ -6,6 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Js;
+use PhpParser\Node\Stmt\Foreach_;
+use PhpParser\Parser\Php5;
 
 class NotifyUserOrderDetails extends Notification implements ShouldQueue
 {
@@ -37,13 +40,15 @@ class NotifyUserOrderDetails extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         foreach($this->medicine as $med){
-            $medicine= json_decode($med, true);
+            $medicine2= json_decode($med, true);
+            // ->link('order details')
+
             // dd($medicine);
         }
         return (new MailMessage)
                     ->line('Order Details')
                     ->line('Order Total Price : '.$this->order['total_price'].'$')
-
+                  
                     // ->line('Medicine : '.$this->medicine)
                     ->action('Confirm order ', route('orders.show',$this->order['id']))
                     

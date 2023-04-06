@@ -73,17 +73,17 @@
         </div>
                <div class="col-md-2 mb-3 mt-3">
                 <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
-                <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0" placeholder="medicine quantity">
+                <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0"  placeholder="medicine quantity">
                    </div>
 
                    <div class="col-md-2 mb-3 mt-3">
                     <label for="MedicinePrice" class="form-label">Medicine Price</label>
-                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice h-50" value="0" placeholder="medicine price" >
+                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice h-50" value="0"  placeholder="medicine price" >
                   </div>
 
                   <div class="col-md-2 mb-3 mt-3">
                     <label for="TotalPrice" class="form-label">Total Price</label>
-                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0 placeholder="medicine price" >
+                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0  placeholder="medicine price" >
                        </div>
 
                   
@@ -165,17 +165,17 @@
       </div>
              <div class="col-md-2 mb-3 mt-3">
               <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
-              <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value=0 placeholder="medicine quantity">
+              <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value=0  placeholder="medicine quantity">
                  </div>
 
                  <div class="col-md-2 mb-3 mt-3">
                     <label for="MedicinePrice" class="form-label">Medicine Price</label>
-                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice  h-50" value=0 placeholder="medicine price" >
+                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice  h-50" value=0  placeholder="medicine price" >
                        </div>
 
                        <div class="col-md-2 mb-3 mt-3">
                     <label for="TotalPrice" class="form-label">Total Price</label>
-                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0 placeholder="medicine price" >
+                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0  placeholder="medicine price" >
                        </div>
     
                  <div class="col-md-2 mb-3 mt-5">

@@ -22,12 +22,10 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_name'=>['required'],
-            // 'medicine_name[]'=>['required'],
-            'medicine_qty[]'=>['required|integer|min:0'],
-            // 'medicine_price[]'=>['required'],
-            'is_insured'=>['required'],
-            'delivering_address'=>['required'],
+            // 'client_name'=>['required'],
+            // 'medicine_qty.*'=>['required','integer','min:1'],
+            // 'is_insured'=>['required'],
+            // 'delivering_address'=>['required'],
         ];
     }
 }
