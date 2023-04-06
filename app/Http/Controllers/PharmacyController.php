@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\DataTables\PharmaciesDataTable;
+use App\Http\Requests\UpdatePharmacyRequest;
 use DataTables;
 class PharmacyController extends Controller
 {
@@ -42,7 +43,7 @@ class PharmacyController extends Controller
         return view('pharmacies.edit',['pharmacy'=>$pharmacy],['areas'=>$areas]);
     }
 
-    public function update(StorePharmacyRequest $request,$id){
+    public function update(UpdatePharmacyRequest $request,$id){
         $pharmacy = Pharmacy::findOrFail($id);
 
         if ($request->hasFile('avatar_image')) {

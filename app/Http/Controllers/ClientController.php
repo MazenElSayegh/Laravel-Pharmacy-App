@@ -6,6 +6,7 @@ use App\Http\Requests\StoreClientRequest;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\DataTables\ClientsDataTable;
+use App\Http\Requests\UpdateClientRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
@@ -90,9 +91,8 @@ class ClientController extends Controller
         
     }
 
-    public function update(StoreClientRequest $request,$id)
+    public function update(UpdateClientRequest $request,$id)
     {
-        // dd($request);
         $client = Client::findOrFail($id);
 
         if ($request->hasFile('avatar')) {
