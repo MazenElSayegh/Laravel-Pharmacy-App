@@ -216,36 +216,4 @@ class OrderController extends Controller
   
     return redirect()->route('orders.index');
     }
-
-    public function assign()
-    {
-        $newOrders=Order::where('status','New')->get();
-        // dd($newOrders);
-        $pharmacies=Pharmacy::all();
-        $count=0;
-        $countph=0;
-        $countif=0;
-        foreach($newOrders as $order){
-            $highestPriority= 0;
-            $count++;
-            foreach($pharmacies as $pharmacy){
-                $countph++;
-                if($pharmacy->area_id==$order->address->area_id){
-                    if($highestPriority<$pharmacy->priority){
-                        $highestPriority= $pharmacy->priority; 
-                        $countif++;
-                        $order->update([ 
-                            'status'=>'Processing',
-                            'pharmacy_id'=> $pharmacy->id,
-                            'doctor_id'=> $pharmacy->doctors->first()->id,
-                        ]);
-                    }
-                }
-            }
-        }
-        dd($count,$countph,$countif);
-        
-        OrdersAssignJob::dispatch();
-        return to_route('orders.index');    
-    }
 }
