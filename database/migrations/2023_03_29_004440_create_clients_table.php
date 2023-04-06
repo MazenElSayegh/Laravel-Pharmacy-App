@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('gender');
             $table->string('birth_day');
             $table->string('avatar')->nullable();
+            $table->timestamp('last_login')->nullable();
             $table->timestamps();
 
 

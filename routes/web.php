@@ -95,6 +95,7 @@ Route::group(
 // ------------------------------ admin,pharmacy.doctor routes -----------------------------
 
 Route::group(['middleware' => ['auth','role:admin|pharmacy|doctor']], function () {
+    Route::get('orders/assign',[OrderController::class, 'assign'])->name('orders.assign');
     Route::resource('orders', OrderController::class);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });

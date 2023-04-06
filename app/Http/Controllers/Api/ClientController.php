@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
-
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -40,6 +40,13 @@ class ClientController extends Controller
                 'email' => ['incorrect email or password.'],
             ]);
         }
+        Auth::login($user);
+
+        $userLoginDate = $user;
+        if($userLoginDate->hasrole('client')){
+            $userLoginDate->typeable->last_login = now();
+            $userLoginDate->typeable->save();
+        };
         return [
             'Access Token' => $user->createToken($request->device_name)->plainTextToken,
             'Data' => new ClientResource(
@@ -50,22 +57,11 @@ class ClientController extends Controller
 
     public function register(StoreClientRequest $request){
 
-        // $avatar = isset($client['avatar'])? $client['avatar'] : "";
-        // if ($avatar) 
-        // {
-        //     $new_name = time() . '_' . $avatar->getClientOriginalExtension();
-        //     $avatar->move(public_path('images'), $new_name);
-        // }
-        // else
-        // {
-        //     $new_name = "default.jpg";
-        // }
-       
         $client=Client::create([
             'national_id'=>$request->national_id,
-                'birth_day'=>$request->birth_day,
-                'mobile'=>$request->mobile,
-                'gender'=>$request->gender,
+            'birth_day'=>$request->birth_day,
+            'mobile'=>$request->mobile,
+            'gender'=>$request->gender,
 
         ]);
 
@@ -75,6 +71,22 @@ class ClientController extends Controller
             'password'=> Hash::make(
                 request()->password),
         ]);
+        
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $filename = $avatar->getClientOriginalName();
+            $path = $request->file('avatar')->storeAs('clientImages', $filename, 'public');
+            $client->avatar= $path;
+            $client->save();
+        }
+        else{
+            $path= 'defaultImages/default.jpg';
+            $client->avatar =$path;
+            $client->save();
+        }
+        $user->assignRole('client'); 
+
+        
         $user->sendEmailVerificationNotification();
 
         $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
@@ -123,19 +135,24 @@ class ClientController extends Controller
         if ($exist->count()>0) 
         {
             $clientUser = $request->only(['name', 'email' ,'national_id', 'avatar', 'gender', 'birth_day', 'mobile']);
-            $avatar = isset($clientUser['avatar'])? $clientUser['avatar'] : "";
-            if ($avatar) 
-            {
-                $new_name = time() . '_' . $avatar->getClientOriginalExtension();
-                $avatar->move(public_path('images'), $new_name);
-            }
-            else
-            {
-                $new_name = "default.jpg";
-            }
+            
 
            $user = User::find($request->client);
            $client = Client::find($user->typeable->id);
+
+           if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $filename = $avatar->getClientOriginalName();
+            $path = $request->file('avatar')->storeAs('clientImages', $filename, 'public');
+            $client->avatar= $path;
+            $client->save();
+        }
+        else{
+            $path= 'defaultImages/default.jpg';
+            $client->avatar =$path;
+            $client->save();
+        }
+
            $client->update([
             'national_id'=>$request->national_id,
                 'birth_day'=>$request->birth_day,
@@ -148,6 +165,7 @@ class ClientController extends Controller
             'email'=>request()->email,
             'password'=> Hash::make(request()->password),
         ]);
+
 
             return new ClientResource($client);
         }

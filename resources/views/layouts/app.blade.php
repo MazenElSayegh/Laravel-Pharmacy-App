@@ -220,7 +220,7 @@
                 </a>
               </li>
               @endif
-              @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('pharmacy') || auth()->user()->hasRole('doctor'))
+              @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('pharmacy') || auth()->user()->hasRole('doctor') && auth()->user()->typeable->is_banned==0)
               <li class="nav-item">
                 <a href="{{route('orders.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Console\Commands\InactiveClientCommand;
 use App\Notifications\GreetingNotification;
+use App\Notifications\InactiveClientNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -63,5 +65,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function greetingClient(){
         $this->notify(new GreetingNotification);
+    }
+    public function notifyClient(){
+        $this->notify(new InactiveClientNotification);
     }
 }

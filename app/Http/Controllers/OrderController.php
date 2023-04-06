@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\DataTables\OrdersDataTable;
 use App\Http\Requests\StoreOrderRequest;
+use App\Jobs\OrdersAssignJob;
 use App\Models\Address;
 use App\Models\Client;
 use App\Models\Doctor;
@@ -90,7 +91,7 @@ class OrderController extends Controller
             'pharmacy_id'=>$pharmacy_id,
             'doctor_id'=>$doctor_id,
             'address_id'=>$address_id,
-            'status'=>1,
+            'status'=>3,
             'creator_type'=>'admin',
         ]);
     }elseif(auth()->user()->hasRole('pharmacy')){
@@ -101,7 +102,7 @@ class OrderController extends Controller
             'pharmacy_id'=>auth()->user()->typeable_id,
             'doctor_id'=>null,
             'address_id'=>$address_id,
-            'status'=>1,
+            'status'=>3,
             'creator_type'=>'pharmacy',
         ]);
     }else{
@@ -112,7 +113,7 @@ class OrderController extends Controller
             'pharmacy_id'=>auth()->user()->typeable->pharmacy_id,
             'doctor_id'=>auth()->user()->typeable_id,
             'address_id'=>$address_id,
-            'status'=>2,
+            'status'=>3,
             'creator_type'=>'doctor',
         ]);
     }
@@ -128,7 +129,8 @@ class OrderController extends Controller
             ]);
              
          }
-         $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
+        //  $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
+         $client = Client::find($client_id)->type;
         //  dd($client);
          Notification::send($client,new NotifyUserOrderDetails($order,$medicines));
 
@@ -183,7 +185,7 @@ class OrderController extends Controller
         'pharmacy_id'=>$pharmacy_id,
         'doctor_id'=>$doctor_id,
         'address_id'=>$address_id,
-        'status'=>1,
+        'status'=>3,
         'creator_type'=>'doctor',
     ]);
    
@@ -213,5 +215,37 @@ class OrderController extends Controller
     Order::destroy($id);
   
     return redirect()->route('orders.index');
+    }
+
+    public function assign()
+    {
+        $newOrders=Order::where('status','New')->get();
+        // dd($newOrders);
+        $pharmacies=Pharmacy::all();
+        $count=0;
+        $countph=0;
+        $countif=0;
+        foreach($newOrders as $order){
+            $highestPriority= 0;
+            $count++;
+            foreach($pharmacies as $pharmacy){
+                $countph++;
+                if($pharmacy->area_id==$order->address->area_id){
+                    if($highestPriority<$pharmacy->priority){
+                        $highestPriority= $pharmacy->priority; 
+                        $countif++;
+                        $order->update([ 
+                            'status'=>'Processing',
+                            'pharmacy_id'=> $pharmacy->id,
+                            'doctor_id'=> $pharmacy->doctors->first()->id,
+                        ]);
+                    }
+                }
+            }
+        }
+        dd($count,$countph,$countif);
+        
+        OrdersAssignJob::dispatch();
+        return to_route('orders.index');    
     }
 }
