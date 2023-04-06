@@ -29,9 +29,10 @@ class OrdersAssignJob implements ShouldQueue
     public function handle(): void
     {
         $newOrders=Order::where('status','New')->get();
+        // dd($newOrders);
         $pharmacies=Pharmacy::all();
-        $highestPriority= 0;
         foreach($newOrders as $order){
+            $highestPriority= 0;
             foreach($pharmacies as $pharmacy){
                 if($pharmacy->area_id==$order->address->area_id){
                     if($highestPriority<$pharmacy->priority){
@@ -41,8 +42,6 @@ class OrdersAssignJob implements ShouldQueue
                             'pharmacy_id'=> $pharmacy->id,
                             'doctor_id'=> $pharmacy->doctors->first()->id,
                         ]);
-                        // dd($pharmacy->doctors->first()->id);
-                        // dd($order->status);
                     }
                 }
             }

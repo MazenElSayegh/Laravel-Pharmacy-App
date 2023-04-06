@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pharmacy>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client>
  */
-class PharmacyFactory extends Factory
+class ClientFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +18,10 @@ class PharmacyFactory extends Factory
     {
         return [
             'national_id'=> $this->faker->unique()->randomNumber(5),
-            'priority'=>$this->faker->randomDigit(),
-            'image_path'=> 'defaultImages/default.jpg',
+            'mobile'=> $this->faker->phoneNumber(),
+            'gender'=> 'M',
+            'birth_day'=>$this->faker->date(),
+            'avatar'=> 'defaultImages/default.jpg',
         ];
     }
 }

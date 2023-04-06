@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('status', ['New', 'Processing', 'WaitingForUserConfirmation','Confirmed','Delivered','Canceled']);
             $table->unsignedBigInteger('total_price')->nullable();
             $table->string('prescription_image')->nullable();
-            $table->string('creator_type');
+            $table->string('creator_type')->nullable();
             $table->timestamps();
            
             $table->bigInteger('doctor_id')->unsigned()->nullable();

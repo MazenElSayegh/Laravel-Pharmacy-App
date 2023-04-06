@@ -132,7 +132,7 @@ class PharmacyController extends Controller
         $pharmacy->doctors()->each(function ($doctor) {
             if(!$doctor->orders()->exists()){
                 $doctor->delete();
-                
+                $doctor->type->delete();
             }
         });
         if(!$pharmacy->doctors()->exists()){
