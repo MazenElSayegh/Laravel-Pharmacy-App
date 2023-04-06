@@ -12,11 +12,7 @@ class VerificationController extends Controller
     public function sendVerificationEmail(Request $request)
     {
         
-        // if ($request->client()->hasVerifiedEmail()) {
-        //     return [
-        //         'message' => 'Already Verified'
-        //     ];
-        // }
+        
         $clientID = $request->id;
         $client = User::find($clientID);
         $client->sendEmailVerificationNotification();

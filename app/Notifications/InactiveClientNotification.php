@@ -36,7 +36,7 @@ class InactiveClientNotification extends Notification
     {
         return (new MailMessage)
         ->line('Hey there!! we missed you in our website')
-        ->action('Please login again soon', route('login'))
+        ->action('Please login again soon', url('/'))
         ->line('Thanks for using our application :D ');
     }
 

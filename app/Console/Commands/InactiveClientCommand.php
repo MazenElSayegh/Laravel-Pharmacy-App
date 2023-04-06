@@ -27,7 +27,7 @@ class InactiveClientCommand extends Command
      */
     public function handle(): void
     {
-        $limit = Carbon::now()->subMinutes(5);
+        $limit = Carbon::now()->subMonth();
         $inactive_user = Client::where('last_login', '<', $limit)->get();
         foreach ($inactive_user as $userClient) {
             $user = $userClient->type;

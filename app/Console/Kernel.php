@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->job(new OrdersAssignJob)->everyMinute();
         $schedule->command('email:inactive-client-command')
-            ->everyMinute()
+            ->daily()
             ->evenInMaintenanceMode()
             ->runInBackground();
 
