@@ -44,7 +44,7 @@ class NotifyUserOrderDetails extends Notification implements ShouldQueue
                     ->line('Order Details')
                     ->line('Order Total Price : '.$this->order['total_price'].'$')
 
-                    ->line('Medicine : '.$this->medicine)
+                    // ->line('Medicine : '.$this->medicine)
                     ->action('Confirm order ', route('orders.show',$this->order['id']))
                     
                     ->line('Thank you for using our application!');

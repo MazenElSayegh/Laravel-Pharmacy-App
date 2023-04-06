@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\DataTables\OrdersDataTable;
 use App\Http\Requests\StoreOrderRequest;
+use App\Jobs\OrdersAssignJob;
 use App\Models\Address;
 use App\Models\Client;
 use App\Models\Doctor;
@@ -128,7 +129,8 @@ class OrderController extends Controller
             ]);
              
          }
-         $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
+        //  $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
+         $client = Client::find($client_id)->type;
         //  dd($client);
          Notification::send($client,new NotifyUserOrderDetails($order,$medicines));
 
@@ -214,4 +216,10 @@ class OrderController extends Controller
   
     return redirect()->route('orders.index');
     }
+
+    // public function assign()
+    // {
+    //     OrdersAssignJob::dispatch();
+    //     return to_route('orders.index');    
+    // }
 }
