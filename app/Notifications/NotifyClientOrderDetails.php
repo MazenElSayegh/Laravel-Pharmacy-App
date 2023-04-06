@@ -6,22 +6,22 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Js;
-use PhpParser\Node\Stmt\Foreach_;
-use PhpParser\Parser\Php5;
 
-class NotifyUserOrderDetails extends Notification implements ShouldQueue
+class NotifyClientOrderDetails extends Notification
 {
     use Queueable;
     public $order;
-    public $medicine;
+    public $medicines;
+    public $client;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct($order ,$medicine)
+    public function __construct($order ,$medicines , $client)
     {
         $this->order =$order;
-        $this->medicine =$medicine;
+        $this->medicines =$medicines;
+        $this->client = $client;
     }
 
     /**
@@ -39,20 +39,21 @@ class NotifyUserOrderDetails extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        foreach($this->medicine as $med){
-            $medicine2= json_decode($med, true);
-            // ->link('order details')
+        $emptyArray=array();
 
-            // dd($medicine);
+        for($i = 0 ; $i<count($this->medicines);$i++) {
+            $medicine= json_decode($this->medicines[$i], true);
+            array_push($emptyArray,$medicine);
+        }
+        // dd($);
+        foreach($emptyArray as $arr)
+        {
+            // dd($arr);
         }
         return (new MailMessage)
-                    ->line('Order Details')
-                    ->line('Order Total Price : '.$this->order['total_price'].'$')
-                  
-                    // ->line('Medicine : '.$this->medicine)
-                    ->action('Confirm order ', route('orders.show',$this->order['id']))
-                   
-                    ->line('Thank you for using our application!');
+        // ->line('Order Details')
+        // ->line('Order Total Price : '.$this->order['total_price'].'$')
+        ->markdown('mail.orders.view',['order'=>$this->order,'medicines'=>$emptyArray , 'client'=>$this->client , 'url'=>route('orders.confirm',$this->order['id'])]);
     }
 
     /**

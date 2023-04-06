@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Models\User;
+use App\Notifications\NotifyClientOrderDetails;
 use Illuminate\Support\Facades\Storage;
 class OrderController extends Controller
 {
@@ -132,7 +133,8 @@ class OrderController extends Controller
         //  $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
          $client = Client::find($client_id)->type;
         //  dd($client);
-         Notification::send($client,new NotifyUserOrderDetails($order,$medicines));
+         Notification::send($client,new NotifyClientOrderDetails($order,$medicines,$client));
+        //  dd($medicines);
 
         return to_route('orders.index');
     }

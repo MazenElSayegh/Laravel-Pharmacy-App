@@ -199,7 +199,7 @@
       let medprice =  JSON.parse($(this).find(":selected").val()).price;
       let medqty= $(this).parent().next().children(':first-child').next().val();
     let total_price = Number(medqty)*Number(medprice);
-    
+     console.log("hi");
    $(this).parent().next().next().children(':first-child').next().val(medprice);
    $(this).parent().next().next().next().children(':first-child').next().val(total_price);
 
