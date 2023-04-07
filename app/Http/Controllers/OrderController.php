@@ -53,7 +53,12 @@ class OrderController extends Controller
     public function create()
     {
         $allClients = Client::all();
-        $allMedicines = PharmaciesMedicines::all();
+        if(auth()->user()->hasRole('admin')){
+            $allMedicines = PharmaciesMedicines::all();
+        }else{
+            $allMedicines = PharmaciesMedicines::where('pharmacy_id',auth()->user()->typeable_id)->get();
+        }
+
         $Medicines = Medicine::all();
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
@@ -76,7 +81,11 @@ class OrderController extends Controller
             $medicines =request()->medicine_name;
             // dd($medicines);
             //$pharmacy_id=json_decode(request()->pharmacy_name[0],true)['pharmacy_id'];
-            $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
+            if(json_decode(request()->pharmacy_name,true)!=null){
+                $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
+            }else{
+                $reqPharmId=null;
+            }
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
             $doctor_id = request()->doctor_name!=NULL?request()->doctor_name:"";
@@ -145,8 +154,13 @@ class OrderController extends Controller
         $order= Order::find($id);
         $allClients = Client::all();
         $client = Client::find($order->client_id);
-        // dd($client);
-        $allMedicines = pharmaciesMedicines::all();
+       
+        if(auth()->user()->hasRole('admin')){
+            $allMedicines = PharmaciesMedicines::all();
+        }else{
+            $allMedicines = PharmaciesMedicines::where('pharmacy_id',auth()->user()->typeable_id)->get();
+        }
+
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
         $allDoctors = Doctor::all();
