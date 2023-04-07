@@ -29,7 +29,8 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
- 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed"  onload="selectAddress()">
 <div class="wrapper">
@@ -81,12 +82,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
     <!-- Right navbar links -->
+
+    
+
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
+      
       <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
           <i class="fas fa-search"></i>
         </a>
+        <ul >
+          <button class="btn btn-dark-mode" type="button" data-toggle="toggle" data-onstyle="dark" data-offstyle="light" data-on="Dark Mode" data-off="Light Mode"></button>
+        </ul>
+        
         <div class="navbar-search-block">
           <form class="form-inline">
             <div class="input-group input-group-sm">
@@ -102,9 +111,11 @@
             </div>
           </form>
         </div>
+
+        
       </li>
 
-    
+    </ul>
   </nav>
   <!-- /.navbar -->
 
@@ -158,7 +169,7 @@
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Dashboard
+                Pharmacy System 
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -245,14 +256,9 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">Pharmacy System</h1>
           </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
+         
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -384,6 +390,21 @@
   
     {{-- <script src="{{ asset('js/order.js')}}"></script> --}}
 
+
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/plugins/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/js/adminlte.min.js"></script>
+
+<!-- Add this script to your custom JavaScript file -->
+<script>
+  $(document).ready(function() {
+    $('.btn-dark-mode').on('click', function() {
+      $('body').toggleClass('dark-mode');
+    });
+  });
+
+  
+</script>
 </body>
 </html>
 
