@@ -40,6 +40,8 @@ class MedicinesDataTable extends DataTable
             return $medicine->pharmacy->type->name;
         })->addColumn('medicine', function (PharmaciesMedicines $medicine) {
             return $medicine->medicine->name;
+        })->addColumn('created_at', function (PharmaciesMedicines $medicine) {
+            return $medicine->created_at->format("Y-m-d");
         })
     ;
     }

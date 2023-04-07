@@ -66,6 +66,8 @@ class OrdersDataTable extends DataTable
             }else{
                 return "";
             }
+        })->addColumn('created_at', function (Order $medicine) {
+            return $medicine->created_at->format("Y-m-d");
         })
     ;
     }
@@ -120,7 +122,7 @@ class OrdersDataTable extends DataTable
             Column::make('is_insured'),
             Column::make('status'),
             Column::make('created_at'),
-            Column::make('creator_type'),
+            Column::make('creator_type')->visible(auth()->user()->hasRole("admin")),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

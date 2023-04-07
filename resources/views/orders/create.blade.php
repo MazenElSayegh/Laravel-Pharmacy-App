@@ -57,8 +57,9 @@
       
         
      </select>
+    </div>
      @endrole
-     @role('pharmacy')
+    @if(auth()->user()->hasRole('pharmacy') || auth()->user()->hasRole('doctor'))
      <div class="row medData">
         <div class="col-md-4 mb-3 mt-3 ">
     
@@ -70,9 +71,8 @@
             <option value="{{$medicine}}">{{$medicine->medicine->name}}</option>
         @endforeach
     </select>
-        
-        </div>
-      @endrole
+    </div>
+    @endif
                <div class="col-md-2 mb-3 mt-3">
                 <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
                 <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0" min="0"  placeholder="medicine quantity">
@@ -171,7 +171,7 @@
     
       </div>
       @endrole
-      @role('pharmacy')
+      @if(auth()->user()->hasRole('pharmacy') || auth()->user()->hasRole('doctor'))
      <div class="row medData">
         <div class="col-md-4 mb-3 mt-3 ">
     
@@ -183,9 +183,8 @@
             <option value="{{$medicine}}">{{$medicine->medicine->name}}</option>
         @endforeach
     </select>
-        
-        </div>
-      @endrole
+    </div>
+    @endif
              <div class="col-md-2 mb-3 mt-3">
               <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
               <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0"  min="0" placeholder="medicine quantity">
