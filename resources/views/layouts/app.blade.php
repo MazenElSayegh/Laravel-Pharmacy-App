@@ -29,8 +29,7 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/css/adminlte.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed"  onload="selectAddress()">
 <div class="wrapper">
@@ -81,37 +80,8 @@
     <!-- Right navbar links -->
 
     
-
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <ul >
-          <button class="btn btn-dark-mode" type="button" data-toggle="toggle" data-onstyle="dark" data-offstyle="light" data-on="Dark Mode" data-off="Light Mode"></button>
-        </ul>
-        
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-
-        
-      </li>
-
+      <li class="nav-item"><button class="btn btn-dark-mode" type="button" data-toggle="toggle" data-onstyle="dark" data-offstyle="light" data-on="Dark Mode" data-off="Light Mode"></button></li>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -269,8 +239,6 @@
      <!-- /.main-content -->
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://adminlte.io"></a>.</strong>
-    All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>ITI</b> OS-43
     </div>
@@ -388,19 +356,13 @@
     {{-- <script src="{{ asset('js/order.js')}}"></script> --}}
 
 
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/plugins/jquery/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/js/adminlte.min.js"></script>
-
 <!-- Add this script to your custom JavaScript file -->
 <script>
   $(document).ready(function() {
     $('.btn-dark-mode').on('click', function() {
       $('body').toggleClass('dark-mode');
     });
-  });
-
-  
+  }); 
 </script>
 </body>
 </html>
