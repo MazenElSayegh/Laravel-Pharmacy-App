@@ -66,6 +66,8 @@ class OrdersDataTable extends DataTable
             }else{
                 return "";
             }
+        })->addColumn('created_at', function (Order $order) {
+            return $order->created_at->format("Y-m-d");
         })
     ;
     }
