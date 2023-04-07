@@ -10,7 +10,7 @@ use App\Models\Medicine;
 use App\Models\MedicinesOrder;
 use App\Models\Order;
 use App\Models\Pharmacy;
-
+use App\Models\PharmaciesMedicines;
 use App\Notifications\NotifyUserOrderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,6 +64,24 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
+        if($request->newMedicine!=null){
+            Medicine::create([
+            'name' => $request->name,
+            'price' => $request->price,   
+			'type' => $request->type,
+            ]);
+            
+            PharmaciesMedicines::create([
+                      
+                'medicine_id' =>$medicine['id'],
+                'pharmacy_id' =>$request->pharmacy_id,
+                'quantity' =>$request->quantity,
+            ]);
+
+        }
+
+                
+        
         $orderTotalPrice=0;
         $medTotalPrices =request()->total_price;
         foreach($medTotalPrices as $medTotalPrice)
@@ -75,7 +93,8 @@ class OrderController extends Controller
             
             $client_id =json_decode(request()->client_name, true)['id']; 
             $medicines =request()->medicine_name;
-            // dd($medicines);
+            
+           
             // dd($medicines);
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
@@ -88,11 +107,13 @@ class OrderController extends Controller
             'total_price'=>$orderTotalPrice,
             'client_id'=>$client_id,
             'pharmacy_id'=>$pharmacy_id,
-            'doctor_id'=>$doctor_id,
+            'doctor_id'=>null,
             'address_id'=>$address_id,
             'status'=>1,
-            'creator_type'=>'admin',
+            'creator_type'=>'pharmacy',
         ]);
+
+        
     }elseif(auth()->user()->hasRole('pharmacy')){
         $order=Order::create([
             'is_insured'=>$is_insured,
@@ -116,22 +137,25 @@ class OrderController extends Controller
             'creator_type'=>'doctor',
         ]);
     }
+   
         for($i = 0 ; $i<count($medicines);$i++){
             $medicine= json_decode($medicines[$i], true);
             $medicine_order=MedicinesOrder::create([
                
                 
                 'order_id' =>$order['id'],
-                'medicine_id' =>$medicine['id'],
+                'medicine_id' =>$medicine['medicine_id'],
                 'quantity' =>$medicine_quantity[$i],
         
             ]);
-             
+            
          }
+         
          $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
         //  dd($client);
+        
          Notification::send($client,new NotifyUserOrderDetails($order,$medicines));
-
+        // dd($medicines);
         return to_route('orders.index');
     }
 
@@ -142,7 +166,7 @@ class OrderController extends Controller
         $order= Order::find($id);
         $allClients = Client::all();
         
-        $allMedicines = Medicine::all();
+        $allMedicines = PharmaciesMedicines::all();
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
         $allDoctors = Doctor::all();

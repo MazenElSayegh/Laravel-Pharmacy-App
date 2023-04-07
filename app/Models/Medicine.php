@@ -11,8 +11,8 @@ class Medicine extends Model
 
     protected $fillable = [
         'name',
-        'price',
         'type',
+        'price',
     ];
     public function pharmaciesMedicines(){
         

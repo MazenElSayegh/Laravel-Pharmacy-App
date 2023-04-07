@@ -21,7 +21,7 @@
   <div class="mt-4"> 
     <label for="ClientName" class="form-label">Client Name</label>
     <select id="ClientName" onchange="selectAddress()" name="client_name" class="form-control w-50">
-        <option></option>
+        <option name="newMedicine"></option>
         @foreach($clients as $client)
           
             <option value="{{$client}}">{{$client->type->name }} </option>
@@ -29,27 +29,17 @@
     </select>
   </div>
   @role('admin')
-  <div class="mt-4">
+  <div class="mt-4 pharmData">
     <label for="PharmacyName" class="form-label">Pharmacy Name</label>
-    <select id="PharmacyName"  name="pharmacy_name" class="form-control w-50">
+    <select id="PharmacyName"  name="pharmacy_name" class="form-control w-50 pharmSelect">
         <option></option>
         @foreach($pharmacies as $pharmacy)
-            <option value="{{$pharmacy->id}}">{{$pharmacy->type->name}}</option>
+            <option value="{{$pharmacy}}">{{$pharmacy->type->name}}</option>
+          
         @endforeach
     </select>
   </div>
   @endrole
-  @role('admin')
-  <div class="mt-4">
-    <label for="DoctorName" class="form-label">Doctor Name</label>
-    <select id="DoctorName"  name="doctor_name" class="form-control w-50">
-        <option></option>
-        @foreach($doctors as $doctor)
-            <option value="{{$doctor->id}}">{{$doctor->type->name}}</option>
-        @endforeach
-    </select>
-  </div>
-@endrole
 
   <div id="show_item" >
     {{-- <select id="om" class="form-control">
@@ -111,7 +101,7 @@
     
     <div class="row">
       <div class="col-md-6 mb-3 mt-3">
-            <label for="deliviringaddress" class="form-label">DeliviringAddress</label>
+            <label for="deliviringaddress" class="form-label">DeliveringAddress</label>
                 <select id="deliviringaddress" name="delivering_address" class="form-control" data-address ="{{$addresses}}" >
                   
                  </select>
@@ -161,9 +151,9 @@
     
     <label for="MedicineName" class="form-label ">Medicine Name</label>
     <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect">
-          <option ></option>
-          @foreach($medicines as $medicine)
-             <option value="{{$medicine}}">{{$medicine->name}}</option>
+               <option name="newMedicine" ></option>
+         @foreach($medicines as $medicine)
+             <option    value="{{$medicine}}">{{$medicine->name}}</option>
          @endforeach
     </select>
     
@@ -193,10 +183,25 @@
       placeholder: "Select a medicine name",
     
     });
+
+
+    /*$(".pharmData").on("change",".pharmSelect",{},function (e){
+      let medInPharmacies =  JSON.parse($(this).find(":selected").val());
+      
+      for(let i=0 ; i<medInPharmacies.length;i++){
+        var option = $('<option/>');
+        option.attr({ 'value':String(medInPharmacies[i]['medicine_id']) }).text(String(medInPharmacies[i]['name']));
+        $('.jqSelect').append(option)
+      }
+     
+});*/
   
 
     $(".medData").on("change",".jqSelect",{},function(e){
+      console.log("hiiii");
+
       let medprice =  JSON.parse($(this).find(":selected").val()).price;
+
       let medqty= $(this).parent().next().children(':first-child').next().val();
     let total_price = Number(medqty)*Number(medprice);
     

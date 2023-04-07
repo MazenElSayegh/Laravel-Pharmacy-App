@@ -20,16 +20,6 @@
         @csrf
         @method("PUT")
         <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input name="name" type="text" class="form-control" id="name" value="{{$medicine->name}}">
-        </div>
-
-        <div class="mb-3">
-            <label for="type" class="form-label">Type</label>
-            <input name="type" type="text" class="form-control" id="type" value="{{$medicine->type}}">
-        </div>
-
-        <div class="mb-3">
             <label for="price" class="form-label">Price</label>
             <input name="price" type="text" class="form-control" id="price" value="{{$medicine->price}}">
         </div>

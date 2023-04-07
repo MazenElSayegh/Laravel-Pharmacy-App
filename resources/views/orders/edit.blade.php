@@ -66,7 +66,7 @@
      <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect  ">
             <option  ></option>
          @foreach($medicines as $medicine)
-             <option    value="{{$medicine}}">{{$medicine->name}}</option>
+             <option    value="{{$medicine}}">{{$medicine->medicine->name}}</option>
          @endforeach
      </select>
      
@@ -95,21 +95,7 @@
     
   </div>
 
-<div class="row">
- <div class="col-md-6 mb-3 mt-3">
-                <label for="OrderTotalPrice" class="form-label">Is Insured</label>
-                <select id="isinsured" name="is_insured" class="form-control">
-                  <option ></option>
-                  <option value="1">Insured</option>
-                  <option value="0">Not Insured</option>
-             
-           </select>
-                
-                   </div>
-                  </div>
-
-
-    
+@if($order->creator_type!="user")    
     <div class="row">
       <div class="col-md-6 mb-3 mt-3">
             <label for="deliviringaddress" class="form-label">DeliviringAddress</label>
@@ -119,6 +105,7 @@
                                  
       </div>
   </div>
+@endif
 
 
 
@@ -158,7 +145,7 @@
     <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect">
           <option ></option>
           @foreach($medicines as $medicine)
-             <option value="{{$medicine}}">{{$medicine->name}}</option>
+             <option value="{{$medicine}}">{{$medicine->medicine->name}}</option>
          @endforeach
     </select>
     

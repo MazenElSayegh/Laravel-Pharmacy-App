@@ -37,5 +37,9 @@ class Pharmacy extends Model
     {
         return $this->hasMany(Order::class);
     }
+    public function pharmaciesMedicines(){
+        
+        return $this->hasMany(PharmaciesMedicines::class);
+    }
     
 }

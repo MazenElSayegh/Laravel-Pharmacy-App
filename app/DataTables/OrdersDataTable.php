@@ -118,6 +118,7 @@ class OrdersDataTable extends DataTable
             Column::make('is_insured'),
             Column::make('status'),
             Column::make('created_at'),
+            Column::make('creator_type'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

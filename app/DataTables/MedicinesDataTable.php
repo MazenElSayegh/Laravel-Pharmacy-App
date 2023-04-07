@@ -40,6 +40,8 @@ class MedicinesDataTable extends DataTable
             return $medicine->pharmacy->type->name;
         })->addColumn('medicine', function (PharmaciesMedicines $medicine) {
             return $medicine->medicine->name;
+        })->addColumn('price', function (PharmaciesMedicines $medicine) {
+            return $medicine->medicine->price;
         })
     ;
     }
@@ -87,6 +89,7 @@ class MedicinesDataTable extends DataTable
             Column::make('id'),
             Column::make('pharmacy')->visible(auth()->user()->hasRole("admin")),
             Column::make('medicine'),
+            Column::make('price'),
             Column::make('quantity'),
             Column::make('created_at'),
            

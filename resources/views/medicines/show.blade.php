@@ -18,7 +18,7 @@
     <div class="card-body">
       <div><b>Name: </b> {{$medicine->medicine->name}}</div>
       <div><b>Type: </b> {{$medicine->medicine->type}}</div>
-      <div><b>Price: </b> {{$medicine->medicine->price}}</div>
+      <div><b>Price: </b> {{$medicine->price}}</div>
       <div><b>Quantity: </b> {{$medicine->quantity}}</div>
       <div><b>Created At: </b> {{$medicine->created_at}}</div>
       <div><b>Updated At: </b> {{$medicine->updated_at}}</div>
