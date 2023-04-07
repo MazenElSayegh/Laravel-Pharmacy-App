@@ -47,19 +47,32 @@
         <option>white</option>
         <option>purple</option>
       </select> --}}
+      @role('admin')
       <div class="row medData">
         <div class="col-md-4 mb-3 mt-3 ">
     
     
      <label for="MedicineName" class="form-label ">Medicine Name</label>
      <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect  ">
-            <!-- <option  ></option>
-         @foreach($medicines as $medicine)
-             <option    value="{{$medicine}}">{{$medicine->name}}</option>
-         @endforeach -->
+      
+        
      </select>
-     
+     @endrole
+     @role('pharmacy')
+     <div class="row medData">
+        <div class="col-md-4 mb-3 mt-3 ">
+    
+    
+     <label for="MedicineName" class="form-label ">Medicine Name</label>
+     <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect  ">
+      
+        @foreach($medicines as $medicine)
+            <option value="{{$medicine}}">{{$medicine->medicine->name}}</option>
+        @endforeach
+    </select>
+        
         </div>
+      @endrole
                <div class="col-md-2 mb-3 mt-3">
                 <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
                 <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0" min="0"  placeholder="medicine quantity">
@@ -146,7 +159,9 @@
         e.preventDefault();
       
         var newDiv = document.createElement("div");        
-        newDiv.innerHTML = ` <div class="row medData">
+        newDiv.innerHTML = `
+        @role('admin')
+        <div class="row medData">
       <div class="col-md-4 mb-3 mt-3">
     
     <label for="MedicineName" class="form-label ">Medicine Name</label>
@@ -155,6 +170,22 @@
     </select>
     
       </div>
+      @endrole
+      @role('pharmacy')
+     <div class="row medData">
+        <div class="col-md-4 mb-3 mt-3 ">
+    
+    
+     <label for="MedicineName" class="form-label ">Medicine Name</label>
+     <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect  ">
+      
+        @foreach($medicines as $medicine)
+            <option value="{{$medicine}}">{{$medicine->medicine->name}}</option>
+        @endforeach
+    </select>
+        
+        </div>
+      @endrole
              <div class="col-md-2 mb-3 mt-3">
               <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
               <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0"  min="0" placeholder="medicine quantity">
@@ -207,7 +238,6 @@
       console.log(medprice);
       let medqty= $(this).parent().next().children(':first-child').next().val();
     let total_price = Number(medqty)*Number(medprice);
-     console.log("hi");
    $(this).parent().next().next().children(':first-child').next().val(medprice);
    $(this).parent().next().next().next().children(':first-child').next().val(total_price);
 

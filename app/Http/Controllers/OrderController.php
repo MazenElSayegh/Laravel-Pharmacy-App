@@ -43,7 +43,12 @@ class OrderController extends Controller
     public function create()
     {
         $allClients = Client::all();
-        $allMedicines = PharmaciesMedicines::all();
+        if(auth()->user()->hasRole('admin')){
+            $allMedicines = PharmaciesMedicines::all();
+        }else{
+            $allMedicines = PharmaciesMedicines::where('pharmacy_id',auth()->user()->typeable_id)->get();
+        }
+
         $Medicines = Medicine::all();
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
@@ -64,7 +69,14 @@ class OrderController extends Controller
             
             $client_id =json_decode(request()->client_name, true)['id']; 
             $medicines =request()->medicine_name;
-            $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
+           
+            // dd($medicines);
+            //$pharmacy_id=json_decode(request()->pharmacy_name[0],true)['pharmacy_id'];
+            if(json_decode(request()->pharmacy_name,true)!=null){
+                $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
+            }else{
+                $reqPharmId=null;
+            }
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
             $doctor_id = request()->doctor_name!=NULL?request()->doctor_name:"";
@@ -79,7 +91,7 @@ class OrderController extends Controller
             'doctor_id'=>null,
             'address_id'=>$address_id,
             'status'=>3,
-            'creator_type'=>'admin',
+            'creator_type'=>'pharmacy',
         ]);
     }elseif(auth()->user()->hasRole('pharmacy')){
         $order=Order::create([
@@ -106,17 +118,53 @@ class OrderController extends Controller
     }
         for($i = 0 ; $i<count($medicines);$i++){
             $medicine= json_decode($medicines[$i], true);
+            // dd($medicine);
             $medicine_order=MedicinesOrder::create([
                
                 
                 'order_id' =>$order['id'],
-                'medicine_id' =>$medicine['id'],
+                'medicine_id' =>$medicine['medicine_id'],
                 'quantity' =>$medicine_quantity[$i],
         
             ]);
              
          }
+
+         $medicinesPharmacy=array();
+        //  dd($medicines);
+         for($i = 0 ; $i<count($medicines);$i++) {
+             $medicine= json_decode($medicines[$i], true);
+            //  dd( $medicine);
+             array_push($medicinesPharmacy,$medicine);
+         }
+        //  dd($pharmacy_id);
+        // $object = (object)$medicines;
+        // dd($object);
+         $medPrice=array();
+         $medName=array();
+         $medQuantity=array();
+         $pharmacyName= Pharmacy::find($pharmacy_id)->type->name;
+      
+         foreach($medicinesPharmacy as $med)
+         {
+            $medicineName = Medicine::find($med['medicine_id']);
+            $medicineQuantity = MedicinesOrder::where('medicine_id',$med['medicine_id'])->where('order_id',$order['id'])->first();
+            // dd($medicineQuantity);
+            array_push($medName,$medicineName['name'] );
+            array_push($medPrice,$med['price']);
+            array_push($medQuantity,$medicineQuantity['quantity']);
+            
+         }
+
+        //  dd($medicines , $medPrice, $medName,$medQuantity);
+ 
+        //  dd( $medQuantity);
+        //  $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
          $client = Client::find($client_id)->type;
+        //  dd($client);
+         Notification::send($client,new NotifyClientOrderDetails($order,$medName,$medQuantity,$medPrice,$client,$pharmacyName));
+        //  dd($medicines);
+
         return to_route('orders.index');
     }
 
@@ -127,7 +175,13 @@ class OrderController extends Controller
         $order= Order::find($id);
         $allClients = Client::all();
         $client = Client::find($order->client_id);
-        $allMedicines = pharmaciesMedicines::all();
+       
+        if(auth()->user()->hasRole('admin')){
+            $allMedicines = PharmaciesMedicines::all();
+        }else{
+            $allMedicines = PharmaciesMedicines::where('pharmacy_id',auth()->user()->typeable_id)->get();
+        }
+
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
         $allDoctors = Doctor::all();
@@ -167,7 +221,6 @@ class OrderController extends Controller
         'doctor_id'=>$doctor_id,
         'address_id'=>$address_id,
         'status'=>3,
-        'creator_type'=>'doctor',
     ]);
    
  
@@ -178,7 +231,7 @@ class OrderController extends Controller
            
             
             'order_id' =>$id,
-            'medicine_id' =>$medicine['id'],
+            'medicine_id' =>$medicine['medicine_id'],
             'quantity' =>$medicine_quantity[$i],
     
         ]);

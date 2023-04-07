@@ -11,17 +11,23 @@ class NotifyClientOrderDetails extends Notification
 {
     use Queueable;
     public $order;
-    public $medicines;
+    public $medName;
+    public $medQuantity;
+    public $medPrice;
     public $client;
+    public $pharmacyName;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($order ,$medicines , $client)
+    public function __construct($order ,$medName,$medQuantity,$medPrice , $client ,$pharmacyName)
     {
         $this->order =$order;
-        $this->medicines =$medicines;
+        $this->medName =$medName;
+        $this->medQuantity =$medQuantity;
+        $this->medPrice =$medPrice;
         $this->client = $client;
+        $this->pharmacyName = $pharmacyName;
     }
 
     /**
@@ -39,20 +45,12 @@ class NotifyClientOrderDetails extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $emptyArray=array();
-
-        for($i = 0 ; $i<count($this->medicines);$i++) {
-            $medicine= json_decode($this->medicines[$i], true);
-            array_push($emptyArray,$medicine);
-        }
-        foreach($emptyArray as $arr)
-        {
-        }
+       
         return (new MailMessage)
         
         ->markdown('mail.orders.view',['order'=>$this->order,'medicines'=>$emptyArray , 'client'=>$this->client , 'confirmUrl'=>route('orders.confirm',$this->order['id']) , 'cancelUrl'=>route('orders.cancel',$this->order['id'])]);
     }
-
+    // Route("payments.checkout",["id"=>$id])
     /**
      * Get the array representation of the notification.
      *

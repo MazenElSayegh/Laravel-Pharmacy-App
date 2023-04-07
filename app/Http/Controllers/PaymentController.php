@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicine;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\DB;
@@ -16,15 +17,18 @@ class PaymentController extends Controller
     public function checkout(Request $request) {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
         $order_id = $request->id;
-
+        $order= Order::find($order_id);
+			$order->status ="Confirmed";
+			$order->save();
 
         $orderDetails = DB::table('medicines_orders')->where('order_id', $order_id)->get();
         $line_items = [];
         foreach($orderDetails as $order) {
-            $medicineItem = Medicine::find($order->medicine_id);
+            $medicineItemName = Medicine::find($order->medicine_id);
+            $medicineItemPrice = DB::table('pharmacies_medicines')->where('medicine_id', $order->medicine_id)->first();
             
-            $medicineName = $medicineItem->name;
-            $medicinePrice = $medicineItem->price;
+            $medicineName = $medicineItemName->name;
+            $medicinePrice = $medicineItemPrice->price;
             $quantity = $order->quantity;
             $orderItem = [
                 'price_data' => [
