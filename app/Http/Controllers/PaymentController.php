@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicine;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,9 @@ class PaymentController extends Controller
     public function checkout(Request $request) {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
         $order_id = $request->id;
-
+        $order= Order::find($order_id);
+			$order->status ="Confirmed";
+			$order->save();
 
         $orderDetails = DB::table('medicines_orders')->where('order_id', $order_id)->get();
         $line_items = [];

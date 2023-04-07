@@ -53,10 +53,7 @@
     
      <label for="MedicineName" class="form-label ">Medicine Name</label>
      <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect  ">
-            <!-- <option  ></option>
-         @foreach($medicines as $medicine)
-             <option    value="{{$medicine}}">{{$medicine->name}}</option>
-         @endforeach -->
+        
      </select>
      
         </div>
