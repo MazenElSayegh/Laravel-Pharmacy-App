@@ -13,147 +13,154 @@ class MedicineController extends Controller
 {
     public function index(MedicinesDataTable $dataTable)
     {
-        
-        return $dataTable->render('medicines.index');
-        
-
+        return $dataTable->render("medicines.index");
     }
 
-    public function create() {
+    public function create()
+    {
         $pharmacies = Pharmacy::all();
-        $medicines= Medicine::all();
-        return view('medicines.create',['pharmacies' => $pharmacies],['medicines'=>$medicines]);
+        $medicines = Medicine::all();
+        return view(
+            "medicines.create",
+            ["pharmacies" => $pharmacies],
+            ["medicines" => $medicines]
+        );
     }
 
-    public function store(StoreMedicineRequest $request) {
-       
-        if($request->existingMedicine=="none"){
+    public function store(StoreMedicineRequest $request)
+    {
+        if ($request->existingMedicine == "none") {
             $request->validate([
-                'name'=>['required'],
+                "name" => ["required"],
             ]);
             $request->validate([
-                'type'=>['required'],
+                "type" => ["required"],
             ]);
-        $medicine=Medicine::create([
-			'name' => $request->name,
-            
-			'type' => $request->type
-		]);
-        if (auth()->user()->hasRole('pharmacy')){
-            PharmaciesMedicines::create([
-                   
-               
-                'medicine_id' =>$medicine['id'],
-                'pharmacy_id' =>auth()->user()->typeable_id,
-                'quantity' =>$request->quantity,
-                'price' =>$request->price,
-        
+            $medicine = Medicine::create([
+                "name" => $request->name,
+
+                "type" => $request->type,
             ]);
-        }else{
-            
-            PharmaciesMedicines::create([
-                      
-                'medicine_id' =>$medicine['id'],
-                'pharmacy_id' =>$request->pharmacy_id,
-                'quantity' =>$request->quantity,
-                'price' =>$request->price,
-            ]);
-    
-        }
-    
-    }else{
-        
-        $pharmaciesMedicines=PharmaciesMedicines::all();
-        foreach($pharmaciesMedicines as $pharmacyMedicine){
-        if($request->existingMedicine==$pharmacyMedicine->medicine_id && $request->pharmacy_id==$pharmacyMedicine->pharmacy_id){
-            if(auth()->user()->hasRole('pharmacy')){
-                $pharmacyMedicine->update([
-                    'price' =>$request->price,   
-                    'quantity' =>$request->quantity,
-            
+            if (
+                auth()
+                    ->user()
+                    ->hasRole("pharmacy")
+            ) {
+                PharmaciesMedicines::create([
+                    "medicine_id" => $medicine["id"],
+                    "pharmacy_id" => auth()->user()->typeable_id,
+                    "quantity" => $request->quantity,
+                    "price" => $request->price,
                 ]);
-                return redirect()->route('medicines.index');
-        }else{
-            $pharmacyMedicine->update([
-                 'price' =>$request->price,        
-                'quantity' =>$request->quantity,
-        
-            ]);
-            return redirect()->route('medicines.index');
+            } else {
+                PharmaciesMedicines::create([
+                    "medicine_id" => $medicine["id"],
+                    "pharmacy_id" => $request->pharmacy_id,
+                    "quantity" => $request->quantity,
+                    "price" => $request->price,
+                ]);
+            }
+            return to_route("medicines.index");
+        } else {
+            $pharmaciesMedicines = PharmaciesMedicines::all();
+            foreach ($pharmaciesMedicines as $pharmacyMedicine) {
+                if (
+                    $request->existingMedicine ==
+                        $pharmacyMedicine->medicine_id &&
+                    $request->pharmacy_id == $pharmacyMedicine->pharmacy_id
+                ) {
+                    if (
+                        auth()
+                            ->user()
+                            ->hasRole("pharmacy")
+                    ) {
+                        $pharmacyMedicine->update([
+                            "price" => $request->price,
+                            "quantity" => $request->quantity,
+                        ]);
+                        return redirect()->route("medicines.index");
+                    } else {
+                        $pharmacyMedicine->update([
+                            "price" => $request->price,
+                            "quantity" => $request->quantity,
+                        ]);
+                        return redirect()->route("medicines.index");
+                    }
+                }
+                if (
+                    auth()
+                        ->user()
+                        ->hasRole("pharmacy")
+                ) {
+                    $pharmaciesMedicines = auth()->user()->typeable
+                        ->pharmaciesMedicines;
+
+                    foreach ($pharmaciesMedicines as $pharmacyMedicine) {
+                        if (
+                            $pharmacyMedicine->medicine_id ==
+                            $request->existingMedicine
+                        ) {
+                            $pharmacyMedicine->update([
+                                "price" => $request->price,
+                                "quantity" => $request->quantity,
+                            ]);
+                            return redirect()->route("medicines.index");
+                        }
+                    }
+
+                    PharmaciesMedicines::create([
+                        "price" => $request->price,
+                        "medicine_id" => $request->existingMedicine,
+                        "pharmacy_id" => auth()->user()->typeable_id,
+                        "quantity" => $request->quantity,
+                    ]);
+                } else {
+                    PharmaciesMedicines::create([
+                        "price" => $request->price,
+                        "medicine_id" => $request->existingMedicine,
+                        "pharmacy_id" => $request->pharmacy_id,
+                        "quantity" => $request->quantity,
+                    ]);
+                }
+
+                return to_route("medicines.index");
+            }
         }
     }
-        if (auth()->user()->hasRole('pharmacy')){
-        $pharmaciesMedicines=auth()->user()->typeable->pharmaciesMedicines;
-    
-        foreach($pharmaciesMedicines as $pharmacyMedicine){
-         if($pharmacyMedicine->medicine_id==$request->existingMedicine){
-            
-            $pharmacyMedicine->update([
-                 'price' =>$request->price,
-                'quantity' =>$request->quantity,
-        
-            ]);
-            return redirect()->route('medicines.index');
-        }
-    }
 
-        PharmaciesMedicines::create([
-               
-            'price' => $request->price,   
-            'medicine_id' =>$request->existingMedicine,
-            'pharmacy_id' =>auth()->user()->typeable_id,
-            'quantity' =>$request->quantity,
-    
-        ]);
-        
-    }else{
-        PharmaciesMedicines::create([
-            'price' => $request->price,   
-            'medicine_id' =>$request->existingMedicine,
-            'pharmacy_id' =>$request->pharmacy_id,
-            'quantity' =>$request->quantity,
-        ]);
-
-    }
-
-
-		return redirect()->route('medicines.index');
-    }
-    }
-}
-
-    public function show($id) {
+    public function show($id)
+    {
         $medicine = PharmaciesMedicines::find($id);
-        return view('medicines.show', [
-			'medicine' => $medicine
-		]);
+        return view("medicines.show", [
+            "medicine" => $medicine,
+        ]);
     }
 
-    public function edit($id) {
-
+    public function edit($id)
+    {
         $medicine = Medicine::find($id);
-        return view('medicines.edit', [
-			'medicine' => $medicine
-		]);
-        
+        return view("medicines.edit", [
+            "medicine" => $medicine,
+        ]);
     }
 
-    public function update(StoreMedicineRequest $request, $id) {
+    public function update(StoreMedicineRequest $request, $id)
+    {
         $pharmacyMedicine = PharmaciesMedicines::find($id);
-        $medicineID=$pharmacyMedicine->medicine_id;
-        $medicine=Medicine::find($medicineID);
+        $medicineID = $pharmacyMedicine->medicine_id;
+        $medicine = Medicine::find($medicineID);
         $pharmacyMedicine->update([
-            'price' => $request->price,
-            'quantity' => $request->quantity
-		]);
+            "price" => $request->price,
+            "quantity" => $request->quantity,
+        ]);
 
-
-		return redirect()->route('medicines.index');
+        return redirect()->route("medicines.index");
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         PharmaciesMedicines::find($id)->delete();
-       
-        return redirect()->route('medicines.index');
+
+        return redirect()->route("medicines.index");
     }
 }
