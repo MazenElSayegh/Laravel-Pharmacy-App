@@ -36,7 +36,9 @@ class AreasDataTable extends DataTable
                 }
                 </script>
             </form>
-        </div>')
+        </div>')->addColumn('created_at', function (Area $area) {
+            return $area->created_at->format("Y-m-d");
+        })
     ;
     }
 
