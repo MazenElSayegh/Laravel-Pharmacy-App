@@ -24,10 +24,11 @@ class PaymentController extends Controller
         $orderDetails = DB::table('medicines_orders')->where('order_id', $order_id)->get();
         $line_items = [];
         foreach($orderDetails as $order) {
-            $medicineItem = Medicine::find($order->medicine_id);
+            $medicineItemName = Medicine::find($order->medicine_id);
+            $medicineItemPrice = DB::table('pharmacies_medicines')->where('medicine_id', $order->medicine_id)->first();
             
-            $medicineName = $medicineItem->name;
-            $medicinePrice = $medicineItem->price;
+            $medicineName = $medicineItemName->name;
+            $medicinePrice = $medicineItemPrice->price;
             $quantity = $order->quantity;
             $orderItem = [
                 'price_data' => [
