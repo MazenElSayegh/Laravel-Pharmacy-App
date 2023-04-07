@@ -49,5 +49,5 @@ Route::resource('addresses',AddressController::class)->middleware('auth:sanctum'
 // ------------------------- Orders Routes ---------------------------
 
 Route::resource('orders',OrderController::class)->middleware(['auth:sanctum','emailVerified']);
-Route::post('orders/confirmOrder/{order}',[OrderController::class,'confirmOrder'])->name('orders.confirm')->middleware(['auth:sanctum','emailVerified']);
+Route::get('/orders/confirmOrder/{order}',[OrderController::class,'confirmOrder'])->name('orders.confirm');
 

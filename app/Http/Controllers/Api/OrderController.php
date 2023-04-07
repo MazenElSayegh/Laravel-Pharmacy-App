@@ -121,9 +121,11 @@ class OrderController extends Controller
 
 	public function confirmOrder($order){
 
-		Order::find($order)->update([
-			'status' => 'Confirmed',
-		]);
+		$order1= Order::find($order);
+			$order1->status ="confirmed";
+			$order1->save();
+			// dd($order1->status);
+		
 		return response()->json(['success' => 'Order is Confirmed'], 200);
 
 	}
