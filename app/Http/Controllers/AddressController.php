@@ -19,7 +19,6 @@ class AddressController extends Controller
 
     public function show( $id)
     {
-        // @dd($address);
        $address = Address::find($id);
 
 
@@ -95,7 +94,6 @@ class AddressController extends Controller
 
     public function update(StoreAddressRequest $request,$id)
     {
-        // dd($request);
         $address = Address::findOrFail($id);
 
         if ($request->hasFile('avatar_image')) {

@@ -30,30 +30,25 @@ class OrderController extends Controller
         return view('orders.index');*/
         public function index(OrdersDataTable $dataTable)
     {
-        
             return $dataTable->render('orders.index');
-        
-
     }
 
     public function show($id)
     {
-        // $user =auth()->user();
-        // dd($user);
         $order = Order::where('id', $id)->first();
         $medicine_order = MedicinesOrder::where('order_id',$id)->get();
-        // dd($medicine_order[0]['quantity']);
-       
-        // $user->notify(new NotifyUserOrderDetails($order));
-        // dd("done");
-        
         return view('orders.show' ,['order' => $order,'medicine_order'=>$medicine_order]);
     }
 
     public function create()
     {
         $allClients = Client::all();
-        $allMedicines = PharmaciesMedicines::all();
+        if(auth()->user()->hasRole('admin')){
+            $allMedicines = PharmaciesMedicines::all();
+        }else{
+            $allMedicines = PharmaciesMedicines::where('pharmacy_id',auth()->user()->typeable_id)->get();
+        }
+
         $Medicines = Medicine::all();
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
@@ -77,7 +72,11 @@ class OrderController extends Controller
            
             // dd($medicines);
             //$pharmacy_id=json_decode(request()->pharmacy_name[0],true)['pharmacy_id'];
-            $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
+            if(json_decode(request()->pharmacy_name,true)!=null){
+                $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
+            }else{
+                $reqPharmId=null;
+            }
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
             $doctor_id = request()->doctor_name!=NULL?request()->doctor_name:"";
@@ -177,8 +176,13 @@ class OrderController extends Controller
         $order= Order::find($id);
         $allClients = Client::all();
         $client = Client::find($order->client_id);
-        // dd($client);
-        $allMedicines = pharmaciesMedicines::all();
+       
+        if(auth()->user()->hasRole('admin')){
+            $allMedicines = PharmaciesMedicines::all();
+        }else{
+            $allMedicines = PharmaciesMedicines::where('pharmacy_id',auth()->user()->typeable_id)->get();
+        }
+
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
         $allDoctors = Doctor::all();
@@ -189,13 +193,16 @@ class OrderController extends Controller
 
     public function update(StoreOrderRequest $request ,$id)
     {
-        
-        
+
         $order = Order::findOrFail($id);
+<<<<<<< HEAD
         $pharmacyName= $order->pharmacy->type->name;
         // dd( $pharmacyName);
     //    dd($order->pharmacy->type->name);
     
+=======
+
+>>>>>>> 6aadb78412e19579974fbc2e88a092f6a0080253
     $orderTotalPrice=0;
     $medTotalPrices =request()->total_price;
     foreach($medTotalPrices as $medTotalPrice)

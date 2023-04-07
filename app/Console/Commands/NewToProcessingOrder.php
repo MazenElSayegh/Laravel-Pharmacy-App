@@ -27,7 +27,6 @@ class NewToProcessingOrder extends Command
      */
     public function handle(){
         $newOrders=Order::where('status','New')->get();
-        // dd($newOrders);
         $pharmacies=Pharmacy::all();
         foreach($newOrders as $order){
             $highestPriority= 0;

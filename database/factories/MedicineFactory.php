@@ -19,7 +19,6 @@ class MedicineFactory extends Factory
         return [
             'name'=> $this->faker->name(),
             'type'=> 'tablet',
-            'price'=> $this->faker->randomNumber(3),
         ];
     }
 }
