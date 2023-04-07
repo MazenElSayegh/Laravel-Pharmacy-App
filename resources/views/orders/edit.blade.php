@@ -21,12 +21,13 @@
   @method ("PUT")
   <div class="mt-4"> 
     <label for="ClientName" class="form-label">Client Name</label>
-    <select id="ClientName" onchange="selectAddress()" name="client_name" class="form-control w-50">
-        <option></option>
-        @foreach($clients as $client)
+    <select id="ClientName" name="client_name" class="form-control w-50">
+        <option value="{{$client}}" >{{$client->type->name }} </option>
+        
+        {{-- @foreach($clients as $client)
           
             <option value="{{$client}}">{{$client->type->name }} </option>
-        @endforeach
+        @endforeach --}}
     </select>
   </div>
   @role('admin')
@@ -73,17 +74,17 @@
         </div>
                <div class="col-md-2 mb-3 mt-3">
                 <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
-                <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0" placeholder="medicine quantity">
+                <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0" min="0" placeholder="medicine quantity">
                    </div>
 
                    <div class="col-md-2 mb-3 mt-3">
                     <label for="MedicinePrice" class="form-label">Medicine Price</label>
-                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice h-50" value="0" placeholder="medicine price" >
+                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice h-50" value="0" min="0" placeholder="medicine price" >
                   </div>
 
                   <div class="col-md-2 mb-3 mt-3">
                     <label for="TotalPrice" class="form-label">Total Price</label>
-                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0 placeholder="medicine price" >
+                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0 min="0" placeholder="medicine price" >
                        </div>
 
                   
@@ -94,6 +95,21 @@
       </div>
     
   </div>
+
+  <div class="row">
+ <div class="col-md-6 mb-3 mt-3">
+                <label for="OrderTotalPrice" class="form-label">Is Insured</label>
+                <select id="isinsured" name="is_insured" class="form-control">
+                  @if($order->is_insured)
+                  <option value="1" selected>Insured</option>
+                  @else
+                  <option value="0" selected>Not Insured</option>
+                  @endif
+           </select>
+                
+                   </div>
+</div>
+
 
 @if($order->creator_type!="user")    
     <div class="row">
@@ -152,17 +168,17 @@
       </div>
              <div class="col-md-2 mb-3 mt-3">
               <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
-              <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value=0 placeholder="medicine quantity">
+              <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value=0 min="0" placeholder="medicine quantity">
                  </div>
 
                  <div class="col-md-2 mb-3 mt-3">
                     <label for="MedicinePrice" class="form-label">Medicine Price</label>
-                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice  h-50" value=0 placeholder="medicine price" >
+                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice  h-50" value=0 min="0" placeholder="medicine price" >
                        </div>
 
                        <div class="col-md-2 mb-3 mt-3">
                     <label for="TotalPrice" class="form-label">Total Price</label>
-                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0 placeholder="medicine price" >
+                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0 min="0" placeholder="medicine price" >
                        </div>
     
                  <div class="col-md-2 mb-3 mt-5">
@@ -231,7 +247,7 @@ $(".medData").on("change",".medQty",{},function(e){
         let addresses= JSON.parse(address);
        
          var clientid = JSON.parse(select.value).id;
-     
+          console.log(clientid);
 
        
          for(let i=0 ; i<addresses.length;i++)

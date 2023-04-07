@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
 
 class StorePharmacyRequest extends FormRequest
 {
@@ -22,7 +23,6 @@ class StorePharmacyRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'email'=>['required','unique:users,email,'.$this->user],
             'national_id'=>['required','unique:pharmacies,national_id,'.$this->pharmacy],
             'password' => ['required','min:6'],

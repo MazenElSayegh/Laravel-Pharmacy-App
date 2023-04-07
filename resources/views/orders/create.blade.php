@@ -31,10 +31,10 @@
   @role('admin')
   <div class="mt-4 pharmData">
     <label for="PharmacyName" class="form-label">Pharmacy Name</label>
-    <select id="PharmacyName"  name="pharmacy_name" class="form-control w-50 pharmSelect">
+    <select id="PharmacyName"  name="pharmacy_name" class="form-control w-50 pharmSelect" data-medicine ="{{$meds}}">
         <option></option>
         @foreach($pharmacies as $pharmacy)
-            <option value="{{$pharmacy}}">{{$pharmacy->type->name}}</option>
+            <option value="{{$pharmacy->pharmaciesMedicines}}">{{$pharmacy->type->name}}</option>
           
         @endforeach
     </select>
@@ -53,26 +53,26 @@
     
      <label for="MedicineName" class="form-label ">Medicine Name</label>
      <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect  ">
-            <option  ></option>
+            <!-- <option  ></option>
          @foreach($medicines as $medicine)
              <option    value="{{$medicine}}">{{$medicine->name}}</option>
-         @endforeach
+         @endforeach -->
      </select>
      
         </div>
                <div class="col-md-2 mb-3 mt-3">
                 <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
-                <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0" placeholder="medicine quantity">
+                <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0" min="0"  placeholder="medicine quantity">
                    </div>
 
                    <div class="col-md-2 mb-3 mt-3">
                     <label for="MedicinePrice" class="form-label">Medicine Price</label>
-                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice h-50" value="0" placeholder="medicine price" >
+                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice h-50" value="0" min="0" placeholder="medicine price" >
                   </div>
 
                   <div class="col-md-2 mb-3 mt-3">
                     <label for="TotalPrice" class="form-label">Total Price</label>
-                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0 placeholder="medicine price" >
+                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0  min="0" placeholder="medicine price" >
                        </div>
 
                   
@@ -151,26 +151,23 @@
     
     <label for="MedicineName" class="form-label ">Medicine Name</label>
     <select id="MedicineName"  name="medicine_name[]" class="form-control  jqSelect">
-               <option name="newMedicine" ></option>
-         @foreach($medicines as $medicine)
-             <option    value="{{$medicine}}">{{$medicine->name}}</option>
-         @endforeach
+              
     </select>
     
       </div>
              <div class="col-md-2 mb-3 mt-3">
               <label for="MedicineQnt" class="form-label">Medicine Quantity</label>
-              <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value=0 placeholder="medicine quantity">
+              <input type="number" id="MedicineQnt" name="medicine_qty[]" class="form-control medQty h-50" value="0"  min="0" placeholder="medicine quantity">
                  </div>
 
                  <div class="col-md-2 mb-3 mt-3">
                     <label for="MedicinePrice" class="form-label">Medicine Price</label>
-                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice  h-50" value=0 placeholder="medicine price" >
+                    <input type="number" id="MedicinePrice" name="medicine_price[]"  class="form-control medPrice  h-50" value=0 min="0" placeholder="medicine price" >
                        </div>
 
                        <div class="col-md-2 mb-3 mt-3">
                     <label for="TotalPrice" class="form-label">Total Price</label>
-                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0 placeholder="medicine price" >
+                    <input type="number" id="TotalPrice" name="total_price[]"  class="form-control medPrice  h-50" value=0 min="0" placeholder="medicine price" >
                        </div>
     
                  <div class="col-md-2 mb-3 mt-5">
@@ -185,26 +182,32 @@
     });
 
 
-    /*$(".pharmData").on("change",".pharmSelect",{},function (e){
+    $(".pharmData").on("change",".pharmSelect",{},function (e){
       let medInPharmacies =  JSON.parse($(this).find(":selected").val());
-      
+      var medicines=JSON.parse($(this).attr("data-medicine"));
+      $('.jqSelect').html("<option>Choose Medicine</option>")
+
       for(let i=0 ; i<medInPharmacies.length;i++){
-        var option = $('<option/>');
-        option.attr({ 'value':String(medInPharmacies[i]['medicine_id']) }).text(String(medInPharmacies[i]['name']));
-        $('.jqSelect').append(option)
+        medicines.forEach(val => {
+          if(medInPharmacies[i]['medicine_id']==val['id']){
+            var option = $('<option/>');
+            console.log(JSON.stringify(medInPharmacies[i]));
+        option.attr({ 'value':JSON.stringify(medInPharmacies[i]) }).text(String(val['name']));
+        $('.jqSelect').append(option);
+          }
+          });
       }
      
-});*/
+});
   
 
     $(".medData").on("change",".jqSelect",{},function(e){
-      console.log("hiiii");
-
+      
       let medprice =  JSON.parse($(this).find(":selected").val()).price;
-
+      console.log(medprice);
       let medqty= $(this).parent().next().children(':first-child').next().val();
     let total_price = Number(medqty)*Number(medprice);
-    
+     console.log("hi");
    $(this).parent().next().next().children(':first-child').next().val(medprice);
    $(this).parent().next().next().next().children(':first-child').next().val(total_price);
 

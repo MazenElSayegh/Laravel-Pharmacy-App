@@ -1,7 +1,7 @@
 @extends('layouts.sub')
 
 @section('title') Order #{{$order->id}} @endsection
-@section('backtolink') <a href="{{route('doctors.index')}}" class="nav-link">All Orders</a> @endsection
+@section('backtolink') <a href="{{route('orders.index')}}" class="nav-link">All Orders</a> @endsection
 
 @section('content')
 

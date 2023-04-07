@@ -27,10 +27,14 @@ class AcceptedOrderResource extends JsonResource
             $medicine_name = $medicine->name;
             $medicine_price = $medicine->price;
             $medicine_type = $medicine->type;
+            $order_quantity= $order->quantity;
+
             $medicine_item = [
-              'name' =>  $medicine_name,
-               'price'  =>$medicine_price,
-                'type' => $medicine_type ];
+                'name' =>  $medicine_name,
+                'price'  =>$medicine_price,
+                'type' => $medicine_type ,
+                'quantity' => $order_quantity
+            ];
 
             $medicinesArray[]=$medicine_item;
         }

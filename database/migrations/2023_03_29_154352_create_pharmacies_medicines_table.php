@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unique([ 'pharmacy_id','medicine_id']);
             $table->foreign('pharmacy_id')->references('id')->on('pharmacies');
             $table->foreign('medicine_id')->references('id')->on('medicines');
+            $table->unsignedBigInteger('price');
             $table->unsignedInteger('quantity');
 
             $table->timestamps();

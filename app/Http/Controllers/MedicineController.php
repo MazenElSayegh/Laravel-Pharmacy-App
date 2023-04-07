@@ -36,7 +36,7 @@ class MedicineController extends Controller
             ]);
         $medicine=Medicine::create([
 			'name' => $request->name,
-            'price' => $request->price,   
+            
 			'type' => $request->type
 		]);
         if (auth()->user()->hasRole('pharmacy')){

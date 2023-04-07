@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
  
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed"  onload="selectAddress()">
 <div class="wrapper">
 
   <!-- Preloader -->
@@ -220,7 +220,7 @@
                 </a>
               </li>
               @endif
-              @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('pharmacy') || auth()->user()->hasRole('doctor'))
+              @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('pharmacy') || auth()->user()->hasRole('doctor') && auth()->user()->typeable->is_banned==0)
               <li class="nav-item">
                 <a href="{{route('orders.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -338,7 +338,23 @@
       placeholder: "Select a medicine name",
     });
 
+    $(".pharmData").on("change",".pharmSelect",{},function (e){
+      let medInPharmacies =  JSON.parse($(this).find(":selected").val());
+      var medicines=JSON.parse($(this).attr("data-medicine"));
+      $('.jqSelect').html("<option>Choose Medicine</option>")
 
+      for(let i=0 ; i<medInPharmacies.length;i++){
+        medicines.forEach(val => {
+          if(medInPharmacies[i]['medicine_id']==val['id']){
+            var option = $('<option/>');
+            console.log(JSON.stringify(medInPharmacies[i]));
+        option.attr({ 'value':JSON.stringify(medInPharmacies[i]) }).text(String(val['name']));
+        $('.jqSelect').append(option);
+          }
+          });
+      }
+     
+});
 
 
     $(".medData").on("change",".jqSelect",{},function(e){
