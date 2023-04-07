@@ -83,7 +83,6 @@ class OrderController extends Controller
             $doctor_id = request()->doctor_name!=NULL?request()->doctor_name:"";
             $pharmacy_id= $reqPharmId!=NULL?$reqPharmId:"";
             $address_id=request()->delivering_address;
-            $creator_type=request()->request_type;
         if(auth()->user()->hasRole('admin')){
         $order=Order::create([
             'is_insured'=>$is_insured,
@@ -93,7 +92,7 @@ class OrderController extends Controller
             'doctor_id'=>null,
             'address_id'=>$address_id,
             'status'=>3,
-            'creator_type'=>$creator_type,
+            'creator_type'=>'pharmacy',
         ]);
     }elseif(auth()->user()->hasRole('pharmacy')){
         $order=Order::create([
@@ -220,7 +219,6 @@ class OrderController extends Controller
         'doctor_id'=>$doctor_id,
         'address_id'=>$address_id,
         'status'=>3,
-        'creator_type'=>'doctor',
     ]);
    
  
@@ -231,7 +229,7 @@ class OrderController extends Controller
            
             
             'order_id' =>$id,
-            'medicine_id' =>$medicine['id'],
+            'medicine_id' =>$medicine['medicine_id'],
             'quantity' =>$medicine_quantity[$i],
     
         ]);
