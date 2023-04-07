@@ -20,7 +20,6 @@ class DoctorController extends Controller
         if(auth()->user()->hasRole('pharmacy')){
             $pharmacyId= auth()->user()->typeable_id;
             $pharmacy= Pharmacy::find($pharmacyId);
-            // dd($pharmacy);
             $doctors=$pharmacy->doctors;
         }
         else{
@@ -66,8 +65,6 @@ class DoctorController extends Controller
 
         $user->assignRole('doctor'); 
 
-        // dd($user);
-
         if ($request->hasFile('avatar_image')) {
             $image = $request->file('avatar_image');
             $filename = $image->getClientOriginalName();
@@ -77,7 +74,6 @@ class DoctorController extends Controller
         }
         else {
             $path= 'defaultImages/default.jpg';
-            // dd($path);
             $doctor->image_path =$path;
             $doctor->save();
         }
@@ -95,7 +91,6 @@ class DoctorController extends Controller
 
     public function update(UpdateDoctorRequest $request,$id)
     {
-        // dd($request);
         $doctor = Doctor::findOrFail($id);
 
         if ($request->hasFile('avatar_image')) {
@@ -147,10 +142,8 @@ class DoctorController extends Controller
     public function ban($id)
     {
         $doctor = Doctor::findOrFail($id);
-        // dd($doctor->is_banned);
         if($doctor->is_banned===0){
             $doctor->update(['is_banned'=>1]);
-            // dd($doctor->is_banned);
         }
         else{
             $doctor->update(['is_banned'=>0]);

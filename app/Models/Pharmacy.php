@@ -13,10 +13,7 @@ class Pharmacy extends Model
     protected $fillable=[
         'name','email','password','image_path','national_id','area_id','priority'];
 
-    // public function type()
-    // {
-    //     return $this->morphOne('User', 'typeable');
-    // }
+   
 
     public function doctors()
         {
