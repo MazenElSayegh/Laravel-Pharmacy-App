@@ -20,6 +20,7 @@ class OrderFactory extends Factory
             'is_insured'=> 1,
             'total_price'=> $this->faker->randomNumber(3),
             'status'=> 'New',
+            'creator_type' => 'client'
         ];
     }
 }

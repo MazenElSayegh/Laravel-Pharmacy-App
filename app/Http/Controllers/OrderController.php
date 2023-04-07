@@ -248,4 +248,12 @@ class OrderController extends Controller
   
     return redirect()->route('orders.index');
     }
+
+    public function deliver($id){
+        $order = Order::findOrFail($id);
+        $order->update([
+            'status'=> 'Delivered',
+        ]);
+        return to_route('orders.index');
+    }
 }
