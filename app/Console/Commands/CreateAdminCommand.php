@@ -35,7 +35,7 @@ class CreateAdminCommand extends Command
             'name'=>'Admin',
             'email' => $email,
             'email_verified_at' => now(),
-            'password' => Hash::make($password), // password
+            'password' => Hash::make($password), 
             'remember_token' => Str::random(10),
             'typeable_type'=>'Admin',
             'typeable_id'=>'1',

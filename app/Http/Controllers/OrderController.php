@@ -30,30 +30,25 @@ class OrderController extends Controller
         return view('orders.index');*/
         public function index(OrdersDataTable $dataTable)
     {
-        
             return $dataTable->render('orders.index');
-        
-
     }
 
     public function show($id)
     {
-        // $user =auth()->user();
-        // dd($user);
         $order = Order::where('id', $id)->first();
         $medicine_order = MedicinesOrder::where('order_id',$id)->get();
-        // dd($medicine_order[0]['quantity']);
-       
-        // $user->notify(new NotifyUserOrderDetails($order));
-        // dd("done");
-        
         return view('orders.show' ,['order' => $order,'medicine_order'=>$medicine_order]);
     }
 
     public function create()
     {
         $allClients = Client::all();
-        $allMedicines = PharmaciesMedicines::all();
+        if(auth()->user()->hasRole('admin')){
+            $allMedicines = PharmaciesMedicines::all();
+        }else{
+            $allMedicines = PharmaciesMedicines::where('pharmacy_id',auth()->user()->typeable_id)->get();
+        }
+
         $Medicines = Medicine::all();
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
@@ -77,7 +72,11 @@ class OrderController extends Controller
            
             // dd($medicines);
             //$pharmacy_id=json_decode(request()->pharmacy_name[0],true)['pharmacy_id'];
-            $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
+            if(json_decode(request()->pharmacy_name,true)!=null){
+                $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
+            }else{
+                $reqPharmId=null;
+            }
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
             $doctor_id = request()->doctor_name!=NULL?request()->doctor_name:"";
@@ -144,6 +143,7 @@ class OrderController extends Controller
          $medPrice=array();
          $medName=array();
          $medQuantity=array();
+        //  $arr =array()
          $pharmacyName= Pharmacy::find($pharmacy_id)->type->name;
       
          foreach($medicinesPharmacy as $med)
@@ -176,8 +176,13 @@ class OrderController extends Controller
         $order= Order::find($id);
         $allClients = Client::all();
         $client = Client::find($order->client_id);
-        // dd($client);
-        $allMedicines = pharmaciesMedicines::all();
+       
+        if(auth()->user()->hasRole('admin')){
+            $allMedicines = PharmaciesMedicines::all();
+        }else{
+            $allMedicines = PharmaciesMedicines::where('pharmacy_id',auth()->user()->typeable_id)->get();
+        }
+
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
         $allDoctors = Doctor::all();
@@ -188,10 +193,11 @@ class OrderController extends Controller
 
     public function update(StoreOrderRequest $request ,$id)
     {
-        
-        
+
         $order = Order::findOrFail($id);
-       
+        $pharmacyName= $order->pharmacy->type->name;
+        // dd( $pharmacyName);
+    //    dd($order->pharmacy->type->name);
     
     $orderTotalPrice=0;
     $medTotalPrices =request()->total_price;
@@ -206,8 +212,9 @@ class OrderController extends Controller
         $medicine_quantity =request()->medicine_qty;
         
         $is_insured =request()->is_insured!=null?request()->is_insured:$order->is_insured;
-        $doctor_id = request()->doctor_name;
-        $pharmacy_id= request()->pharmacy_name;
+        $doctor_id = request()->doctor_name?request()->doctor_name:$order->doctor_id;
+        $pharmacy_id= request()->pharmacy_name? request()->pharmacy_name: $order->pharmacy_id;
+        // dd($pharmacy_id);
         $address_id=request()->delivering_address;
    
     $medicine_order = MedicinesOrder::where('order_id',$id)->get();
@@ -235,6 +242,41 @@ class OrderController extends Controller
         ]);
          
      }
+     $medicinesPharmacy=array();
+        //  dd($medicines);
+         for($i = 0 ; $i<count($medicines);$i++) {
+             $medicine= json_decode($medicines[$i], true);
+            //  dd( $medicine);
+             array_push($medicinesPharmacy,$medicine);
+         }
+        //  dd($pharmacy_id);
+        // $object = (object)$medicines;
+        // dd($object);
+         $medPrice=array();
+         $medName=array();
+         $medQuantity=array();
+        //  $arr =array()
+        
+      
+         foreach($medicinesPharmacy as $med)
+         {
+            $medicineName = Medicine::find($med['medicine_id']);
+            $medicineQuantity = MedicinesOrder::where('medicine_id',$med['medicine_id'])->where('order_id',$order['id'])->first();
+            // dd($medicineQuantity);
+            array_push($medName,$medicineName['name'] );
+            array_push($medPrice,$med['price']);
+            array_push($medQuantity,$medicineQuantity['quantity']);
+            
+         }
+
+        //  dd($medicines , $medPrice, $medName,$medQuantity);
+ 
+        //  dd( $medQuantity);
+        //  $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
+         $client = Client::find($client_id)->type;
+        //  dd($client);
+         Notification::send($client,new NotifyClientOrderDetails($order,$medName,$medQuantity,$medPrice,$client,$pharmacyName));
+        //  dd($medicines);
 
         return redirect()->route('orders.index');        
     }

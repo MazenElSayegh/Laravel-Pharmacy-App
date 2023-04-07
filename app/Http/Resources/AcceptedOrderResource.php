@@ -18,7 +18,6 @@ class AcceptedOrderResource extends JsonResource
     {
         $orderDetails = DB::table('medicines_orders')->where('order_id', $this->id)->get();
         $medicinesArray = [];
-        // dd($orderDetails);
 
         foreach( $orderDetails as $order){
 
