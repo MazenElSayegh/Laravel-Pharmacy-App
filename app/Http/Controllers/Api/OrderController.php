@@ -50,6 +50,10 @@ class OrderController extends Controller
 		$address = Address::find($request->address_id);
 
 		$user = Auth::user();
+		if (!$request->hasFile('prescription_image')) {
+			return response()->json(['message'=>'please upload prescription image'],422);
+
+			}else{
 		$order = Order::create([
 			'client_id' => $user->typeable->id,
 			'address_id' => $address->id,
@@ -58,18 +62,14 @@ class OrderController extends Controller
 			'creator_type' => 'Client',
 
 		]);
-		if ($request->hasFile('prescription_image')) {
+		
             $avatar = $request->file('prescription_image');
             $filename = $avatar->getClientOriginalName();
             $path = $request->file('prescription_image')->storeAs('prescriptionImages', $filename, 'public');
             $order->prescription_image= $path;
             $order->save();
         }
-        else{
-            $path= 'defaultImages/default.jpg';
-            $order->prescription_image=$path;
-            $order->save();
-        }
+      
 
 		return response()->json(new OrderResource($order), 201);
 	}
@@ -101,11 +101,7 @@ class OrderController extends Controller
 						$order->prescription_image= $path;
 						$order->save();
 					}
-					else{
-						$path= 'defaultImages/default.jpg';
-						$order->prescription_image=$path;
-						$order->save();
-					}
+				
 					
 
 					return new OrderResource($order);
