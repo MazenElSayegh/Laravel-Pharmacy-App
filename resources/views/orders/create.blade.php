@@ -57,6 +57,7 @@
       
         
      </select>
+        </div>
      @endrole
      @role('pharmacy')
      <div class="row medData">

@@ -195,14 +195,10 @@ class OrderController extends Controller
     {
 
         $order = Order::findOrFail($id);
-<<<<<<< HEAD
         $pharmacyName= $order->pharmacy->type->name;
         // dd( $pharmacyName);
     //    dd($order->pharmacy->type->name);
     
-=======
-
->>>>>>> 6aadb78412e19579974fbc2e88a092f6a0080253
     $orderTotalPrice=0;
     $medTotalPrices =request()->total_price;
     foreach($medTotalPrices as $medTotalPrice)
@@ -216,8 +212,8 @@ class OrderController extends Controller
         $medicine_quantity =request()->medicine_qty;
         
         $is_insured =request()->is_insured!=null?request()->is_insured:$order->is_insured;
-        $doctor_id = request()->doctor_name;
-        $pharmacy_id= request()->pharmacy_name;
+        $doctor_id = request()->doctor_name?request()->doctor_name:$order->doctor_id;
+        $pharmacy_id= request()->pharmacy_name? request()->pharmacy_name: $order->pharmacy_id;
         // dd($pharmacy_id);
         $address_id=request()->delivering_address;
    
