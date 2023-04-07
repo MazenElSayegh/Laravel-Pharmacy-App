@@ -74,6 +74,7 @@ class OrderController extends Controller
             
             $client_id =json_decode(request()->client_name, true)['id']; 
             $medicines =request()->medicine_name;
+           
             // dd($medicines);
             //$pharmacy_id=json_decode(request()->pharmacy_name[0],true)['pharmacy_id'];
             $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
@@ -130,10 +131,40 @@ class OrderController extends Controller
             ]);
              
          }
+
+         $medicinesPharmacy=array();
+        //  dd($medicines);
+         for($i = 0 ; $i<count($medicines);$i++) {
+             $medicine= json_decode($medicines[$i], true);
+            //  dd( $medicine);
+             array_push($medicinesPharmacy,$medicine);
+         }
+        //  dd($pharmacy_id);
+        // $object = (object)$medicines;
+        // dd($object);
+         $medPrice=array();
+         $medName=array();
+         $medQuantity=array();
+         $pharmacyName= Pharmacy::find($pharmacy_id)->type->name;
+      
+         foreach($medicinesPharmacy as $med)
+         {
+            $medicineName = Medicine::find($med['medicine_id']);
+            $medicineQuantity = MedicinesOrder::where('medicine_id',$med['medicine_id'])->where('order_id',$order['id'])->first();
+            // dd($medicineQuantity);
+            array_push($medName,$medicineName['name'] );
+            array_push($medPrice,$med['price']);
+            array_push($medQuantity,$medicineQuantity['quantity']);
+            
+         }
+
+        //  dd($medicines , $medPrice, $medName,$medQuantity);
+ 
+        //  dd( $medQuantity);
         //  $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
          $client = Client::find($client_id)->type;
         //  dd($client);
-         //Notification::send($client,new NotifyClientOrderDetails($order,$medicines,$client));
+         Notification::send($client,new NotifyClientOrderDetails($order,$medName,$medQuantity,$medPrice,$client,$pharmacyName));
         //  dd($medicines);
 
         return to_route('orders.index');
