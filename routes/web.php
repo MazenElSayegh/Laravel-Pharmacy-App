@@ -105,7 +105,7 @@ Route::group(['middleware' => ['auth','role:admin|pharmacy|doctor']], function (
 Route::get("/payments",[PaymentController::class,'index'])->name('payments.index');
 Route::get("/payments/success",[PaymentController::class,'success'])->name('payments.success');
 Route::get("/payments/cancel",[PaymentController::class,'cancel'])->name('payments.cancel');
-Route::post("/payments/checkout",[PaymentController::class,'checkout'])->name('payments.checkout');
+Route::get("/payments/checkout",[PaymentController::class,'checkout'])->name('payments.checkout');
 
 Auth::routes();
 

@@ -74,6 +74,7 @@ class OrderController extends Controller
             
             $client_id =json_decode(request()->client_name, true)['id']; 
             $medicines =request()->medicine_name;
+            // dd($medicines);
             //$pharmacy_id=json_decode(request()->pharmacy_name[0],true)['pharmacy_id'];
             $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
             $medicine_quantity =request()->medicine_qty;
@@ -117,11 +118,12 @@ class OrderController extends Controller
     }
         for($i = 0 ; $i<count($medicines);$i++){
             $medicine= json_decode($medicines[$i], true);
+            // dd($medicine);
             $medicine_order=MedicinesOrder::create([
                
                 
                 'order_id' =>$order['id'],
-                'medicine_id' =>$medicine['id'],
+                'medicine_id' =>$medicine['medicine_id'],
                 'quantity' =>$medicine_quantity[$i],
         
             ]);
