@@ -93,7 +93,6 @@ class OrdersDataTable extends DataTable
                     ->setTableId('orders-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([

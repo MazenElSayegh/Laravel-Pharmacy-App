@@ -30,23 +30,13 @@ class OrderController extends Controller
         return view('orders.index');*/
         public function index(OrdersDataTable $dataTable)
     {
-        
             return $dataTable->render('orders.index');
-        
-
     }
 
     public function show($id)
     {
-        // $user =auth()->user();
-        // dd($user);
         $order = Order::where('id', $id)->first();
         $medicine_order = MedicinesOrder::where('order_id',$id)->get();
-        // dd($medicine_order[0]['quantity']);
-       
-        // $user->notify(new NotifyUserOrderDetails($order));
-        // dd("done");
-        
         return view('orders.show' ,['order' => $order,'medicine_order'=>$medicine_order]);
     }
 
@@ -74,7 +64,6 @@ class OrderController extends Controller
             
             $client_id =json_decode(request()->client_name, true)['id']; 
             $medicines =request()->medicine_name;
-            //$pharmacy_id=json_decode(request()->pharmacy_name[0],true)['pharmacy_id'];
             $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
@@ -127,12 +116,7 @@ class OrderController extends Controller
             ]);
              
          }
-        //  $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
          $client = Client::find($client_id)->type;
-        //  dd($client);
-         //Notification::send($client,new NotifyClientOrderDetails($order,$medicines,$client));
-        //  dd($medicines);
-
         return to_route('orders.index');
     }
 
@@ -143,7 +127,6 @@ class OrderController extends Controller
         $order= Order::find($id);
         $allClients = Client::all();
         $client = Client::find($order->client_id);
-        // dd($client);
         $allMedicines = pharmaciesMedicines::all();
         $allAddresses = Address::all();
         $allPharmacies = Pharmacy::all();
@@ -155,11 +138,9 @@ class OrderController extends Controller
 
     public function update(StoreOrderRequest $request ,$id)
     {
-        
-        
+
         $order = Order::findOrFail($id);
-       
-    
+
     $orderTotalPrice=0;
     $medTotalPrices =request()->total_price;
     foreach($medTotalPrices as $medTotalPrice)

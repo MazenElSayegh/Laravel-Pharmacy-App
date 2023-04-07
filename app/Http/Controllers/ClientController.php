@@ -20,11 +20,8 @@ class ClientController extends Controller
 
     public function show( $id)
     {
-        // @dd($client);
        $client = Client::find($id);
-
-
-
+       
         return view('clients.show', [
             "client" => $client
         ]);

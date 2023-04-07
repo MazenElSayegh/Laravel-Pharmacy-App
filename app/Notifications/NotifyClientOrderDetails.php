@@ -45,15 +45,11 @@ class NotifyClientOrderDetails extends Notification
             $medicine= json_decode($this->medicines[$i], true);
             array_push($emptyArray,$medicine);
         }
-        // dd($);
         foreach($emptyArray as $arr)
         {
-            // dd($arr);
         }
         return (new MailMessage)
-        //  ->action('Confirm Order', url('api/orders/confirmOrder/'.$this->order->id))
-        // ->line('Order Details')
-        // ->line('Order Total Price : '.$this->order['total_price'].'$')
+        
         ->markdown('mail.orders.view',['order'=>$this->order,'medicines'=>$emptyArray , 'client'=>$this->client , 'confirmUrl'=>route('orders.confirm',$this->order['id']) , 'cancelUrl'=>route('orders.cancel',$this->order['id'])]);
     }
 
