@@ -67,7 +67,6 @@ class MedicinesDataTable extends DataTable
                     ->setTableId('pharmacies_medicines-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([

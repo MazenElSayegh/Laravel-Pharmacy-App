@@ -73,7 +73,6 @@ class PharmacyController extends Controller
         }
 
    public function store(StorePharmacyRequest $request){
-            // $path = !empty($request->file('image'))?$request->file('image')->store('pharmaciesImages',["disk"=>"public"]):"";
 
             $pharmacy=Pharmacy::create([
                 'national_id'=>request()->national_id,
@@ -90,7 +89,6 @@ class PharmacyController extends Controller
     
             $user->assignRole('pharmacy'); 
     
-            // dd($user);
     
             if ($request->hasFile('avatar_image')) {
                 $image = $request->file('avatar_image');
@@ -101,7 +99,6 @@ class PharmacyController extends Controller
             }
             else {
                 $path= 'defaultImages/default.jpg';
-                // dd($path);
                 $pharmacy->image_path =$path;
                 $pharmacy->save();
             }

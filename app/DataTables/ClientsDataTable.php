@@ -59,7 +59,6 @@ class ClientsDataTable extends DataTable
                     ->setTableId('clients-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
