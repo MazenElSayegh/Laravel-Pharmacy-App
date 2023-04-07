@@ -26,6 +26,7 @@ public function medicine(){
     {
         return $this->belongsTo(Medicine::class);
     }
+
 }
 
 

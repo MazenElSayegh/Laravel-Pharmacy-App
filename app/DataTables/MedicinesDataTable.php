@@ -40,8 +40,6 @@ class MedicinesDataTable extends DataTable
             return $medicine->pharmacy->type->name;
         })->addColumn('medicine', function (PharmaciesMedicines $medicine) {
             return $medicine->medicine->name;
-        })->addColumn('price', function (PharmaciesMedicines $medicine) {
-            return $medicine->medicine->price;
         })
     ;
     }

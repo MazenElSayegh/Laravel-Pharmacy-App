@@ -13,6 +13,7 @@ class PharmaciesMedicines extends Model
         'medicine_id',
         'pharmacy_id',
         'quantity',
+        'price',
         
 
     ];

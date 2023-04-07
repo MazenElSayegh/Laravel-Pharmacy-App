@@ -46,6 +46,7 @@ class MedicineController extends Controller
                 'medicine_id' =>$medicine['id'],
                 'pharmacy_id' =>auth()->user()->typeable_id,
                 'quantity' =>$request->quantity,
+                'price' =>$request->price,
         
             ]);
         }else{
@@ -55,6 +56,7 @@ class MedicineController extends Controller
                 'medicine_id' =>$medicine['id'],
                 'pharmacy_id' =>$request->pharmacy_id,
                 'quantity' =>$request->quantity,
+                'price' =>$request->price,
             ]);
     
         }
@@ -66,7 +68,7 @@ class MedicineController extends Controller
         if($request->existingMedicine==$pharmacyMedicine->medicine_id && $request->pharmacy_id==$pharmacyMedicine->pharmacy_id){
             if(auth()->user()->hasRole('pharmacy')){
                 $pharmacyMedicine->update([
-                         
+                    'price' =>$request->price,   
                     'quantity' =>$request->quantity,
             
                 ]);
@@ -87,7 +89,7 @@ class MedicineController extends Controller
          if($pharmacyMedicine->medicine_id==$request->existingMedicine){
             
             $pharmacyMedicine->update([
-                         
+                 'price' =>$request->price,
                 'quantity' =>$request->quantity,
         
             ]);
