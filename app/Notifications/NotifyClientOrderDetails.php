@@ -54,7 +54,7 @@ class NotifyClientOrderDetails extends Notification
         //  ->action('Confirm Order', url('api/orders/confirmOrder/'.$this->order->id))
         // ->line('Order Details')
         // ->line('Order Total Price : '.$this->order['total_price'].'$')
-        ->markdown('mail.orders.view',['order'=>$this->order,'medicines'=>$emptyArray , 'client'=>$this->client , 'url'=>route('orders.confirm',$this->order['id'])]);
+        ->markdown('mail.orders.view',['order'=>$this->order,'medicines'=>$emptyArray , 'client'=>$this->client , 'confirmUrl'=>route('orders.confirm',$this->order['id']) , 'cancelUrl'=>route('orders.cancel',$this->order['id'])]);
     }
 
     /**

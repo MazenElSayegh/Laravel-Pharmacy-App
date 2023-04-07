@@ -21,11 +21,11 @@ Order Details
 </table>
 --------------------Total Price :{{ $order->total_price }}
 --------------------<br>
-@component('mail::button', ['url' => $url, 'color' => 'blue'])
+@component('mail::button', ['url' => $confirmUrl, 'color' => 'blue'])
 Confirm Order
 @endcomponent
 
-@component('mail::button', ['url' =>'', 'color' => 'blue'])
+@component('mail::button', ['url' =>$cancelUrl, 'color' => 'blue'])
 Cancel Order
 @endcomponent
 
