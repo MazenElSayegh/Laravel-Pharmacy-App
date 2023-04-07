@@ -30,9 +30,8 @@ class OrdersDataTable extends DataTable
             <a class="btn btn-success mx-1" id="edit" href="{{Route("orders.edit",$id)}}"> edit </a>
             <a class="btn btn-primary mx-1" id="show" href="{{Route("orders.show",$id)}}"> show </a>
             @if($status=="Confirmed")
-            <form action="{{Route("payments.checkout",["id"=>$id])}}}" method="post">
-            @csrf
-            <button class="btn btn-warning mx-1">Checkout</button>
+            <form action="{{Route("orders.deliver",["id"=>$id])}}}" method="get">
+            <button class="btn btn-warning mx-1">Delivered</button>
             </form>
             @endif
             <form method="post" class="delete_item mx-1"  id="delete" action="{{Route("orders.destroy",$id)}}">
@@ -66,6 +65,8 @@ class OrdersDataTable extends DataTable
             }else{
                 return "";
             }
+        })->addColumn('created_at', function (Order $order) {
+            return $order->created_at->format("Y-m-d");
         })
     ;
     }

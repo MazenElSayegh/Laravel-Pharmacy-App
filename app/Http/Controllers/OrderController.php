@@ -143,6 +143,7 @@ class OrderController extends Controller
          $medPrice=array();
          $medName=array();
          $medQuantity=array();
+        //  $arr =array()
          $pharmacyName= Pharmacy::find($pharmacy_id)->type->name;
       
          foreach($medicinesPharmacy as $med)
@@ -194,7 +195,10 @@ class OrderController extends Controller
     {
 
         $order = Order::findOrFail($id);
-
+        $pharmacyName= $order->pharmacy->type->name;
+        // dd( $pharmacyName);
+    //    dd($order->pharmacy->type->name);
+    
     $orderTotalPrice=0;
     $medTotalPrices =request()->total_price;
     foreach($medTotalPrices as $medTotalPrice)
@@ -208,8 +212,9 @@ class OrderController extends Controller
         $medicine_quantity =request()->medicine_qty;
         
         $is_insured =request()->is_insured!=null?request()->is_insured:$order->is_insured;
-        $doctor_id = request()->doctor_name;
-        $pharmacy_id= request()->pharmacy_name;
+        $doctor_id = request()->doctor_name?request()->doctor_name:$order->doctor_id;
+        $pharmacy_id= request()->pharmacy_name? request()->pharmacy_name: $order->pharmacy_id;
+        // dd($pharmacy_id);
         $address_id=request()->delivering_address;
    
     $medicine_order = MedicinesOrder::where('order_id',$id)->get();
@@ -237,6 +242,41 @@ class OrderController extends Controller
         ]);
          
      }
+     $medicinesPharmacy=array();
+        //  dd($medicines);
+         for($i = 0 ; $i<count($medicines);$i++) {
+             $medicine= json_decode($medicines[$i], true);
+            //  dd( $medicine);
+             array_push($medicinesPharmacy,$medicine);
+         }
+        //  dd($pharmacy_id);
+        // $object = (object)$medicines;
+        // dd($object);
+         $medPrice=array();
+         $medName=array();
+         $medQuantity=array();
+        //  $arr =array()
+        
+      
+         foreach($medicinesPharmacy as $med)
+         {
+            $medicineName = Medicine::find($med['medicine_id']);
+            $medicineQuantity = MedicinesOrder::where('medicine_id',$med['medicine_id'])->where('order_id',$order['id'])->first();
+            // dd($medicineQuantity);
+            array_push($medName,$medicineName['name'] );
+            array_push($medPrice,$med['price']);
+            array_push($medQuantity,$medicineQuantity['quantity']);
+            
+         }
+
+        //  dd($medicines , $medPrice, $medName,$medQuantity);
+ 
+        //  dd( $medQuantity);
+        //  $client = User::where('typeable_id', $client_id)->where('typeable_type',"App\Models\Client")->first();
+         $client = Client::find($client_id)->type;
+        //  dd($client);
+         Notification::send($client,new NotifyClientOrderDetails($order,$medName,$medQuantity,$medPrice,$client,$pharmacyName));
+        //  dd($medicines);
 
         return redirect()->route('orders.index');        
     }
@@ -249,5 +289,13 @@ class OrderController extends Controller
     Order::destroy($id);
   
     return redirect()->route('orders.index');
+    }
+
+    public function deliver($id){
+        $order = Order::findOrFail($id);
+        $order->update([
+            'status'=> 'Delivered',
+        ]);
+        return to_route('orders.index');
     }
 }
