@@ -72,15 +72,17 @@ class OrderController extends Controller
            
             // dd($medicines);
             //$pharmacy_id=json_decode(request()->pharmacy_name[0],true)['pharmacy_id'];
-            if(json_decode(request()->pharmacy_name,true)!=null){
+            if(auth()->user()->hasRole('admin')){
                 $reqPharmId=json_decode(request()->pharmacy_name,true)[0]['pharmacy_id'];
+            }elseif(auth()->user()->hasRole('pharmacy')){
+                $reqPharmId=auth()->user()->typeable_id;
             }else{
-                $reqPharmId=null;
+                $reqPharmId=auth()->user()->typeable->pharmacy_id;
             }
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
             $doctor_id = request()->doctor_name!=NULL?request()->doctor_name:"";
-            $pharmacy_id= $reqPharmId!=NULL?$reqPharmId:"";
+            $pharmacy_id= $reqPharmId;
             $address_id=request()->delivering_address;
         if(auth()->user()->hasRole('admin')){
         $order=Order::create([
@@ -143,8 +145,9 @@ class OrderController extends Controller
          $medPrice=array();
          $medName=array();
          $medQuantity=array();
-        //  $arr =array()
+       
          $pharmacyName= Pharmacy::find($pharmacy_id)->type->name;
+         
       
          foreach($medicinesPharmacy as $med)
          {
