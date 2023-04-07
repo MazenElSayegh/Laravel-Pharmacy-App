@@ -54,7 +54,10 @@ class DoctorsDataTable extends DataTable
                 return $doctor->type->email;
             })->addColumn('pharmacy', function (Doctor $doctor) {
                 return $doctor->pharmacy->type->name;
-            });}
+            })->addColumn('created_at', function (Doctor $doctor) {
+                return $doctor->created_at->format("Y-m-d");
+            });
+        }
 
     /**
      * Get the query source of dataTable.
@@ -106,6 +109,7 @@ class DoctorsDataTable extends DataTable
                 Column::make('email'),
                 Column::make('is_banned'),
                 Column::make('pharmacy')->visible(auth()->user()->hasRole("admin")),
+                Column::make('created_at'),
                 Column::computed('action')
                     ->exportable(false)
                     ->printable(false)
