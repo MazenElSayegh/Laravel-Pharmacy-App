@@ -250,7 +250,7 @@ $(".medData").on("change",".medQty",{},function(e){
         console.log("hi")
         let select = document.getElementById('ClientName');
         let deliviringaddress = document.getElementById('deliviringaddress');
-        deliviringaddress.innerHTML="<option ></option>";
+        // deliviringaddress.innerHTML="<option ></option>";
         let address = deliviringaddress.getAttribute("data-address");
         let order = select.getAttribute("data-order");
         let addresses= JSON.parse(address);
