@@ -50,9 +50,9 @@ class OrdersDataTable extends DataTable
         }else{
         return "Yes";
         }})->setRowId('id')->addColumn('client', function (Order $order) {
-            return $order->client_id;
+            return $order->client->type->name;
         })->addColumn('address', function (Order $order) {
-            return $order->address_id;
+            return $order->address->street_name;
         })->addColumn('doctor', function (Order $order) {
             if($order->doctor!=null){
             return $order->doctor->type->name;

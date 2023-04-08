@@ -8,7 +8,7 @@
             <div class="card-header">Manage Orders</div>
             <div class="text-center">
         <button type="button" class="mt-4 btn btn-success"><a href="{{route('orders.create')}}" style="color:white;text-decoration:none;">Create Order</a></button>
-    </div>
+        </div>
             <div class="card-body">
                 {{ $dataTable->table() }}
             </div>

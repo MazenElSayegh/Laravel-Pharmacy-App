@@ -47,7 +47,7 @@
       <label for="exampleFormControlTextarea1" class="form-label">Area</label>
       <select name="area_id" class="form-control">
           @foreach($areas as $area)
-              <option value="{{$area->id}}">{{$area->id}}</option>
+              <option value="{{$area->id}}">{{$area->name}}</option>
           @endforeach
       </select>
     </div>

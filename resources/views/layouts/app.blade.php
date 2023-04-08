@@ -145,7 +145,7 @@
             @if(auth()->user()->hasRole('admin'))
               <li class="nav-item">
                 <a href="{{route('pharmacies.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <img src="{{asset('/storage/defaultImages/pharmacy.png')}}" width="30px" style="margin-right: 5px ">
                   <p>Pharmacies</p>
                 </a>
               </li>
@@ -153,7 +153,7 @@
               @if(auth()->user()->hasRole('pharmacy'))
               <li class="nav-item">
                 <a href="{{route('pharmacies.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <img src="{{asset('/storage/defaultImages/pharmacy.png')}}" width="30px" style="margin-right: 5px ">
                   <p>My Pharmacy</p>
                 </a>
               </li>
@@ -161,39 +161,39 @@
               @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('pharmacy'))
               <li class="nav-item">
                 <a href="{{route('doctors.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <img src="{{asset('/storage/defaultImages/doctor.png')}}" width="30px" style="margin-right: 5px">
                   <p>Doctors</p>
                 </a>
               </li>
               @if(auth()->user()->hasRole('admin'))
               <li class="nav-item">
                 <a href="{{route('clients.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <img src="{{asset('/storage/defaultImages/clients.png')}}" width="30px">
                   <p>Clients</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('areas.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <img src="{{asset('/storage/defaultImages/area.png')}}" width="30px" style="margin-right: 5px ">
                   <p>Areas</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('addresses.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <img src="{{asset('/storage/defaultImages/address.png')}}" width="30px" style="margin-right: 5px ">
                   <p>User Addresses</p>
                 </a>
               </li>
               @endif
               <li class="nav-item">
                 <a href="{{route('revenues.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <img src="{{asset('/storage/defaultImages/revenue.png')}}" width="30px" style="margin-right: 5px ">
                   <p>Revenue</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('medicines.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <img src="{{asset('/storage/defaultImages/medicine.png')}}" width="30px" style="margin-right: 5px ">
                   <p>Medicines</p>
                 </a>
               </li>
@@ -201,7 +201,7 @@
               @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('pharmacy') || auth()->user()->hasRole('doctor') && auth()->user()->typeable->is_banned==0)
               <li class="nav-item">
                 <a href="{{route('orders.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <img src="{{asset('/storage/defaultImages/order.png')}}" width="30px" style="margin-right: 5px ">
                   <p>Orders</p>
                 </a>
               </li> 
@@ -238,11 +238,7 @@
     </div>
      <!-- /.main-content -->
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-inline-block">
-      <b>ITI</b> OS-43
-    </div>
-  </footer>
+  
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

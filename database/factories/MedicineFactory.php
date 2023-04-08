@@ -17,7 +17,7 @@ class MedicineFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'=> $this->faker->name(),
+            'name'=> $this->faker->firstName(),
             'type'=> 'tablet',
         ];
     }
