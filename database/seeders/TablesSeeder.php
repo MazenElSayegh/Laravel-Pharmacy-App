@@ -23,7 +23,7 @@ class TablesSeeder extends Seeder
      */
     public function run(): void
     {
-        Client::factory(4)->create()->each(function ($client){
+        Client::factory(2)->create()->each(function ($client){
             $user= $client->type()->create([
                 'name' => fake()->name(),
                 'email' => fake()->unique()->safeEmail(),
