@@ -81,8 +81,9 @@
 
     
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item"><button class="btn btn-dark-mode" type="button" data-toggle="toggle" data-onstyle="dark" data-offstyle="light" data-on="Dark Mode" data-off="Light Mode"></button></li>
+      <li class="nav-item"><button class="btn btn-light btn-dark-mode" type="button" data-toggle="toggle" data-onstyle="dark" data-offstyle="light" data-on="Dark Mode" data-off="Light Mode" >Toggle</button></li>
     </ul>
+
   </nav>
   <!-- /.navbar -->
 
