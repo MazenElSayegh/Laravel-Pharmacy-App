@@ -5,12 +5,12 @@
 
 
 ## INTRODUCTION
-The Pharmacy Managment System is a Laravel web Application that used Most of Laravel Technologies for Pharmacies and Medical prescription purposes. 
-The pharmacy Managment System Consists of Four Main Roles Like `admin`, `pharmacy`, `doctor` and `client`.</br>
-The `admin` has a Full Access to the whole Parts of the system. 
-The `pharmacy owner` has access on his Doctors, Orders, and Medicines. 
-The `doctor` has access the orders. 
-The `client` is the end user who can make any Order.</br>
+The Pharmacy Managment System is a Laravel web Application that manages a pharmacy system in which pharmacies, doctors, order ..etc are managed and handled. 
+The Pharmacy Managment System Consists of Four Main Roles Like `admin`, `pharmacy`, `doctor` and `client`.</br>
+The `Admin` has a Full Access to the whole Parts of the system. 
+The `Pharmacy owner` has access on his Doctors, Orders, and Medicines. 
+The `Doctor` has access the orders. 
+The `Client` is the end user who can make any Order.</br>
 
 ## FEATURES
 - Authentication
@@ -52,10 +52,6 @@ php artisan create:admin --name="admin" --email=admin@admin.com --password=*****
 - HTML
 - CSS
 - SASS
-
-## SUPPORT
-If you like our work, feel free to </br>
-⭐ this repository. It helps.
 
 ## AUTHORS
   - [Mazen El-Sayegh](https://github.com/MazenElSayegh)
