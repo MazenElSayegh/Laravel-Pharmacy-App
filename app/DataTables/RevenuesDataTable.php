@@ -31,7 +31,9 @@ class RevenuesDataTable extends DataTable
         })->addColumn('Total Revenue', function (Pharmacy $pharmacy) {
             $totalPrice=0;
             foreach($pharmacy->orders as $order){
-                $totalPrice+=$order->total_price;
+                if($order->status=='confirmed'){
+                    $totalPrice+=$order->total_price;
+                }
             }
             return $totalPrice;
         })
