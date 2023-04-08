@@ -70,6 +70,7 @@ class OrderController extends Controller
             $client_id =json_decode(request()->client_name, true)['id']; 
             $medicines =request()->medicine_name;
            
+           
             // dd($medicines);
             //$pharmacy_id=json_decode(request()->pharmacy_name[0],true)['pharmacy_id'];
             if(auth()->user()->hasRole('admin')){
@@ -79,6 +80,7 @@ class OrderController extends Controller
             }else{
                 $reqPharmId=auth()->user()->typeable->pharmacy_id;
             }
+           
             $medicine_quantity =request()->medicine_qty;
             $is_insured =request()->is_insured;
             $doctor_id = request()->doctor_name!=NULL?request()->doctor_name:"";

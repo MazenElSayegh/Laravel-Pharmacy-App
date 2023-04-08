@@ -207,10 +207,22 @@
     </div>`;
         show_item.appendChild(newDiv);
     $('.jqSelect').select2({
-      tags: true,
-      placeholder: "Select a medicine name",
+      createTag: function (params) {
+    var term = $.trim(params.term);
+
+    if (term === '') {
+      return null;
+    }
+
+    return {
+      id: term,
+      text: term,
+      newTag: true 
+    }
+  }
     
     });
+    
 
 
     $(".pharmData").on("change",".pharmSelect",{},function (e){
