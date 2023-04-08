@@ -58,6 +58,11 @@ class AreaController extends Controller
     public function destroy($id) {
         $area = Area::find($id);
 
+      
+        if($area->addresses)
+        {
+            return redirect()->route('areas.index');
+        }
         $area->delete();
 
 		return redirect()->route('areas.index');

@@ -5,6 +5,9 @@
 
 @section('content')
 
+@if($order->prescription_image)
+<img src="{{asset('/storage/' .$order->prescription_image)}}" class="img-fluid w-25">
+@endif
 <div class="card">
   <div class="card-body">
     <p class="card-text">Client Name: {{$order->client->type->name}}</p>

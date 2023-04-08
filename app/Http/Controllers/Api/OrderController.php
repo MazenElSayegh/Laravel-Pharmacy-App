@@ -130,7 +130,7 @@ class OrderController extends Controller
 			$order->status ="Canceled";
 			$order->save();
 		
-		return response()->json(['success' => 'Order is Canceled'], 200);
+		  return view('mail.orders.cancel');
 
 	}
 }

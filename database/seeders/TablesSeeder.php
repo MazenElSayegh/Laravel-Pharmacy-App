@@ -35,7 +35,7 @@ class TablesSeeder extends Seeder
             $areas= Area::factory(2)->create()->each(function($area){
                 Pharmacy::factory(2)->create(['area_id'=>$area->id,])->each(function ($pharmacy) {
                     $user= $pharmacy->type()->create([
-                        'name' => fake()->name(),
+                        'name' => fake()->lastName(),
                         'email' => fake()->unique()->safeEmail(),
                         'email_verified_at' => now(),
                         'password' => Hash::make('123456'), // password
@@ -71,26 +71,22 @@ class TablesSeeder extends Seeder
             }
         });
 
-
-
-        $drugs = [
-            [
+            Medicine::create([
                 'name' => 'Aspirin',
-                'type' => 'Pain reliever and fever reducer',
+                'type' => 'tablet',
             ],
             [
-                'name' => 'Ibuprofen',
-                'type' => 'Pain reliever and fever reducer',
+                'name' => 'Panadol',
+                'type' => 'tablet',
             ],
             [
-                'name' => 'Tylenol',
-                'type' => 'Pain reliever and fever reducer',
+                'name' => 'Antinal',
+                'type' => 'tablet',
             ],
-        ];
-
-        foreach ($drugs as $drug) {
-            Medicine::create($drug);
-        }
+            [
+                'name' => 'Brofin',
+                'type' => 'drink',
+            ]);
     }
     
 }
