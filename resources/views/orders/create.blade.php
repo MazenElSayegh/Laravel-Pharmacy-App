@@ -58,7 +58,7 @@
         
      </select>
     </div>
-        </div>
+        
      @endrole
     @if(auth()->user()->hasRole('pharmacy') || auth()->user()->hasRole('doctor'))
      <div class="row medData">
