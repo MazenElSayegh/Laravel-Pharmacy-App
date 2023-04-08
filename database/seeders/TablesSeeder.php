@@ -70,7 +70,27 @@ class TablesSeeder extends Seeder
                 }
             }
         });
-        Medicine::factory(4)->create();
+
+
+
+        $drugs = [
+            [
+                'name' => 'Aspirin',
+                'type' => 'Pain reliever and fever reducer',
+            ],
+            [
+                'name' => 'Ibuprofen',
+                'type' => 'Pain reliever and fever reducer',
+            ],
+            [
+                'name' => 'Tylenol',
+                'type' => 'Pain reliever and fever reducer',
+            ],
+        ];
+
+        foreach ($drugs as $drug) {
+            Medicine::create($drug);
+        }
     }
     
 }
