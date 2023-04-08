@@ -9,8 +9,10 @@
 <img src="{{asset('/storage/' .$order->prescription_image)}}" class="img-fluid w-25">
 @endif
 <div class="card">
+  <div class="card-header bg-primary"></div>
   <div class="card-body">
-    <p class="card-text">Client Name: {{$order->client->type->name}}</p>
+    
+    <p class="card-header">Client Name: {{$order->client->type->name}}</p>
     {{-- @dd($medicine_order[0]->medicine->name); --}}
 
       @foreach($medicine_order as $medicine)
@@ -21,8 +23,14 @@
       </ul>
   
       @endforeach
-      <p class="card-text">Order Total Price: {{$order->total_price}}$</p>
-      <p class="card-text">Client Address: {{$order->address->street_name}}</p>
+      <p class="card-header">Order Total Price: {{$order->total_price}} $</p>
+      <p class="card-header">Client's Address</p>
+      <p class="card-header">Area: {{$order->address->area->name}}
+        <br>Street name: {{$order->address->street_name}}
+        <br>Building no: {{$order->address->build_no}}
+        <br>Floor no: {{$order->address->floor_no}}
+        <br>Flat no: {{$order->address->flat_no}}</p>
+
           
   </div>
   

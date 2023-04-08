@@ -5,6 +5,7 @@
 
 
 <div class="card">
+  <div class="card-header bg-primary"></div>
   <div class="card-body">
     
     <p class="card-text">Area ID: {{$address->area_id}}</p>
