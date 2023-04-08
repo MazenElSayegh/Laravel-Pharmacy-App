@@ -62,12 +62,12 @@ class TablesSeeder extends Seeder
                     'client_id'=>$client->id,
                     'area_id'=>$area->id,
                 ]);
-                foreach($addresses as $address){
-                    Order::factory(1)->create([
-                        'address_id'=>$address->id,
-                        'client_id'=>$client->id,
-                    ]);
-                }
+                // foreach($addresses as $address){
+                //     Order::factory(1)->create([
+                //         'address_id'=>$address->id,
+                //         'client_id'=>$client->id,
+                //     ]);
+                // }
             }
         });
 

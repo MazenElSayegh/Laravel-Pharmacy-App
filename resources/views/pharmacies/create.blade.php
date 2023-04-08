@@ -31,7 +31,7 @@
       <input name="password" type="password" class="form-control" id="exampleFormControlTextarea1" rows="3">
     </div>
     <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Doctor's national id</label>
+      <label for="exampleInputEmail1" class="form-label">Pharmacy Owner's national id</label>
       <input name="national_id" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
     </div>
       <div class="mb-3">

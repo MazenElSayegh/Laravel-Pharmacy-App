@@ -31,11 +31,11 @@ class RevenuesDataTable extends DataTable
         })->addColumn('Total Revenue', function (Pharmacy $pharmacy) {
             $totalPrice=0;
             foreach($pharmacy->orders as $order){
-                if($order->status=='confirmed'){
+                if($order->status=='Confirmed'){
                     $totalPrice+=$order->total_price;
                 }
             }
-            return $totalPrice;
+            return $totalPrice." $";
         })
     ;
 }
