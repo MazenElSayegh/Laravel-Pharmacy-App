@@ -21,7 +21,7 @@
   @method ("PUT")
   <div class="mt-4"> 
     <label for="ClientName" class="form-label">Client Name</label>
-    <select id="ClientName" name="client_name" class="form-control w-50">
+    <select id="ClientName" name="client_name" class="form-control w-50" data-order ="{{$order}}" >
         <option value="{{$client}}" >{{$client->type->name }} </option>
         
         {{-- @foreach($clients as $client)
@@ -118,18 +118,18 @@
                    </div>
 </div>
 
-
-@if($order->creator_type!="client")    
+{{-- 
+@if($order->creator_type!="client")     --}}
     <div class="row">
       <div class="col-md-6 mb-3 mt-3">
             <label for="deliviringaddress" class="form-label">DeliviringAddress</label>
-                <select id="deliviringaddress" name="delivering_address" class="form-control" data-address ="{{$addresses}}" >
+                <select id="deliviringaddress" name="delivering_address" class="form-control" data-address ="{{$addresses}}"  >
                   
                  </select>
                                  
       </div>
   </div>
-@endif
+{{-- @endif --}}
 
 
 
@@ -247,20 +247,22 @@ $(".medData").on("change",".medQty",{},function(e){
      
       
       function selectAddress(){
+        console.log("hi")
         let select = document.getElementById('ClientName');
         let deliviringaddress = document.getElementById('deliviringaddress');
         deliviringaddress.innerHTML="<option ></option>";
         let address = deliviringaddress.getAttribute("data-address");
-      
+        let order = select.getAttribute("data-order");
         let addresses= JSON.parse(address);
-       
+        let orderAddressId=JSON.parse(order).address_id;
+        console.log(orderAddressId);
          var clientid = JSON.parse(select.value).id;
           console.log(clientid);
 
        
          for(let i=0 ; i<addresses.length;i++)
          {
-          if(addresses[i].client_id==clientid){
+          if(addresses[i].client_id==clientid && addresses[i].id == orderAddressId ){
             var option = document.createElement('option'); 
             option.value = addresses[i].id;
             
