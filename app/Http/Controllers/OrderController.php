@@ -198,7 +198,13 @@ class OrderController extends Controller
     {
 
         $order = Order::findOrFail($id);
-        $pharmacyName= $order->pharmacy->type->name;
+        if($order->pharmacy!=null){
+            $pharmacyName= $order->pharmacy->type->name;
+        }elseif($order->doctor!=null){
+            $pharmacyName=$order->doctor->pharmacy_id;
+        }else{
+            $pharmacyName=null;
+        }
         // dd( $pharmacyName);
     //    dd($order->pharmacy->type->name);
     
